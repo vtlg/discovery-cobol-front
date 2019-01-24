@@ -1,0 +1,25 @@
+.mat-form-field-label-wrapper{ display: none;}
+.mat-form-field-subscript-wrapper {display: none;}
+
+
+.myapp-no-padding-dialog {
+    width: 300px; 
+    margin-right: 20px;
+ }
+
+ 
+.app-input-autocomplete {
+    border: none;
+    border-radius: 2px;
+    box-shadow: none;
+    color: black;
+    padding-left: 5px;
+    background-color: aliceblue;
+    height: 35px;
+ }
+
+
+
+.app-form-field-infix {
+     padding: 0px;
+}

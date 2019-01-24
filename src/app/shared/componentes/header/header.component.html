@@ -1,0 +1,42 @@
+<div class="navbar-fixed">
+  <nav class="nav-extended" style="background-color: #0039ba" role="navigation">
+    <div class="nav-wrapper">
+      <ul id="nav-mobile" class="left">
+        <li routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
+          <a [routerLink]="['/']">Início</a>
+        </li>
+        <li routerLinkActive="active">
+          <a [routerLink]="['/pesquisa-avancada']">Pesquisa Avançada</a>
+        </li>
+        <li routerLinkActive="active">
+          <a [routerLink]="['/artefato/incluir']">Incluir Artefato</a>
+        </li>
+        <li routerLinkActive="active">
+          <a [routerLink]="['/ajuda']">Ajuda</a>
+        </li>
+      </ul>
+      <div class="right hide-on-med-and-down">
+        <form [formGroup]="pesquisaRapidaForm" style="height: 64px;">
+          <mat-form-field style="width: 300px; margin-right: 20px; padding: 0px;">
+            <input type="text" matInput placeholder="Pesquisar..." style="
+                 border: none;
+                 border-radius: 3px;
+                 box-shadow: none;
+                 color: black;
+                 padding-left: 5px;
+                 background-color: aliceblue;
+                 height: 35px;"
+              formControlName="grupoArtefato" required [matAutocomplete]="autoGroup" [classList]="myapp-no-padding-dialog">
+            <mat-autocomplete #autoGroup="matAutocomplete" [classList]="myapp-no-padding-dialog">
+              <mat-optgroup *ngFor="let resultado of listaResultadoOptions | async" [label]="resultado.coTipoArtefato">
+                <mat-option *ngFor="let nome of resultado.noNomeArtefato" [value]="nome">
+                  {{nome}}
+                </mat-option>
+              </mat-optgroup>
+            </mat-autocomplete>
+          </mat-form-field>
+        </form>
+      </div>
+    </div>
+  </nav>
+</div>

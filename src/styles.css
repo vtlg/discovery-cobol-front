@@ -1,1 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.mat-form-field-label-wrapper{ display: none;}
+.mat-form-field-subscript-wrapper {display: none;}
+
+.cdk-overlay-pane {
+    float: right; 
+    width: 305px; 
+    top: 54.4px;
+    position: relative;
+}
