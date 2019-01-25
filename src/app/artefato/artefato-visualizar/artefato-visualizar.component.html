@@ -1,0 +1,73 @@
+<div class="row white-text" style="margin-bottom: 0px" *ngIf="artefato && isSideBarVisible">
+  <!-- <div class="col s12 m12 l3 detalhe-content"> -->
+  <div style="display: inline-flex">
+    <div style="width: 300px;" class="detalhe-content">
+      <div class="side-nav fixed" style="top: 64px; background-color: #0081bd; z-index: 10; box-shadow: none" [ngStyle]="{'height' : alturaSideBar}">
+        <div class="row" style="margin-bottom: 0px">
+          <div class="col s12" style="margin: 0px; ">
+            <div class="row detalhe-header" style="margin-bottom: 0px; padding-top: 15px">
+              <div class="col s12" style="word-wrap: break-word">
+                <h5 class="left" style="margin-bottom: 3px; font-size: 16px; word-break: break-all;" *ngIf="!artefato.noNomeExibicao">{{
+                  artefato.noNomeInterno }}</h5>
+                <h5 class="left" style="margin-bottom: 3px; font-size: 16px; word-break: break-all;" *ngIf="artefato.noNomeExibicao">{{
+                  artefato.noNomeExibicao }}</h5>
+                <div class="right">
+                  <a style="cursor: pointer; margin-top:12.8833px" class="right" title="Editar Artefato" [routerLink]="['/artefato', artefato.coArtefato, 'editar-artefato']">
+                    <i class="material-icons white-text" style="font-size: 16px">edit</i>
+                  </a>
+                  <a style="cursor: pointer; margin-top:12.8833px" class="right" title="Editar Relacionamento"
+                    [routerLink]="['/artefato', artefato.coArtefato, 'editar-relacionamento']">
+                    <i class="material-icons white-text" style="font-size: 16px">share&nbsp;&nbsp;</i>
+                  </a>
+                  <a style="cursor: pointer; margin-top:12.8833px" class="right" title="Visualizar atributos" (click)="onBotaoMostrarAtributo()">
+                    <i class="material-icons white-text" style="font-size: 16px">format_align_justify&nbsp;&nbsp;</i>
+                  </a>
+                  <a style="cursor: pointer; margin-top:12.8833px" class="right" title="Visualizar código-fonte"
+                    (click)="onBotaoMostrarCodigoFonte()">
+                    <i class="material-icons white-text" style="font-size: 16px">folder_open&nbsp;&nbsp;</i>
+                  </a>
+                </div>
+              </div>
+            </div>
+            <div class="row detalhe-header" style="padding-bottom: 0px; margin-bottom: 0px;">
+              <div class="col s12">
+                <span style="font-size: 12px;">Tipo: {{ artefato.tipoArtefato.coTipoArtefato }}</span>
+              </div>
+              <div class="col s12">
+                <span style="font-size: 12px;">Sistema: {{ artefato.coSistema }}</span>
+              </div>
+              <div class="col s12" *ngIf="artefato.tags && artefato.tags.length > 0">
+                <span style="font-size: 11px;">TAGS: </span>
+                <div *ngFor="let tag of artefato.tags; let i = index" style="display: inline">
+                  <span style="font-size: 11px;" *ngIf="artefato.tags.length - 1 > i">{{tag.coTag}},</span>
+                  <span style="font-size: 11px;" *ngIf="artefato.tags.length -1 == i">{{tag.coTag}}</span>
+                </div>
+              </div>
+            </div>
+            <div class="row detalhe-header" style="padding-bottom: 0px; margin-bottom: 0px;">
+              <div class="col s12 center" style="padding: 0px;">
+                <div class="detalhe-tab" [ngClass]="{indicador : abaAtiva == 'DESCRICAO'}" style="cursor: pointer"
+                  (click)="onAlterarTab('DESCRICAO')">
+                  <a class="waves-effect waves-light white-text" (click)="onAlterarTab('DESCRICAO')">DESCRIÇÃO</a>
+                </div>
+              </div>
+            </div>
+            <div class="row detalhe-content" style="padding: 15px 5px; margin-bottom: 0px;">
+              <div class="col s12" style="height: 100%; padding: 0px;">
+                <div class="detalhe-content">
+                  <div [ngClass]="{active : abaAtiva == 'DESCRICAO', customTab : abaAtiva != 'DESCRICAO'}" style="padding: 0px 10px;">
+                    <div style="word-wrap: break-word" [innerHTML]="artefato | descricaoArtefato">
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div *ngIf="artefato && artefatoGrafo">
+      <app-artefato-diagrama-tree [artefatoGrafo]="artefatoGrafo" (artefatoSelecionadoDiagrama)="detalharArtefato($event)"></app-artefato-diagrama-tree>
+    </div>
+  </div>
+</div>

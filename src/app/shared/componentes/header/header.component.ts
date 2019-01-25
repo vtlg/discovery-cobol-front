@@ -48,10 +48,10 @@ export class HeaderComponent implements OnInit {
       (artefatos: Artefato[]) => {
         this.mapArtefatoOptions.clear();
         artefatos.forEach(artefato => {
-          if (this.mapArtefatoOptions.has(artefato.tipoArtefato.coTipoArtefato)) {
-            this.mapArtefatoOptions.get(artefato.tipoArtefato.coTipoArtefato).push(artefato.noNomeExibicao);
+          if (this.mapArtefatoOptions.has(artefato.tipoArtefato.coTipo)) {
+            this.mapArtefatoOptions.get(artefato.tipoArtefato.coTipo).push(artefato.noNomeExibicao);
           } else {
-            this.mapArtefatoOptions.set(artefato.tipoArtefato.coTipoArtefato, [artefato.noNomeExibicao]);
+            this.mapArtefatoOptions.set(artefato.tipoArtefato.coTipo, [artefato.noNomeExibicao]);
           }
         });
         this.resultados = [];

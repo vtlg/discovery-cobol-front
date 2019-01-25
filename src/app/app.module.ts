@@ -17,11 +17,21 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatAutocompleteModule, } from '@angular/material/autocomplete';
 import {MatInputModule} from '@angular/material';
+import { ArtefatoComponent } from './artefato/artefato.component';
+
+import { ArtefatoVisualizarComponent } from './artefato/artefato-visualizar/artefato-visualizar.component';
+import { DescricaoArtefatoPipe } from './shared/pipes/descricao-artefato.pipe';
+import { ArtefatoDiagramaTreeComponent } from './artefato/artefato-visualizar/artefato-diagrama-tree/artefato-diagrama-tree.component';
+import { TipoService } from './shared/servicos/tipo.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
+    ArtefatoComponent,
+    ArtefatoVisualizarComponent,
+    DescricaoArtefatoPipe,
+    ArtefatoDiagramaTreeComponent,
     
   ],
   imports: [
@@ -37,7 +47,7 @@ import {MatInputModule} from '@angular/material';
     FormsModule,
     MatInputModule
   ],
-  providers: [AppService,LoggerService,],
+  providers: [AppService,LoggerService,TipoService],
   bootstrap: [AppComponent]
 })
 export class AppModule { 

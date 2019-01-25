@@ -1,0 +1,30 @@
+.detalhe-header {
+    background-color: #0039ba;
+}
+
+.detalhe-content {
+    background-color: #0081bd;
+    
+}
+
+.customTab {
+    display: none;
+}
+
+.customTab {
+    display: none;
+}
+
+.indicador {
+    border-bottom: 2px solid #FFFFFF;
+}
+
+
+.detalhe-tab {
+    padding: 12px 0px;
+}
+
+.detalhe-tab:hover {
+    background-color: #08a7f1;
+    border-bottom: 1px solid #FFFFFF;
+}
