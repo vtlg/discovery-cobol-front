@@ -1,25 +1,60 @@
-.mat-form-field-label-wrapper{ display: none;}
-.mat-form-field-subscript-wrapper {display: none;}
-
-
-.myapp-no-padding-dialog {
-    width: 300px; 
-    margin-right: 20px;
- }
-
- 
-.app-input-autocomplete {
+input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):focus:not([readonly]), input[type=password]:not(.browser-default):focus:not([readonly]), input[type=email]:not(.browser-default):focus:not([readonly]), input[type=url]:not(.browser-default):focus:not([readonly]), input[type=time]:not(.browser-default):focus:not([readonly]), input[type=date]:not(.browser-default):focus:not([readonly]), input[type=datetime]:not(.browser-default):focus:not([readonly]), input[type=datetime-local]:not(.browser-default):focus:not([readonly]), input[type=tel]:not(.browser-default):focus:not([readonly]), input[type=number]:not(.browser-default):focus:not([readonly]), input[type=search]:not(.browser-default):focus:not([readonly]), textarea.materialize-textarea:focus:not([readonly])
+{
     border: none;
-    border-radius: 2px;
     box-shadow: none;
-    color: black;
-    padding-left: 5px;
-    background-color: aliceblue;
-    height: 35px;
- }
+}
+
+.campo {
+    display: inline-block;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    margin-left: 0px;
+    margin-right: 12px;
+    color: #999999;
+}
+
+.campo.pesquisa-rapida {
+    width: 350px;
+    height: 55px;
+}
+
+.campo.pesquisa-rapida i {
+    top: -65px;
+    position: relative;
+    font-size: 20px;
+    left: 10px;
+    
+}
+
+.campo.pesquisa-rapida input {
+    /* border: 1px solid #1b70f0ce; */
+    border: 1px solid #000000;
+    border-radius: 5px 5px 5px 5px;
+    box-shadow: none;
+    text-indent: 40px;
+    background-color: #FFFFFF;
+}
 
 
+.campo.pesquisa-rapida input:not([type]):focus:not([readonly]),
+.campo.pesquisa-rapida input[type=text]:not(.browser-default):focus:not([readonly]),
+.campo.pesquisa-rapida input[type=search]:not(.browser-default):focus:not([readonly]),
+.campo.pesquisa-rapida textarea:not(.browser-default):focus:not([readonly]) {
+    border: 1px solid blue;
 
-.app-form-field-infix {
-     padding: 0px;
+}
+
+.collection {
+    z-index: 1;
+    border-top: 1px solid transparent;
+    border-bottom: 1px solid blue;
+    border-left: 1px solid blue;
+    border-right: 1px solid blue;
+}
+
+.collection .collection-item {
+    padding: 10px 10px;
+    background-color: #FFFFFF;
+    color: #000000;
+    font-size: 12px;
 }

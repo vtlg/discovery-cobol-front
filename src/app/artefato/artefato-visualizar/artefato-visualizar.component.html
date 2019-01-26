@@ -1,7 +1,8 @@
 <div class="row white-text" style="margin-bottom: 0px" *ngIf="artefato && isSideBarVisible">
   <!-- <div class="col s12 m12 l3 detalhe-content"> -->
-  <div style="display: inline-flex">
-    <div style="width: 300px;" class="detalhe-content">
+  <!-- <div style="display: inline-flex"> -->
+  <div>
+    <!-- <div style="width: 300px;" class="detalhe-content"> -->
       <div class="side-nav fixed" style="top: 64px; background-color: #0081bd; z-index: 10; box-shadow: none" [ngStyle]="{'height' : alturaSideBar}">
         <div class="row" style="margin-bottom: 0px">
           <div class="col s12" style="margin: 0px; ">
@@ -31,7 +32,7 @@
             </div>
             <div class="row detalhe-header" style="padding-bottom: 0px; margin-bottom: 0px;">
               <div class="col s12">
-                <span style="font-size: 12px;">Tipo: {{ artefato.tipoArtefato.coTipoArtefato }}</span>
+                <span style="font-size: 12px;">Tipo: {{ artefato.tipoArtefato.coTipo }}</span>
               </div>
               <div class="col s12">
                 <span style="font-size: 12px;">Sistema: {{ artefato.coSistema }}</span>
@@ -64,7 +65,7 @@
             </div>
           </div>
         </div>
-      </div>
+      <!-- </div> -->
     </div>
     <div *ngIf="artefato && artefatoGrafo">
       <app-artefato-diagrama-tree [artefatoGrafo]="artefatoGrafo" (artefatoSelecionadoDiagrama)="detalharArtefato($event)"></app-artefato-diagrama-tree>

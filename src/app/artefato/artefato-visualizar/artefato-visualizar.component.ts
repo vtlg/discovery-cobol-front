@@ -20,6 +20,7 @@ export class ArtefatoVisualizarComponent implements OnInit {
   windowWidth: number = 0;
   alturaSideBar = "100%";
   isSideBarVisible: boolean = true;
+  abaAtiva = 'DESCRICAO';
 
   constructor(
     private appService: AppService,
@@ -50,8 +51,12 @@ export class ArtefatoVisualizarComponent implements OnInit {
         if (parametros['coArtefato'] && +parametros['coArtefato'] && parametros['coArtefato'] != 0) {
           this.artefatoService.getArtefatoRelacionamento(+parametros['coArtefato']).subscribe(
             (artefato: Artefato) => {
-              this.artefato = artefato;
               this.artefatoGrafo = artefato;
+            }
+          );
+          this.artefatoService.getArtefato(+parametros['coArtefato']).subscribe(
+            (artefato: Artefato) => {
+              this.artefato = artefato;
             }
           )
         }
