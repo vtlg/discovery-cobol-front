@@ -1,0 +1,5 @@
+<div *ngFor="let artefato of listaResultado | async" style="border-bottom: 1px solid #CCC; margin-bottom: 40px">
+  <h5 class="link" [routerLink]="['/artefato/' + artefato.coArtefato ]"> {{ artefato.noNomeArtefato }}
+    ({{ artefato.coTipoArtefato }})</h5>
+  <p *ngIf="artefato.deDescricaoUsuario && artefato.deDescricaoUsuario != '' " [innerHTML]="artefato | descricaoArtefato"></p>
+</div>

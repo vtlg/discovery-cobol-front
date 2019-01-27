@@ -156,16 +156,33 @@ export class ArtefatoDiagramaTreeComponent implements OnInit, OnDestroy {
     }
     output.artefato = artefato;
 
-    if (this.orientacao == 'DESCENDENTE') {
-      output.children = [];
-      if (artefato.descendentes) {
-        for (let relacionamento of artefato.descendentes) {
-          var descendente: Artefato = new Artefato();
-          descendente.inicializar(relacionamento.descendente);
-          output.children.push(this.converterRelacionamento2Node(relacionamento, node));
+      if (this.orientacao == 'DESCENDENTE') { 
+        output.children = [];
+        if (artefato.descendentes) {
+          for (let relacionamento of artefato.descendentes) { 
+            var descendente: Artefato = new Artefato();
+            descendente.inicializar(relacionamento.descendente);
+            var tipo = this.listaTipo.find(p => p.coTipo == descendente.tipoArtefato.coTipo)
+            if (tipo.icExibirGrafo == true) {
+              output.children.push(this.converterRelacionamento2Node(relacionamento, node));
+            }
+          }
         }
       }
-    }
+
+      if (this.orientacao == 'ASCENDENTE') { 
+        output.children = [];
+        if (artefato.ascendentes) {
+          for (let relacionamento of artefato.ascendentes) { 
+            var ascendente: Artefato = new Artefato();
+            ascendente.inicializar(relacionamento.ascendente);
+            var tipo = this.listaTipo.find(p => p.coTipo == ascendente.tipoArtefato.coTipo)
+            if (tipo.icExibirGrafo == true) {
+              output.children.push(this.converterRelacionamento2Node(relacionamento, node));
+            }
+          }
+        }
+      }
 
     return output;
 

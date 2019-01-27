@@ -1,0 +1,44 @@
+<div >
+    <div style="margin-left: 300px; margin-top: 20px; border: 1px solid #0081bd; padding: 20px; width: 685px; border-radius: 5px">
+    <div class="colorNested box" style="height: auto; ">
+
+      <div gdAreas=" input-nome-artefato  input-tipo-artefato input-atributo  |
+                   input-descricao      input-tipo-artefato input-acao  "
+        gdColumns="375px  120px 120px" gdGap="15px">
+
+        <form [formGroup]="formPesquisaAvancada" (ngSubmit)="onSubmit()">
+          <div class="blocks" gdArea="input-nome-artefato">
+            <div class="form-group">
+              <label>Nome do artefato</label>
+              <input type="text" formControlName="expNome" style="line-height: 2.5em" class="form-control" />
+            </div>
+          </div>
+          <div class="blocks" gdArea="input-descricao">
+            <div class="form-group">
+              <label>Descrição</label>
+              <input type="text" formControlName="expDescricao" class="form-control" />
+            </div>
+          </div>
+        </form>
+        <div class="blocks" gdArea="input-tipo-artefato">
+          <label>Tipo de artefato</label><br />
+          <section>
+            <mat-checkbox *ngFor="let tipo of listaTipos | async" value="{{tipo.coTipo}}" (click)="onTipoSelecionado(f)"
+              #f> {{ tipo.deTipo }} </mat-checkbox>
+          </section>
+        </div>
+        <div class="blocks" gdArea="input-atributo">
+          <label>Atributos</label><br />
+          <section>
+            <mat-checkbox [(ngModel)]="checkedProcessoCritico"> Processo crítico </mat-checkbox>
+            <mat-checkbox [(ngModel)]="checkedInterface"> Interface </mat-checkbox>
+          </section>
+        </div>
+        <div class="blocks" style="text-align: right;padding-top: 70%" gdArea="input-acao">
+          <button mat-raised-button color="primary" (click)="onSubmit()">Pesquisar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<app-pesquisa-avancada-lista [listaResultado]="listaResultado"></app-pesquisa-avancada-lista>

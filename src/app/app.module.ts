@@ -12,17 +12,56 @@ import { HeaderComponent } from './shared/componentes/header/header.component';
 import { AppService } from './shared/servicos/app.service'
 import { LoggerService } from './shared/servicos/logger.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
-import { MatCheckboxModule } from '@angular/material/checkbox';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatAutocompleteModule, } from '@angular/material/autocomplete';
-import {MatInputModule} from '@angular/material';
+
+
+import {
+  MatAutocompleteModule,
+  MatBadgeModule,
+  MatBottomSheetModule,
+  MatButtonModule,
+  MatButtonToggleModule,
+  MatCardModule,
+  MatCheckboxModule,
+  MatChipsModule,
+  MatDatepickerModule,
+  MatDialogModule,
+  MatDividerModule,
+  MatExpansionModule,
+  MatGridListModule,
+  MatIconModule,
+  MatInputModule,
+  MatListModule,
+  MatMenuModule,
+  MatNativeDateModule,
+  MatPaginatorModule,
+  MatProgressBarModule,
+  MatProgressSpinnerModule,
+  MatRadioModule,
+  MatRippleModule,
+  MatSelectModule,
+  MatSidenavModule,
+  MatSliderModule,
+  MatSlideToggleModule,
+  MatSnackBarModule,
+  MatSortModule,
+  MatStepperModule,
+  MatTableModule,
+  MatTabsModule,
+  MatToolbarModule,
+  MatTooltipModule,
+  MatTreeModule,
+} from '@angular/material';
+
 import { ArtefatoComponent } from './artefato/artefato.component';
 
 import { ArtefatoVisualizarComponent } from './artefato/artefato-visualizar/artefato-visualizar.component';
 import { DescricaoArtefatoPipe } from './shared/pipes/descricao-artefato.pipe';
 import { ArtefatoDiagramaTreeComponent } from './artefato/artefato-visualizar/artefato-diagrama-tree/artefato-diagrama-tree.component';
 import { TipoService } from './shared/servicos/tipo.service';
+import { FlexLayoutModule } from '@angular/flex-layout';
+import { PesquisaAvancadaComponent } from './pesquisa-avancada/pesquisa-avancada.component';
+import { PesquisaAvancadaListaComponent } from './pesquisa-avancada/pesquisa-avancada-lista/pesquisa-avancada-lista.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +71,8 @@ import { TipoService } from './shared/servicos/tipo.service';
     ArtefatoVisualizarComponent,
     DescricaoArtefatoPipe,
     ArtefatoDiagramaTreeComponent,
+    PesquisaAvancadaComponent,
+    PesquisaAvancadaListaComponent,
     
   ],
   imports: [
@@ -43,9 +84,52 @@ import { TipoService } from './shared/servicos/tipo.service';
     MatFormFieldModule,
     MatAutocompleteModule,
     MatCheckboxModule,
-    MatSlideToggleModule,
+    MatSlideToggleModule, 
     FormsModule,
-    MatInputModule
+    MatInputModule,
+    MatSidenavModule,
+    MatGridListModule,
+    //A11yModule,
+    //CdkTableModule,
+    //CdkTreeModule,
+    //DragDropModule,
+    MatAutocompleteModule,
+    MatBadgeModule,
+    MatBottomSheetModule,
+    MatButtonModule,
+    MatButtonToggleModule,
+    MatCardModule,
+    MatCheckboxModule,
+    MatChipsModule,
+    MatStepperModule,
+    MatDatepickerModule,
+    MatDialogModule,
+    MatDividerModule,
+    MatExpansionModule,
+    MatGridListModule,
+    MatIconModule,
+    MatInputModule,
+    MatListModule,
+    MatMenuModule,
+    MatNativeDateModule,
+    MatPaginatorModule,
+    MatProgressBarModule,
+    MatProgressSpinnerModule,
+    MatRadioModule,
+    MatRippleModule,
+    MatSelectModule,
+    MatSidenavModule,
+    MatSliderModule,
+    MatSlideToggleModule,
+    MatSnackBarModule,
+    MatSortModule,
+    MatTableModule,
+    MatTabsModule,
+    MatToolbarModule,
+    MatTooltipModule,
+    MatTreeModule,
+    FlexLayoutModule 
+    //ScrollingModule,
   ],
   providers: [AppService,LoggerService,TipoService],
   bootstrap: [AppComponent]
