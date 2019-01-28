@@ -11,7 +11,7 @@
         <a [routerLink]="['/artefato/' + artefato.coArtefato ]" style="font-size: 22px;">{{ artefato.noNomeArtefato }}</a>
       </div>
       <div class="blocks menubar" gdArea="menubar">
-        <a title="Editar Artefato" [routerLink]="['/artefato', artefato.coArtefato, 'editar-artefato']">
+        <a title="Editar Artefato" [routerLink]="['/artefato', artefato.coArtefato, 'editar']">
           <i class="material-icons " style="font-size: 16px">edit</i>
         </a>
         <a title="Visualizar atributos" (click)="onBotaoMostrarAtributo()">

@@ -1,77 +1,79 @@
 <div *ngIf="artefato" [style.width.px]="larguraContainer" [style.margin-left.px]="(width - larguraContainer) > 0 ? ( ( width - larguraContainer  ) / 2 ) : 0"
   style="margin-top: 20px;">
+  <div *ngFor="let relacionamento of listaRelacionamentos$ | async" style="margin-bottom: 20px; border: 1px solid rgb(209, 209, 209); border-radius: 5px;">
 
+    <div style="display: grid; grid-column-gap: 10px; padding:10px;">
+      <div style="display: inline-grid; grid-column-start: 1; grid-column-end: 8; grid-row-start: 1; grid-row-end: 2;">
+        <span style="font-size: 16px; font-weight: bolder; text-align: center;">Dados do Relacionamento</span>
+      </div>
+      <div style="display: inline-grid; grid-column-start: 1; grid-column-end: 2; grid-row-start: 2; grid-row-end: 3; ">
+        <label>Inclusão manual</label>
+        <span style="font-size: 13px;"> {{ relacionamento.icInclusaoManual | pipeBoolean}}</span>
+      </div>
+      <div style="display: inline-grid; grid-column-start: 2; grid-column-end: 8; grid-row-start: 2; grid-row-end: 3; ">
+        <label>Tipo Relacionamento</label>
+        <!-- <span style="font-size: 13px;"> {{ relacionamento.tipoRelacionamento.coTipo }}</span> -->
+        <mat-form-field>
+          <mat-select [(ngModel)]="relacionamento.coTipoRelacionamentoAtual" (selectionChange)="onTipoRelacionamentoChange(f, relacionamento)"
+            #f>
+            <mat-option *ngFor="let tipo of tiposRelacionamento" [value]="tipo.coTipo">
+              {{tipo.deTipo}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+    <div style="display: grid; grid-column-gap: 10px; padding:10px; margin-bottom: 20px;">
+      <div style="display: inline-grid; grid-column-start: 1; grid-column-end: 2; grid-row-start: 1; grid-row-end: 2; border-right: 1px solid rgb(209, 209, 209)">
+        <span style="font-size: 16px; font-weight: bolder; text-align: center;">Ascendente</span>
+      </div>
+      <div style="display: inline-grid; grid-column-start: 1; grid-column-end: 2; grid-row-start: 2; grid-row-end: 3; border-right: 1px solid rgb(209, 209, 209)">
+        <label>Nome do Artefato</label>
+        <span style="font-size: 13px;" *ngIf="relacionamento.ascendente"> {{ relacionamento.ascendente.noNomeArtefato}}</span>
+      </div>
+      <div style="display: inline-grid; grid-column-start: 1; grid-column-end: 2; grid-row-start: 3; grid-row-end: 4; border-right: 1px solid rgb(209, 209, 209)">
+        <label>Nome de Exibição</label>
+        <span style="font-size: 13px;" *ngIf="relacionamento.ascendente"> {{ relacionamento.ascendente.noNomeExibicao}}</span>
+      </div>
+      <div style="display: inline-grid; grid-column-start: 1; grid-column-end: 2; grid-row-start: 4; grid-row-end: 5; border-right: 1px solid rgb(209, 209, 209)">
+        <label>Tipo do artefato</label>
+        <span style="font-size: 13px;" *ngIf="relacionamento.ascendente"> {{
+          relacionamento.ascendente.tipoArtefato.coTipo}}</span>
+      </div>
+      <div style="display: inline-grid; grid-column-start: 1; grid-column-end: 2; grid-row-start: 5; grid-row-end: 6; border-right: 1px solid rgb(209, 209, 209)">
+        <label>Sistema</label>
+        <span style="font-size: 13px;" *ngIf="relacionamento.ascendente"> {{ relacionamento.ascendente.coSistema}}</span>
+      </div>
+      <div style="display: inline-grid; grid-column-start: 1; grid-column-end: 2; grid-row-start: 6; grid-row-end: 7; border-right: 1px solid rgb(209, 209, 209)">
+        <label>Processo crítico</label>
+        <span style="font-size: 13px;" *ngIf="relacionamento.ascendente"> {{
+          relacionamento.ascendente.icProcessoCritico
+          | pipeBoolean}}</span>
+      </div>
 
-  <div style="display: grid; grid-column-gap: 10px; padding:10px; margin-bottom: 20px; border: 1px solid rgb(209, 209, 209); border-radius: 5px;"
-    *ngFor="let relacionamento of listaRelacionamentos$ | async">
-    <div style="display: inline-grid; grid-column-start: 1; grid-column-end: 2; grid-row-start: 1; grid-row-end: 2; border-right: 1px solid rgb(209, 209, 209)">
-      <span style="font-size: 16px; font-weight: bolder; text-align: center;">Ascendente</span>
-    </div>
-    <div style="display: inline-grid; grid-column-start: 1; grid-column-end: 2; grid-row-start: 2; grid-row-end: 3; border-right: 1px solid rgb(209, 209, 209)">
-      <label>Nome do Artefato</label>
-      <span style="font-size: 13px;" *ngIf="relacionamento.ascendente"> {{ relacionamento.ascendente.noNomeArtefato}}</span>
-    </div>
-    <div style="display: inline-grid; grid-column-start: 1; grid-column-end: 2; grid-row-start: 3; grid-row-end: 4; border-right: 1px solid rgb(209, 209, 209)">
-      <label>Nome de Exibição</label>
-      <span style="font-size: 13px;" *ngIf="relacionamento.ascendente"> {{ relacionamento.ascendente.noNomeExibicao}}</span>
-    </div>
-    <div style="display: inline-grid; grid-column-start: 1; grid-column-end: 2; grid-row-start: 4; grid-row-end: 5; border-right: 1px solid rgb(209, 209, 209)">
-      <label>Tipo do artefato</label>
-      <span style="font-size: 13px;" *ngIf="relacionamento.ascendente"> {{
-        relacionamento.ascendente.tipoArtefato.coTipo}}</span>
-    </div>
-    <div style="display: inline-grid; grid-column-start: 1; grid-column-end: 2; grid-row-start: 5; grid-row-end: 6; border-right: 1px solid rgb(209, 209, 209)">
-      <label>Sistema</label>
-      <span style="font-size: 13px;" *ngIf="relacionamento.ascendente"> {{ relacionamento.ascendente.coSistema}}</span>
-    </div>
-    <div style="display: inline-grid; grid-column-start: 1; grid-column-end: 2; grid-row-start: 6; grid-row-end: 7; border-right: 1px solid rgb(209, 209, 209)">
-      <label>Processo crítico</label>
-      <span style="font-size: 13px;" *ngIf="relacionamento.ascendente"> {{ relacionamento.ascendente.icProcessoCritico
-        | pipeBoolean}}</span>
-    </div>
-
-    <div style="display: inline-grid; grid-column-start: 2; grid-column-end: 3; grid-row-start: 1; grid-row-end: 2; border-right: 1px solid rgb(209, 209, 209)">
-      <span style="font-size: 16px; font-weight: bolder; text-align: center;">Descendente</span>
-    </div>
-    <div style="display: inline-grid; grid-column-start: 2; grid-column-end: 3; grid-row-start: 2; grid-row-end: 3; border-right: 1px solid rgb(209, 209, 209)">
-      <label>Nome do Artefato</label>
-      <span style="font-size: 13px;"> {{ relacionamento.descendente.noNomeArtefato}}</span>
-    </div>
-    <div style="display: inline-grid; grid-column-start: 2; grid-column-end: 3; grid-row-start: 3; grid-row-end: 4; border-right: 1px solid rgb(209, 209, 209)">
-      <label>Nome de Exibição</label>
-      <span style="font-size: 13px;"> {{ relacionamento.descendente.noNomeExibicao}}</span>
-    </div>
-    <div style="display: inline-grid; grid-column-start: 2; grid-column-end: 3; grid-row-start: 4; grid-row-end: 5; border-right: 1px solid rgb(209, 209, 209)">
-      <label>Tipo do artefato</label>
-      <span style="font-size: 13px;"> {{ relacionamento.descendente.tipoArtefato.coTipo}}</span>
-    </div>
-    <div style="display: inline-grid; grid-column-start: 2; grid-column-end: 3; grid-row-start: 5; grid-row-end: 6; border-right: 1px solid rgb(209, 209, 209)">
-      <label>Sistema</label>
-      <span style="font-size: 13px;"> {{ relacionamento.descendente.coSistema}}</span>
-    </div>
-    <div style="display: inline-grid; grid-column-start: 2; grid-column-end: 3; grid-row-start: 6; grid-row-end: 7; border-right: 1px solid rgb(209, 209, 209)">
-      <label>Processo crítico</label>
-      <span style="font-size: 13px;"> {{ relacionamento.descendente.icProcessoCritico | pipeBoolean}}</span>
-    </div>
-
-    <div style="display: inline-grid; grid-column-start: 3; grid-column-end: 4; grid-row-start: 1; grid-row-end: 2;">
-      <span style="font-size: 16px; font-weight: bolder; text-align: center;">Dados do Relacionamento</span>
-    </div>
-    <div style="display: inline-grid; grid-column-start: 3; grid-column-end: 4; grid-row-start: 2; grid-row-end: 3; ">
-      <label>Inclusão manual</label>
-      <span style="font-size: 13px;"> {{ relacionamento.icInclusaoManual | pipeBoolean}}</span>
-    </div>
-    <div style="display: inline-grid; grid-column-start: 3; grid-column-end: 4; grid-row-start: 3; grid-row-end: 4; ">
-      <label>Tipo Relacionamento</label>
-      <!-- <span style="font-size: 13px;"> {{ relacionamento.tipoRelacionamento.coTipo }}</span> -->
-      <mat-form-field>
-        <mat-select [(ngModel)]="relacionamento.coTipoRelacionamentoAtual" (selectionChange)="onTipoRelacionamentoChange(f, relacionamento)"
-          #f>
-          <mat-option *ngFor="let tipo of tiposRelacionamento" [value]="tipo.coTipo">
-            {{tipo.deTipo}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
+      <div style="display: inline-grid; grid-column-start: 2; grid-column-end: 3; grid-row-start: 1; grid-row-end: 2;">
+        <span style="font-size: 16px; font-weight: bolder; text-align: center;">Descendente</span>
+      </div>
+      <div style="display: inline-grid; grid-column-start: 2; grid-column-end: 3; grid-row-start: 2; grid-row-end: 3;">
+        <label>Nome do Artefato</label>
+        <span style="font-size: 13px;"> {{ relacionamento.descendente.noNomeArtefato}}</span>
+      </div>
+      <div style="display: inline-grid; grid-column-start: 2; grid-column-end: 3; grid-row-start: 3; grid-row-end: 4;">
+        <label>Nome de Exibição</label>
+        <span style="font-size: 13px;"> {{ relacionamento.descendente.noNomeExibicao}}</span>
+      </div>
+      <div style="display: inline-grid; grid-column-start: 2; grid-column-end: 3; grid-row-start: 4; grid-row-end: 5;">
+        <label>Tipo do artefato</label>
+        <span style="font-size: 13px;"> {{ relacionamento.descendente.tipoArtefato.coTipo}}</span>
+      </div>
+      <div style="display: inline-grid; grid-column-start: 2; grid-column-end: 3; grid-row-start: 5; grid-row-end: 6;">
+        <label>Sistema</label>
+        <span style="font-size: 13px;"> {{ relacionamento.descendente.coSistema}}</span>
+      </div>
+      <div style="display: inline-grid; grid-column-start: 2; grid-column-end: 3; grid-row-start: 6; grid-row-end: 7;">
+        <label>Processo crítico</label>
+        <span style="font-size: 13px;"> {{ relacionamento.descendente.icProcessoCritico | pipeBoolean}}</span>
+      </div>
     </div>
   </div>
 </div>

@@ -21,7 +21,7 @@
         <div class="blocks" gdArea="input-tipo-artefato">
           <label>Tipo de artefato</label><br />
           <section>
-            <mat-checkbox *ngFor="let tipo of listaTipos | async" value="{{tipo.coTipo}}" (click)="onTipoSelecionado(f)"
+            <mat-checkbox *ngFor="let tipo of listaTipos$ | async" value="{{tipo.coTipo}}" (click)="onTipoSelecionado(f)"
               #f> {{ tipo.deTipo }} </mat-checkbox>
           </section>
         </div>

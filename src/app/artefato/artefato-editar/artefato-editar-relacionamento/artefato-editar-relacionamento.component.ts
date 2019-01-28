@@ -35,7 +35,8 @@ export class ArtefatoEditarRelacionamentoComponent implements OnInit {
   artefato: Artefato;
   statusAtualizacao: string;
 
-  tiposRelacionamento: { coTipo: string, deTipo: string }[] = [{ coTipo: 'INTERFACE', deTipo: 'Interface' }, { coTipo: 'CONTROL-M', deTipo: 'Control-M' }, { coTipo: 'NORMAL', deTipo: 'Normal' }]
+  tiposRelacionamento: { coTipo: string, deTipo: string }[] = 
+  [{ coTipo: 'INTERFACE', deTipo: 'Interface (Interface entre sistemas diferentes)' }, { coTipo: 'CONTROL-M', deTipo: 'Control-M (Relacionamentos originados da malha de execução do COntrol-M)' }, { coTipo: 'NORMAL', deTipo: 'Normal' }, { coTipo: 'DESATIVADO', deTipo: 'Desativado (O relacionamento não será exibido no grafo)' },]
 
   listaRelacionamentos: RelacionamentoCard[] = [];
   listaRelacionamentos$: Observable<RelacionamentoCard[]>;
@@ -63,6 +64,7 @@ export class ArtefatoEditarRelacionamentoComponent implements OnInit {
         if (coArtefato) {
           this.artefatoService.getArtefatoRelacionamento(coArtefato).subscribe(
             (artefato: Artefato) => {
+              console.log(artefato)
               this.artefato = new Artefato();
               this.artefato.inicializar(artefato);
 

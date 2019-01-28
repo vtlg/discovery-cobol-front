@@ -22,7 +22,7 @@ export class PesquisaAvancadaComponent implements OnInit {
     checkedProcessoCritico: boolean = false;
     checkedInterface: boolean = false;
 
-    listaTipos: Observable<Tipo[]>;
+    listaTipos$: Observable<Tipo[]>;
     listaTiposSelecionados: string[] = [];
 
     pesquisaAnterior: Pesquisa;
@@ -59,7 +59,8 @@ export class PesquisaAvancadaComponent implements OnInit {
     ngOnInit() {
         this.tipoService.getListaTipo('ARTEFATO').subscribe(
             (tiposArtefato) => {
-                this.listaTipos = of(tiposArtefato.filter(p => p.icPesquisavel == true));
+                this.listaTipos$ = of(tiposArtefato.filter(p => p.icPesquisavel == true));
+                
             }
         );
         this._initFormPesquisaAvancada();

@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  api: 'http://192.168.1.108:8080/discovery-ws/api',
+  api: 'http://127.0.0.1:8080/discovery-ws/api',
   log: true
 };
 
