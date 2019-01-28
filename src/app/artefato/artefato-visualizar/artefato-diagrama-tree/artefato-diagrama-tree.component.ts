@@ -8,6 +8,8 @@ import { Relacionamento } from 'src/app/shared/modelos/relacionamento.model';
 import { TipoService } from 'src/app/shared/servicos/tipo.service';
 import { Tipo } from 'src/app/shared/modelos/tipo.model';
 import { Node } from 'src/app/shared/modelos/diagrama-tree.model';
+import { Observable, of } from 'rxjs';
+import { componentNeedsResolution } from '@angular/core/src/metadata/resource_loading';
 
 @Component({
   selector: 'app-artefato-diagrama-tree',
@@ -32,23 +34,30 @@ export class ArtefatoDiagramaTreeComponent implements OnInit, OnDestroy {
   duration: number;
   orientacao: string = 'DESCENDENTE';
   listaTipo: Tipo[] = this.tipoService.getListaTipoLocal();
-
+  listaTipo$: Observable<Tipo[]>;
+  relacionamentoOriginal: Relacionamento = new Relacionamento();
   @Output("artefatoSelecionadoDiagrama") artefatoSelecionado: EventEmitter<any> = new EventEmitter<any>();
 
   @Input()
   set artefatoGrafo(val: Artefato) {
+    this.loggerService.log("Recebendo artefato para criar diagrama. Orientação " + this.orientacao)
+    this.loggerService.log(val)
     this.artefato = new Artefato();
     this.artefato.inicializar(val);
 
-    var relacionamentoSemPai: Relacionamento = new Relacionamento();
-    relacionamentoSemPai.descendente = this.artefato;
-    relacionamentoSemPai.coRelacionamento = 0;
-
+    var relacionamentoSemPaiOuSemFilho: Relacionamento = new Relacionamento();
+    if (this.orientacao == 'DESCENDENTE') {
+      relacionamentoSemPaiOuSemFilho.descendente = new Artefato;
+      relacionamentoSemPaiOuSemFilho.descendente.inicializar(this.artefato);
+      relacionamentoSemPaiOuSemFilho.coRelacionamento = 0;
+    } else {
+      relacionamentoSemPaiOuSemFilho.ascendente  = new Artefato;
+      relacionamentoSemPaiOuSemFilho.ascendente.inicializar(this.artefato);
+      relacionamentoSemPaiOuSemFilho.coRelacionamento = 0;
+    }
 
     this.initParametrosDiagrama();
-
-
-    this.node_data = this.converterRelacionamento2Node(relacionamentoSemPai, null);
+    this.node_data = this.converterRelacionamento2Node(relacionamentoSemPaiOuSemFilho, null);
     //this.node_data = this.converterArtefato2Node(this.artefato, null);
     this.initDiagrama();
 
@@ -64,6 +73,13 @@ export class ArtefatoDiagramaTreeComponent implements OnInit, OnDestroy {
   ) {
     this.windowHeight = window.innerHeight; //altura inicial da janela
     this.windowWidth = window.innerWidth; //largura inicial da janela
+
+    this.tipoService.getListaTipo().subscribe(
+      (tipos: Tipo[]) => {
+        this.listaTipo$ = of(tipos.filter(o => o.icExibirGrafo));
+        this.listaTipo = tipos;
+      }
+    )
 
     // Verifica alterações no Scroll da janela
     this.appService.subjectWindowScroll.subscribe(
@@ -86,6 +102,27 @@ export class ArtefatoDiagramaTreeComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() { }
+
+
+  onInverterOrientacao() {
+    var relacionamentoSemPaiOuSemFilho: Relacionamento = new Relacionamento();
+
+    if (this.orientacao == 'DESCENDENTE') {
+      this.orientacao = 'ASCENDENTE';
+      relacionamentoSemPaiOuSemFilho.ascendente = new Artefato();
+      relacionamentoSemPaiOuSemFilho.ascendente.inicializar(this.artefato);
+      relacionamentoSemPaiOuSemFilho.coRelacionamento = 0;
+    } else {
+      this.orientacao = 'DESCENDENTE';
+      relacionamentoSemPaiOuSemFilho.descendente = new Artefato();
+      relacionamentoSemPaiOuSemFilho.descendente.inicializar(this.artefato);
+      relacionamentoSemPaiOuSemFilho.coRelacionamento = 0;
+    }
+
+    this.initParametrosDiagrama();
+    this.node_data = this.converterRelacionamento2Node(relacionamentoSemPaiOuSemFilho, null);
+    this.initDiagrama();
+  }
 
   initParametrosDiagrama() {
     this.margin = { top: 20, right: 90, bottom: 30, left: 50 };
@@ -139,14 +176,23 @@ export class ArtefatoDiagramaTreeComponent implements OnInit, OnDestroy {
   }
 
   converterRelacionamento2Node(relacionamentoEntrada: Relacionamento, node?: any): Node {
+    this.loggerService.log("Convertendo Relacionamento para Node.")
+    this.loggerService.log(relacionamentoEntrada)
     if (!node) {
       node = null;
     }
-    var artefato: Artefato = relacionamentoEntrada.descendente;
+
+
+    var artefato: Artefato = null;
+
+    if (this.orientacao == 'DESCENDENTE') {
+      artefato = relacionamentoEntrada.descendente;
+    } else {
+      artefato = relacionamentoEntrada.ascendente;
+    }
+
     var output: Node = new Node();
-
     output.id = artefato.coArtefato;
-
     output.relacionamento = relacionamentoEntrada;
 
     if (artefato.noNomeExibicao) {
@@ -156,12 +202,15 @@ export class ArtefatoDiagramaTreeComponent implements OnInit, OnDestroy {
     }
     output.artefato = artefato;
 
-      if (this.orientacao == 'DESCENDENTE') { 
-        output.children = [];
-        if (artefato.descendentes) {
-          for (let relacionamento of artefato.descendentes) { 
+    if (this.orientacao == 'DESCENDENTE') {
+      output.children = [];
+      if (artefato.descendentes) {
+        for (let relacionamento of artefato.descendentes) {
+          if (relacionamento.descendente) {
             var descendente: Artefato = new Artefato();
             descendente.inicializar(relacionamento.descendente);
+            console.log(descendente)
+            console.log(this.listaTipo)
             var tipo = this.listaTipo.find(p => p.coTipo == descendente.tipoArtefato.coTipo)
             if (tipo.icExibirGrafo == true) {
               output.children.push(this.converterRelacionamento2Node(relacionamento, node));
@@ -169,11 +218,13 @@ export class ArtefatoDiagramaTreeComponent implements OnInit, OnDestroy {
           }
         }
       }
+    }
 
-      if (this.orientacao == 'ASCENDENTE') { 
-        output.children = [];
-        if (artefato.ascendentes) {
-          for (let relacionamento of artefato.ascendentes) { 
+    if (this.orientacao == 'ASCENDENTE') {
+      output.children = [];
+      if (artefato.ascendentes) {
+        for (let relacionamento of artefato.ascendentes) {
+          if (relacionamento.ascendente) {
             var ascendente: Artefato = new Artefato();
             ascendente.inicializar(relacionamento.ascendente);
             var tipo = this.listaTipo.find(p => p.coTipo == ascendente.tipoArtefato.coTipo)
@@ -183,6 +234,7 @@ export class ArtefatoDiagramaTreeComponent implements OnInit, OnDestroy {
           }
         }
       }
+    }
 
     return output;
 
@@ -304,7 +356,7 @@ export class ArtefatoDiagramaTreeComponent implements OnInit, OnDestroy {
       .attr('fill', function (d) {
         var tipo = null;
         if (d.data.artefato.icProcessoCritico) {
-          
+
           tipo = listaTipo.find(p => p.coTipo == 'PROCESSO-CRITICO')
         } else {
           tipo = listaTipo.find(p => p.coTipo == d.data.artefato.tipoArtefato.coTipo)
@@ -392,30 +444,30 @@ export class ArtefatoDiagramaTreeComponent implements OnInit, OnDestroy {
 
     // Enter any new links at the parent's previous position.
     var linkEnter = link.enter().insert('path', "g")
-    .attr("stroke", function (d) {
-      if (d.data.relacionamento && d.data.relacionamento.tipoRelacionamento && d.data.relacionamento.tipoRelacionamento.coTipo) {
-        var tipo: Tipo = listaTipo.find(p => p.coTipo == d.data.relacionamento.tipoRelacionamento.coTipo);
-        return tipo.coCorBorda;
-      } else {
-        return '#cecece';
-      }
-    })
-    .attr("stroke-width", function (d) {
-      if (d.data.relacionamento && d.data.relacionamento.tipoRelacionamento && d.data.relacionamento.tipoRelacionamento.coTipo) {
-        var tipo: Tipo = listaTipo.find(p => p.coTipo == d.data.relacionamento.tipoRelacionamento.coTipo);
-        return tipo.nuLarguraBorda + 'px';
-      } else {
-        return '1px';
-      }
-    })
-    .attr("fill", function (d) {
-      if (d.data.relacionamento && d.data.relacionamento.tipoRelacionamento && d.data.relacionamento.tipoRelacionamento.coTipo) {
-        var tipo: Tipo = listaTipo.find(p => p.coTipo == d.data.relacionamento.tipoRelacionamento.coTipo);
-        return tipo.coCor;
-      } else {
-        return 'none';
-      }
-    })
+      .attr("stroke", function (d) {
+        if (d.data.relacionamento && d.data.relacionamento.tipoRelacionamento && d.data.relacionamento.tipoRelacionamento.coTipo) {
+          var tipo: Tipo = listaTipo.find(p => p.coTipo == d.data.relacionamento.tipoRelacionamento.coTipo);
+          return tipo.coCorBorda;
+        } else {
+          return '#cecece';
+        }
+      })
+      .attr("stroke-width", function (d) {
+        if (d.data.relacionamento && d.data.relacionamento.tipoRelacionamento && d.data.relacionamento.tipoRelacionamento.coTipo) {
+          var tipo: Tipo = listaTipo.find(p => p.coTipo == d.data.relacionamento.tipoRelacionamento.coTipo);
+          return tipo.nuLarguraBorda + 'px';
+        } else {
+          return '1px';
+        }
+      })
+      .attr("fill", function (d) {
+        if (d.data.relacionamento && d.data.relacionamento.tipoRelacionamento && d.data.relacionamento.tipoRelacionamento.coTipo) {
+          var tipo: Tipo = listaTipo.find(p => p.coTipo == d.data.relacionamento.tipoRelacionamento.coTipo);
+          return tipo.coCor;
+        } else {
+          return 'none';
+        }
+      })
       .attr("class", function (d) {
         return 'link'
       })
@@ -527,20 +579,27 @@ export class ArtefatoDiagramaTreeComponent implements OnInit, OnDestroy {
   }
 
   adicionarNode = (d) => {
-    var orientacao = this.orientacao.slice();
-
     this.artefatoService.getArtefatoRelacionamento(d.data.artefato.coArtefato).subscribe(
       (artefatoResult: Artefato) => {
+        console.log(artefatoResult)
         var artefato: Artefato = new Artefato();
         artefato.inicializar(artefatoResult);
 
         if ((artefato.ascendentes && artefato.ascendentes.length > 0) || (artefato.descendentes && artefato.descendentes.length > 0)) {
-          var relacionamentoSemPai: Relacionamento = new Relacionamento();
-          relacionamentoSemPai.descendente = artefato;
+          var relacionamentoSemPaiOuSemFilho: Relacionamento = new Relacionamento();
+          if (this.orientacao == 'DESCENDENTE') {
+            relacionamentoSemPaiOuSemFilho.descendente = new Artefato;
+            relacionamentoSemPaiOuSemFilho.descendente.inicializar(artefato);
+            relacionamentoSemPaiOuSemFilho.coRelacionamento = 0;
+          } else {
+            relacionamentoSemPaiOuSemFilho.ascendente  = new Artefato;
+            relacionamentoSemPaiOuSemFilho.ascendente.inicializar(artefato);
+            relacionamentoSemPaiOuSemFilho.coRelacionamento = 0;
+          }
 
           //TODO: INCLUIR SORT DOS ELEMENTOS
           //TODO: INCLUIR FILTRO DOS ELEMENTOS
-          var newNodeParent: Node = this.converterRelacionamento2Node(relacionamentoSemPai, d)
+          var newNodeParent: Node = this.converterRelacionamento2Node(relacionamentoSemPaiOuSemFilho, d)
           var newChildren: Node[] = newNodeParent['children'];
 
           if (newChildren && newChildren.length > 0) {

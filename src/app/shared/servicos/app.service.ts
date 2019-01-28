@@ -7,8 +7,11 @@ import { Subject } from 'rxjs';
 })
 export class AppService {
 
+  limitResultadoQuery: number = 3;
+
   baseServicoUrl: string = environment.api;
   isLog: boolean = environment.log;
+  isLoading: Subject<boolean> = new Subject<boolean>();
 
   // MÉTODOS DO SISTEMA
   subjectMouseover: Subject<string> = new Subject<string>();
@@ -24,5 +27,7 @@ export class AppService {
   public larguraLetraDiagrama: number = 13;
   public espacamentoHorizontalDiagrama: number = 30;
 
-  constructor() { }
+  constructor() {
+    this.isLoading.next(false);
+   }
 }

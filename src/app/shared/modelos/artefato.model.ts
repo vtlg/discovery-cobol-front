@@ -14,7 +14,8 @@ export class Artefato {
 	deHash: string;
 	deDescricaoUsuario: string;
 	deDescricaoArtefato: string;
-	icInclusaoManual: string;
+	icInclusaoManual: boolean;
+	icProcessoCritico: boolean;
 	tsInicioVigencia: string;
 	tsUltimaModificacao: string;
 	tsFimVigencia: string;
@@ -45,6 +46,7 @@ export class Artefato {
 		this.deDescricaoUsuario = val.deDescricaoUsuario;
 		this.deDescricaoArtefato = val.deDescricaoArtefato;
 		this.icInclusaoManual = val.icInclusaoManual;
+		this.icProcessoCritico = val.icProcessoCritico;
 		this.tsInicioVigencia = val.tsInicioVigencia;
 		this.tsUltimaModificacao = val.tsUltimaModificacao;
 		this.tsFimVigencia = val.tsFimVigencia;

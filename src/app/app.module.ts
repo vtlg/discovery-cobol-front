@@ -62,6 +62,11 @@ import { TipoService } from './shared/servicos/tipo.service';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { PesquisaAvancadaComponent } from './pesquisa-avancada/pesquisa-avancada.component';
 import { PesquisaAvancadaListaComponent } from './pesquisa-avancada/pesquisa-avancada-lista/pesquisa-avancada-lista.component';
+import { PipeBooleanPipe } from './shared/pipes/pipe-boolean.pipe';
+import { PipeInterfacePipe } from './shared/pipes/pipe-interface.pipe';
+import { ArtefatoEditarComponent } from './artefato/artefato-editar/artefato-editar.component';
+import { ArtefatoEditarArtefatoComponent } from './artefato/artefato-editar/artefato-editar-artefato/artefato-editar-artefato.component';
+import { ArtefatoEditarRelacionamentoComponent } from './artefato/artefato-editar/artefato-editar-relacionamento/artefato-editar-relacionamento.component';
 
 @NgModule({
   declarations: [
@@ -73,6 +78,11 @@ import { PesquisaAvancadaListaComponent } from './pesquisa-avancada/pesquisa-ava
     ArtefatoDiagramaTreeComponent,
     PesquisaAvancadaComponent,
     PesquisaAvancadaListaComponent,
+    PipeBooleanPipe,
+    PipeInterfacePipe,
+    ArtefatoEditarComponent,
+    ArtefatoEditarArtefatoComponent,
+    ArtefatoEditarRelacionamentoComponent,
     
   ],
   imports: [

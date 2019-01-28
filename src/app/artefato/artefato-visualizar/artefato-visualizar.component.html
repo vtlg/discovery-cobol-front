@@ -16,11 +16,8 @@
                         <h5 class="left" *ngIf="artefato.noNomeExibicao">{{ artefato.noNomeExibicao }}</h5>
                     </div>
                     <div class="blocks detalhe menubar" gdArea="menubar">
-                        <a class="right" title="Editar Artefato" [routerLink]="['/artefato', artefato.coArtefato, 'editar-artefato']">
+                        <a class="right" title="Editar Artefato" [routerLink]="['/artefato', artefato.coArtefato, 'editar']">
                             <i class="material-icons white-text" style="font-size: 16px">edit</i>
-                        </a>
-                        <a class="right" title="Editar Relacionamento" [routerLink]="['/artefato', artefato.coArtefato, 'editar-relacionamento']">
-                            <i class="material-icons white-text" style="font-size: 16px">share&nbsp;&nbsp;</i>
                         </a>
                         <a class="right" title="Visualizar atributos" (click)="onBotaoMostrarAtributo()">
                             <i class="material-icons white-text" style="font-size: 16px">format_align_justify&nbsp;&nbsp;</i>

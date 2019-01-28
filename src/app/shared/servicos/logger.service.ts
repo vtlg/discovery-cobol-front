@@ -16,10 +16,12 @@ export class LoggerService {
   
   warn(msg: any) {
     if (this.appService.isLog) {
-      console.log(msg);
+      console.warn(msg);
     }
   }
 
-  error(msg: any) { console.error(msg); }
+  error(msg: any) { 
+    console.error(msg); 
+  }
 
 }

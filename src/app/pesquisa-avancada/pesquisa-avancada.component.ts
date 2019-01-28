@@ -25,13 +25,36 @@ export class PesquisaAvancadaComponent implements OnInit {
     listaTipos: Observable<Tipo[]>;
     listaTiposSelecionados: string[] = [];
 
-    listaResultado: Observable<ArtefatoView[]>;
+    pesquisaAnterior: Pesquisa;
+    listaResultado: ArtefatoView[];
+    listaResultado$: Observable<ArtefatoView[]>;
+
+    offset: number = 0;
+
+    height: number;
+    width: number;
+    larguraContainer: number = 710;
+
+    isLoading: boolean = false;
+    isPaginar: boolean = false;
 
     constructor(private appService: AppService,
         private loogerService: LoggerService,
         private pesquisaService: PesquisaService,
         private tipoService: TipoService,
-        private formBuilder: FormBuilder) { }
+        private formBuilder: FormBuilder) {
+
+        this.height = window.innerHeight;
+        this.width = window.innerWidth;
+
+        this.appService.subjectWindowResize.subscribe(
+            (resize: { height, width }) => {
+                this.height = resize.height;
+                this.width = resize.width;
+            }
+        )
+
+    }
 
     ngOnInit() {
         this.tipoService.getListaTipo('ARTEFATO').subscribe(
@@ -60,29 +83,60 @@ export class PesquisaAvancadaComponent implements OnInit {
             this.loogerService.log("(Pesquisa Avançada) Excluindo " + input.value + " no array Tipos Secionados")
             this.listaTiposSelecionados.splice(i, 1)
         }
-
-        console.log(this.listaTiposSelecionados);
     }
 
     onSubmit() {
         var formValue = this.formPesquisaAvancada.value;
+        this.pesquisaAnterior = new Pesquisa();
 
-        var pesquisa: Pesquisa = new Pesquisa();
+        this.pesquisaAnterior.expNome = formValue.expNome;
+        this.pesquisaAnterior.expDescricao = formValue.expDescricao;
+        this.pesquisaAnterior.listaTipoArtefato = this.listaTiposSelecionados;
+        this.pesquisaAnterior.icInterface = this.checkedInterface;
+        this.pesquisaAnterior.icProcessoCritico = this.checkedProcessoCritico;
 
-        pesquisa.expNome = formValue.expNome;
-        pesquisa.expDescricao = formValue.expDescricao;
-        pesquisa.listaTipoArtefato = this.listaTiposSelecionados;
-        pesquisa.icInterface = this.checkedInterface;
-        pesquisa.icProcessoCritico = this.checkedProcessoCritico;
+        this.offset = 0;
+        this.isLoading = true;
+        this.listaResultado = [];
+        this.listaResultado$ = of(this.listaResultado);
+        this.pesquisaService.pesquisaAvancada(this.pesquisaAnterior, this.offset).subscribe(
+            (results: ArtefatoView[]) => {
+                this.listaResultado = results;
+                this.listaResultado$ = of(this.listaResultado);
+                this.offset += this.appService.limitResultadoQuery;
 
-
-        this.pesquisaService.pesquisaAvancada(pesquisa).subscribe(
-            (results: ArtefatoView[] ) => {
-                this.listaResultado = of(results);
+                if (results && results.length >= this.appService.limitResultadoQuery) {
+                    this.isPaginar = true;
+                } else {
+                    this.isPaginar = false;
+                }
+            },
+            (error) => { },
+            () => {
+                this.isLoading = false;
             }
         );
+    }
 
+    onPaginar() {
+        this.isLoading = true;
+        this.pesquisaService.pesquisaAvancada(this.pesquisaAnterior, this.offset).subscribe(
+            (results: ArtefatoView[]) => {
+                this.listaResultado = this.listaResultado.concat(results);
+                this.listaResultado$ = of(this.listaResultado);
+                this.offset += this.appService.limitResultadoQuery;
 
+                if (results && results.length >= this.appService.limitResultadoQuery) {
+                    this.isPaginar = true;
+                } else {
+                    this.isPaginar = false;
+                }
+            },
+            (error) => { },
+            () => {
+                this.isLoading = false;
+            }
+        );
     }
 
 }

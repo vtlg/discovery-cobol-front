@@ -1,5 +1,93 @@
-<div *ngFor="let artefato of listaResultado | async" style="border-bottom: 1px solid #CCC; margin-bottom: 40px">
-  <h5 class="link" [routerLink]="['/artefato/' + artefato.coArtefato ]"> {{ artefato.noNomeArtefato }}
+<div *ngFor="let artefato of listaResultado | async">
+  <div class="colorNested box card-artefato" style="height: auto; ">
+    <div gdAreas="    titulo           titulo           titulo            titulo           menubar         | 
+                      labelinfo1       labelinfo2       labelinfo3        labelinfo4       labelinfo5       |
+                      dinfo1           dinfo2           dinfo3            dinfo4           dinfo5           |
+                      labeldescricao   labeldescricao   labeldescricao    labeldescricao   labeldescricao   |
+                      descricao        descricao        descricao         descricao        descricao"
+      gdColumns="140px 140px 140px 140px 140px">
+      <div class="blocks titulo" gdArea="titulo">
+        <!-- <h5 class="left" *ngIf="!artefato.noNomeExibicao">{{ artefato.noNomeInterno }}</h5> -->
+        <a [routerLink]="['/artefato/' + artefato.coArtefato ]" style="font-size: 22px;">{{ artefato.noNomeArtefato }}</a>
+      </div>
+      <div class="blocks menubar" gdArea="menubar">
+        <a title="Editar Artefato" [routerLink]="['/artefato', artefato.coArtefato, 'editar-artefato']">
+          <i class="material-icons " style="font-size: 16px">edit</i>
+        </a>
+        <a title="Visualizar atributos" (click)="onBotaoMostrarAtributo()">
+          <i class="material-icons " style="font-size: 16px">format_align_justify&nbsp;&nbsp;</i>
+        </a>
+      </div>
+      <div class="blocks label-info" gdArea="labelinfo1">
+        Sistema
+      </div>
+      <div class="blocks label-info" gdArea="labelinfo2">
+        Tipo
+      </div>
+      <div class="blocks label-info" gdArea="labelinfo3">
+        Processo crítico
+      </div>
+      <div class="blocks label-info" gdArea="labelinfo4">
+        Qtd. Relacionamentos
+      </div>
+      <div class="blocks label-info" gdArea="labelinfo5">
+        Qtd. Interfaces
+      </div>
+      <div class="blocks detalhe" gdArea="dinfo1">
+        {{ artefato.coSistema }}
+      </div>
+      <div class="blocks detalhe" gdArea="dinfo2">
+        {{ artefato.coTipoArtefato }}
+      </div>
+      <div class="blocks detalhe" gdArea="dinfo3">
+        {{ artefato.icProcessoCritico | pipeBoolean }}
+      </div>
+      <div class="blocks detalhe" gdArea="dinfo4">
+        <!-- Interface  -->
+        {{ artefato.countRelacionamento  }}
+      </div>
+      <div class="blocks detalhe" gdArea="dinfo5">
+        {{ artefato.countRelacionamentoInterface  }}
+      </div>
+
+      <div class="blocks label-info" gdArea="labeldescricao">
+        <span> Descrição </span>
+      </div>
+      <div class="blocks detalhe descricao" gdArea="descricao">
+        <span> {{ artefato | descricaoArtefato }} </span>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+<!-- <div class="card-item-resultado" style="border:1px solid rgb(212, 212, 212);margin: 10px; ">
+  <div class="card-item-resultado titulo" style="border-bottom: 1px solid rgb(212, 212, 212);padding: 10px;">
+    <a [routerLink]="['/artefato/' + artefato.coArtefato ]" style="font-size: 22px;">{{ artefato.noNomeArtefato }}</a>
+  </div>
+  <div class="card-item-resultado informacao" style="border-bottom: 1px solid rgb(212, 212, 212);padding: 10px; display: inline-flex;">
+    <div class="card-item-resultado informacao coluna-1" style="padding: 10px; width: 120px;" style="display: block;">
+      <label>Sistema</label>
+      <span>{{ artefato.coSistema }}</span>
+    </div>
+    <div class="card-item-resultado informacao coluna-2" style="padding: 10px; width: 80px;">
+      <label>Tipo</label>
+      <span style="display: inline-flex;">{{ artefato.coTipoArtefato }}</span>
+    </div>
+  </div>
+</div>
+</div> -->
+<!--
+  <h5 class="link" > 
     ({{ artefato.coTipoArtefato }})</h5>
   <p *ngIf="artefato.deDescricaoUsuario && artefato.deDescricaoUsuario != '' " [innerHTML]="artefato | descricaoArtefato"></p>
-</div>
+-->

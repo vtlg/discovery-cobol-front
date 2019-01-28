@@ -16,8 +16,9 @@ export class ArtefatoView {
 	icInclusaoManual: boolean;
 	tsInicioVigencia: string;
 	tsUltimaModificacao: string;
-	coTipoRelacionamento: string;
-	icInclusaoManualRelacionamento: boolean;
-	icInclusaoMalhaRelacionamento: boolean;
+	countRelacionamento: number;
+	countRelacionamentoInterface: number;
+	countRelacionamentoControlM: number;
+	countRelacionamentoNormal: number;
 
 }

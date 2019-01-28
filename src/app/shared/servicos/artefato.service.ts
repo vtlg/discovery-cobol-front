@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AppService } from './app.service';
 import { HttpClient, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError, interval } from 'rxjs';
-import { catchError, retry, debounce } from 'rxjs/operators';
+import { catchError, retry, debounce, finalize } from 'rxjs/operators';
 import { Artefato } from '../modelos/artefato.model';
 import { LoggerService } from './logger.service';
 
@@ -38,24 +38,17 @@ export class ArtefatoService {
   pesquisarRapida(termo: string): Observable<Artefato[]> {
     var url: string = this.appService.baseServicoUrl + '/artefato?termo=' + termo;
     return this.http.get<Artefato[]>(url);
+  }
 
-    /*
-    return this.http.get<Artefato>(
-      url, { observe: 'response' })
-      .pipe(
-        retry(0),
-        catchError( e => this.tratarErro(e))
-      );
-    */
+  atualizar(artefato: Artefato): Observable<Artefato> {
+
+    var url: string = this.appService.baseServicoUrl + '/artefato/' + artefato.coArtefato;
+
+    return this.http.post<Artefato>(url, artefato);
   }
 
 
-  /*
-    getConfigResponse(): Observable<HttpResponse<Config>> {
-      return this.http.get<Config>(
-        this.configUrl, { observe: 'response' });
-    }
-    */
+
 
   private tratarErro(erro: HttpErrorResponse) {
     if (erro.error instanceof ErrorEvent) {
