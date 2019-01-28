@@ -7,7 +7,7 @@ import { Subject } from 'rxjs';
 })
 export class AppService {
 
-  limitResultadoQuery: number = 3;
+  limitResultadoQuery: number = 30;
 
   baseServicoUrl: string = environment.api;
   isLog: boolean = environment.log;

@@ -35,8 +35,8 @@ export class ArtefatoEditarRelacionamentoComponent implements OnInit {
   artefato: Artefato;
   statusAtualizacao: string;
 
-  tiposRelacionamento: { coTipo: string, deTipo: string }[] = 
-  [{ coTipo: 'INTERFACE', deTipo: 'Interface (Interface entre sistemas diferentes)' }, { coTipo: 'CONTROL-M', deTipo: 'Control-M (Relacionamentos originados da malha de execução do COntrol-M)' }, { coTipo: 'NORMAL', deTipo: 'Normal' }, { coTipo: 'DESATIVADO', deTipo: 'Desativado (O relacionamento não será exibido no grafo)' },]
+  tiposRelacionamento: { coTipo: string, deTipo: string }[] =
+    [{ coTipo: 'INTERFACE', deTipo: 'Interface (Relacionamento entre sistemas diferentes)' }, { coTipo: 'CONTROL-M', deTipo: 'Control-M (Relacionamento originado da malha de execução do COntrol-M)' }, { coTipo: 'NORMAL', deTipo: 'Normal' }, { coTipo: 'DESATIVADO', deTipo: 'Desativado (O relacionamento não será exibido no grafo)' },]
 
   listaRelacionamentos: RelacionamentoCard[] = [];
   listaRelacionamentos$: Observable<RelacionamentoCard[]>;
@@ -54,7 +54,6 @@ export class ArtefatoEditarRelacionamentoComponent implements OnInit {
         this.width = resize.width;
       }
     )
-
   }
 
   ngOnInit() {
@@ -115,22 +114,22 @@ export class ArtefatoEditarRelacionamentoComponent implements OnInit {
   onTipoRelacionamentoChange(f, relacionamentoCard: RelacionamentoCard) {
     if (confirm("Tem certeza que deseja alterar o tipo do relacionamento? ")) {
 
-        var relacionamento: Relacionamento = new Relacionamento;
-        relacionamento.coRelacionamento = relacionamentoCard.coRelacionamento;
-        relacionamento.ascendente = relacionamentoCard.ascendente;
-        relacionamento.descendente = relacionamentoCard.descendente;
-        relacionamento.tipoRelacionamento = new Tipo();
-        relacionamento.tipoRelacionamento.coTipo= relacionamentoCard.coTipoRelacionamentoAtual
+      var relacionamento: Relacionamento = new Relacionamento;
+      relacionamento.coRelacionamento = relacionamentoCard.coRelacionamento;
+      relacionamento.ascendente = relacionamentoCard.ascendente;
+      relacionamento.descendente = relacionamentoCard.descendente;
+      relacionamento.tipoRelacionamento = new Tipo();
+      relacionamento.tipoRelacionamento.coTipo = relacionamentoCard.coTipoRelacionamentoAtual
 
-        this.relacionamentoService.atualizar(relacionamento).subscribe(
-          (result: Relacionamento) => {
-            relacionamentoCard.coTipoRelacionamentoAnterior =  relacionamentoCard.coTipoRelacionamentoAtual;
-          },
-          (error: any) => {
-            relacionamentoCard.coTipoRelacionamentoAtual = relacionamentoCard.coTipoRelacionamentoAnterior;
-            f.value = relacionamentoCard.coTipoRelacionamentoAnterior;
-          }
-        );
+      this.relacionamentoService.atualizar(relacionamento).subscribe(
+        (result: Relacionamento) => {
+          relacionamentoCard.coTipoRelacionamentoAnterior = relacionamentoCard.coTipoRelacionamentoAtual;
+        },
+        (error: any) => {
+          relacionamentoCard.coTipoRelacionamentoAtual = relacionamentoCard.coTipoRelacionamentoAnterior;
+          f.value = relacionamentoCard.coTipoRelacionamentoAnterior;
+        }
+      );
 
     } else {
       relacionamentoCard.coTipoRelacionamentoAtual = relacionamentoCard.coTipoRelacionamentoAnterior;

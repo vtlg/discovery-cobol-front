@@ -9,6 +9,8 @@ export class Node {
     relacionamento: Relacionamento;
     tipoRelacionamento: string;
 
+    descricaoRelacionamento: string;
+
     artefatosExibidos: Set<String> = new Set();
 
     children: Node[];

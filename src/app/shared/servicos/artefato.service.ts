@@ -41,7 +41,8 @@ export class ArtefatoService {
   }
 
   atualizar(artefato: Artefato): Observable<Artefato> {
-
+    this.logger.log("Atualizar artefato")
+    this.logger.log(artefato)
     var url: string = this.appService.baseServicoUrl + '/artefato/' + artefato.coArtefato;
 
     return this.http.post<Artefato>(url, artefato);

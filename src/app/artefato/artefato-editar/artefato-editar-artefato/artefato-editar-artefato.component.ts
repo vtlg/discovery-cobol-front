@@ -100,6 +100,7 @@ export class ArtefatoEditarArtefatoComponent implements OnInit {
     var artefatoAtualizar: Artefato = new Artefato();
     artefatoAtualizar.inicializar(this.artefato);
 
+
     if (formValue.noNomeExibicao) {
       artefatoAtualizar.noNomeExibicao = formValue.noNomeExibicao;
     }
@@ -107,7 +108,7 @@ export class ArtefatoEditarArtefatoComponent implements OnInit {
     if (formValue.coSistema) {
       artefatoAtualizar.coSistema = formValue.coSistema;
     }
-    if (formValue.coSistema) {
+    if (formValue.deDescricaoUsuario) {
       artefatoAtualizar.deDescricaoUsuario = formValue.deDescricaoUsuario;
     }
     if (formValue.icProcessoCritico) {

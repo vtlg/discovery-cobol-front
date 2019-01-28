@@ -2,42 +2,42 @@
     <mat-sidenav-container *ngIf="artefato && isSideBarVisible" style="position: unset;">
         <mat-sidenav #sidenav mode="side" opened class="sidenav-artefato" [fixedInViewport]="true" [fixedTopGap]="64"
             [fixedBottomGap]="0">
-            <!-- Início do código copiado do sidenavbar anterio -->
-            <!-- <mat-card class="detalhe" style="padding: 0px; box-shadow: none;" [ngClass]="detalhe">
-            <mat-card-content class="containerX"> -->
-            <div class="colorNested box" style="height: auto; ">
-                <div gdAreas="header   menubar | 
-                              info     info    |
-                              tabbar   tabbar  |
-                              content  content  "
-                    gdColumns="200px 100px">
-                    <div class="blocks detalhe header" gdArea="header">
-                        <h5 class="left" *ngIf="!artefato.noNomeExibicao">{{ artefato.noNomeInterno }}</h5>
-                        <h5 class="left" *ngIf="artefato.noNomeExibicao">{{ artefato.noNomeExibicao }}</h5>
-                    </div>
-                    <div class="blocks detalhe menubar" gdArea="menubar">
-                        <a class="right" title="Editar Artefato" [routerLink]="['/artefato', artefato.coArtefato, 'editar']">
-                            <i class="material-icons white-text" style="font-size: 16px">edit</i>
-                        </a>
-                        <a class="right" title="Visualizar atributos" (click)="onBotaoMostrarAtributo()">
-                            <i class="material-icons white-text" style="font-size: 16px">format_align_justify&nbsp;&nbsp;</i>
-                        </a>
-                        <a class="right" title="Visualizar código-fonte" (click)="onBotaoMostrarCodigoFonte()">
-                            <i class="material-icons white-text" style="font-size: 16px">folder_open&nbsp;&nbsp;</i>
-                        </a>
-                    </div>
-                    <div class="blocks detalhe info" gdArea="info">
-                        <p>Tipo: {{artefato.tipoArtefato.coTipo}}</p>
-                        <p>Sistema: {{artefato.coSistema}}</p>
-                        <p *ngIf="artefato.icProcessoCritico">Processo crítico </p>
-                    </div>
-                    <div class="blocks detalhe tabbar" gdArea="tabbar">
-
-                    </div>
+            <div style="display: grid; grid-column-gap: 0px; padding:0px; ">
+                <div class="detalhe header" style="width: 265px;  padding-left:5px; display: inline-grid; grid-column-start: 1; grid-column-end: 6; grid-row-start: 1; grid-row-end: 2;">
+                    <span class="left" style="font-size: 18px" *ngIf="!artefato.noNomeExibicao">{{
+                        artefato.noNomeInterno }}</span>
+                    <span class="left" style="font-size: 18px" *ngIf="artefato.noNomeExibicao">{{
+                        artefato.noNomeExibicao }}</span>
+                </div>
+                <div class="detalhe menubar" style="padding-top: 5px; display: inline-grid; grid-column-start: 6; grid-column-end: 7; grid-row-start: 1; grid-row-end: 3;">
+                    <a class="right" title="Editar Artefato" [routerLink]="['/artefato', artefato.coArtefato, 'editar']">
+                        <i class="material-icons white-text" style="font-size: 16px">edit</i>
+                    </a>
+                    <a class="right" title="Visualizar atributos" (click)="onBotaoMostrarAtributo()">
+                        <i class="material-icons white-text" style="font-size: 16px">format_align_justify&nbsp;&nbsp;</i>
+                    </a>
+                    <a class="right" title="Visualizar código-fonte" (click)="onBotaoMostrarCodigoFonte()">
+                        <i class="material-icons white-text" style="font-size: 16px">folder_open&nbsp;&nbsp;</i>
+                    </a>
+                </div>
+                <div class="detalhe info" style="width: 265;  padding-left:5px; display: inline-grid; grid-column-start: 1; grid-column-end: 6; grid-row-start: 2; grid-row-end: 3;">
+                    <p>Tipo: {{artefato.tipoArtefato.coTipo}}</p>
+                    <p>Sistema: {{artefato.coSistema}}</p>
+                    <p *ngIf="artefato.icProcessoCritico">Processo crítico </p>
                 </div>
             </div>
-            <!-- </mat-card-content>
-        </mat-card> -->
+            <div style="display: grid; grid-column-gap: 0px; padding:0px; ">
+                <div class="detalhe" style="padding:0px; display: inline-grid; grid-column-start: 1; grid-column-end: 2; grid-row-start: 1; grid-row-end: 2;">
+                    <a style=" color: white; font-weight: 400 ;font-size: 20px; ; width: 100%; height: 50px; background-color: rgb(0, 0, 255); border-bottom: 0.5px solid white; text-align: center; padding-top: 6px;">
+                        DESCRIÇÃO
+                    </a>
+                </div>
+                <div class="detalhe" style="height: 100%; padding:0px; display: inline-grid; grid-column-start: 1; grid-column-end: 2; grid-row-start: 2; grid-row-end: 3;">
+                    <a style=" color: white; ; background-color: transparent!;  padding: 6px;">
+                        {{ artefato | descricaoArtefato }}
+                    </a>
+                </div>
+            </div>
             <!-- Fim do código copiado do sidenavbar anterio -->
         </mat-sidenav>
 

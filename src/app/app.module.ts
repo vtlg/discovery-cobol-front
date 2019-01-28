@@ -67,6 +67,7 @@ import { PipeInterfacePipe } from './shared/pipes/pipe-interface.pipe';
 import { ArtefatoEditarComponent } from './artefato/artefato-editar/artefato-editar.component';
 import { ArtefatoEditarArtefatoComponent } from './artefato/artefato-editar/artefato-editar-artefato/artefato-editar-artefato.component';
 import { ArtefatoEditarRelacionamentoComponent } from './artefato/artefato-editar/artefato-editar-relacionamento/artefato-editar-relacionamento.component';
+import { ArtefatoAtributoComponent } from './artefato/artefato-atributo/artefato-atributo.component';
 
 @NgModule({
   declarations: [
@@ -83,6 +84,7 @@ import { ArtefatoEditarRelacionamentoComponent } from './artefato/artefato-edita
     ArtefatoEditarComponent,
     ArtefatoEditarArtefatoComponent,
     ArtefatoEditarRelacionamentoComponent,
+    ArtefatoAtributoComponent,
     
   ],
   imports: [

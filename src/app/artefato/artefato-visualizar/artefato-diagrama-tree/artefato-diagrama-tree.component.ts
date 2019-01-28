@@ -51,7 +51,7 @@ export class ArtefatoDiagramaTreeComponent implements OnInit, OnDestroy {
       relacionamentoSemPaiOuSemFilho.descendente.inicializar(this.artefato);
       relacionamentoSemPaiOuSemFilho.coRelacionamento = 0;
     } else {
-      relacionamentoSemPaiOuSemFilho.ascendente  = new Artefato;
+      relacionamentoSemPaiOuSemFilho.ascendente = new Artefato;
       relacionamentoSemPaiOuSemFilho.ascendente.inicializar(this.artefato);
       relacionamentoSemPaiOuSemFilho.coRelacionamento = 0;
     }
@@ -202,6 +202,8 @@ export class ArtefatoDiagramaTreeComponent implements OnInit, OnDestroy {
     }
     output.artefato = artefato;
 
+    output.descricaoRelacionamento = " Teste "
+
     if (this.orientacao == 'DESCENDENTE') {
       output.children = [];
       if (artefato.descendentes) {
@@ -209,8 +211,6 @@ export class ArtefatoDiagramaTreeComponent implements OnInit, OnDestroy {
           if (relacionamento.descendente) {
             var descendente: Artefato = new Artefato();
             descendente.inicializar(relacionamento.descendente);
-            console.log(descendente)
-            console.log(this.listaTipo)
             var tipo = this.listaTipo.find(p => p.coTipo == descendente.tipoArtefato.coTipo)
             if (tipo.icExibirGrafo == true) {
               output.children.push(this.converterRelacionamento2Node(relacionamento, node));
@@ -400,22 +400,24 @@ export class ArtefatoDiagramaTreeComponent implements OnInit, OnDestroy {
     nodeUpdate.select('circle.node')
       .attr('r', 10)
       .attr('class', function (d) { return d.data.artefato.coTipoArtefato })
-      .attr('cursor', 'pointer');
-    // .on("mouseover", function (d) {
-    //   if (d.data.descricaoRelacionamento && d.data.descricaoRelacionamento.trim() != '') {
-    //     div.transition()
-    //       .duration(200)
-    //       .style("opacity", 1.9);
-    //     div.html(d.data.descricaoRelacionamento)
-    //       .style("left", (d3.event.pageX) + "px")
-    //       .style("top", (d3.event.pageY + 5) + "px");
-    //   }
-    // })
-    // .on("mouseout", function (d) {
-    //   div.transition()
-    //     .duration(500)
-    //     .style("opacity", 0);
-    // });
+      .attr('cursor', 'pointer')
+      .on("mouseover", function (d) {
+        
+        if (d.data.descricaoRelacionamento && d.data.descricaoRelacionamento.trim() != '') {
+
+          div.transition()
+            .duration(200)
+            .style("opacity", 1.9);
+          div.html(d.data.descricaoRelacionamento)
+            .style("left", (d3.event.pageX) + "px")
+            .style("top", (d3.event.pageY + 5) + "px");
+        }
+      })
+      .on("mouseout", function (d) {
+        div.transition()
+          .duration(500)
+          .style("opacity", 0);
+      });
 
     // Remove any exiting nodes
     var nodeExit = node.exit().transition()
@@ -581,7 +583,6 @@ export class ArtefatoDiagramaTreeComponent implements OnInit, OnDestroy {
   adicionarNode = (d) => {
     this.artefatoService.getArtefatoRelacionamento(d.data.artefato.coArtefato).subscribe(
       (artefatoResult: Artefato) => {
-        console.log(artefatoResult)
         var artefato: Artefato = new Artefato();
         artefato.inicializar(artefatoResult);
 
@@ -592,7 +593,7 @@ export class ArtefatoDiagramaTreeComponent implements OnInit, OnDestroy {
             relacionamentoSemPaiOuSemFilho.descendente.inicializar(artefato);
             relacionamentoSemPaiOuSemFilho.coRelacionamento = 0;
           } else {
-            relacionamentoSemPaiOuSemFilho.ascendente  = new Artefato;
+            relacionamentoSemPaiOuSemFilho.ascendente = new Artefato;
             relacionamentoSemPaiOuSemFilho.ascendente.inicializar(artefato);
             relacionamentoSemPaiOuSemFilho.coRelacionamento = 0;
           }

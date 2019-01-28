@@ -13,3 +13,25 @@
 #mat-checkbox-1 > label {
     color:black;
 }
+
+
+
+
+
+
+
+
+
+
+
+.descricao {
+}
+
+
+.descricao textarea {
+    height: 110px;
+    border: 1px solid #BBB;
+    border-radius: 5px 5px 5px 5px;
+    padding: 5px;
+    resize: none;
+}
