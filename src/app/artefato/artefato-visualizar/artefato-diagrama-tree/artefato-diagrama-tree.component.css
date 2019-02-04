@@ -1,4 +1,4 @@
-div.tooltip {	
+.tooltip {	
     position: absolute;			
     text-align: left;
     padding: 8px;				
@@ -7,5 +7,6 @@ div.tooltip {
     color: white;
     border: 0px;		
     border-radius: 8px;			
-    pointer-events: none;			
+    pointer-events: none;		
+    z-index: 10;	
 }

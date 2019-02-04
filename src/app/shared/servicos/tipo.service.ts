@@ -10,25 +10,8 @@ import { catchError, retry } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class TipoService {
-  private listaTipo: Tipo[];
 
-  constructor(private appService: AppService, private logger: LoggerService, private http: HttpClient) {
-
-  }
-
-
-  getListaTipoLocal(): Tipo[] {
-    if (this.listaTipo) {
-      return this.listaTipo;
-    }
-    this.getListaTipo().subscribe(
-      (tipos) => {
-        this.listaTipo = tipos;
-        return this.listaTipo;
-      }
-    );
-
-  }
+  constructor(private appService: AppService, private logger: LoggerService, private http: HttpClient) {  }
 
   getTipo(coTipo: string): Observable<Tipo> {
     var url: string = this.appService.baseServicoUrl + '/tipo/' + coTipo;

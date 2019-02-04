@@ -8,6 +8,8 @@ import { Artefato } from '../../modelos/artefato.model';
 import { debounceTime, distinctUntilChanged, skipWhile, map } from 'rxjs/operators';
 import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import 'rxjs';
+import { PesquisaService } from '../../servicos/pesquisa.service';
+import { ArtefatoView } from '../../modelos/artefato-view.model.';
 
 @Component({
   selector: 'app-header',
@@ -20,10 +22,10 @@ export class HeaderComponent implements OnInit {
   //pesquisaRapidaForm: FormGroup = this.fb.group({grupoArtefato: '',});
   formPesquisaRapida: FormGroup = this.fb.group({ termPesquisaRapida: new FormControl(null) });
 
-  resultados: Observable<Artefato[]>;
+  resultados: Observable<ArtefatoView[]>;
   exibirLista: boolean = false;
 
-  constructor(private appService: AppService, private artefatoService: ArtefatoService, private logger: LoggerService, private fb: FormBuilder, private elRef: ElementRef) {
+  constructor(private appService: AppService, private pesquisaService: PesquisaService, private logger: LoggerService, private fb: FormBuilder, private elRef: ElementRef) {
   }
 
   ngOnInit() {
@@ -39,9 +41,9 @@ export class HeaderComponent implements OnInit {
   }
 
   private _pesquisar(termo: string): void {
-    this.artefatoService.pesquisarRapida(termo)
+    this.pesquisaService.pesquisarRapida(termo)
       .subscribe(
-        (artefatos: Artefato[]) => {
+        (artefatos: ArtefatoView[]) => {
           this.exibirLista = true;
           this.resultados = of(artefatos);
         }

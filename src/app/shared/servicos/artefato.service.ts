@@ -35,10 +35,6 @@ export class ArtefatoService {
       );
   }
 
-  pesquisarRapida(termo: string): Observable<Artefato[]> {
-    var url: string = this.appService.baseServicoUrl + '/artefato?termo=' + termo;
-    return this.http.get<Artefato[]>(url);
-  }
 
   atualizar(artefato: Artefato): Observable<Artefato> {
     this.logger.log("Atualizar artefato")

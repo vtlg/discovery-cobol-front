@@ -1,9 +1,9 @@
 <div [style.width.px]="larguraContainer" [style.margin-left.px]="(width - larguraContainer) > 0 ? ( ( width - larguraContainer  ) / 2 ) : 0">
   <div style="margin-top: 20px; border: 1px solid #0081bd; padding: 20px; border-radius: 5px">
     <div class="colorNested box" style="height: auto; ">
-      <div gdAreas=" input-nome-artefato  input-tipo-artefato input-atributo  |
-                     input-descricao      input-tipo-artefato input-acao  "
-        gdColumns="400px  120px 120px" gdGap="15px">
+      <div gdAreas=" input-nome-artefato  input-tipo-artefato input-sistema input-atributo  |
+                     input-descricao      input-tipo-artefato input-sistema input-acao  "
+        gdColumns="400px  120px 120px 120px" gdGap="15px">
         <form [formGroup]="formPesquisaAvancada" (ngSubmit)="onSubmit()">
           <div class="blocks" gdArea="input-nome-artefato">
             <div class="form-group">
@@ -21,8 +21,15 @@
         <div class="blocks" gdArea="input-tipo-artefato">
           <label>Tipo de artefato</label><br />
           <section>
-            <mat-checkbox *ngFor="let tipo of listaTipos$ | async" value="{{tipo.coTipo}}" (click)="onTipoSelecionado(f)"
+            <mat-checkbox *ngFor="let tipo of listaTipos$ | async" [checked]="true" value="{{tipo.coTipo}}" (click)="onTipoSelecionado(f)"
               #f> {{ tipo.deTipo }} </mat-checkbox>
+          </section>
+        </div>
+        <div class="blocks" gdArea="input-sistema">
+          <label>Sistema</label><br />
+          <section>
+            <mat-checkbox *ngFor="let sistema of listaSistemas$ | async" [checked]="true" value="{{sistema.coSistema}}" (click)="onSistemaSelecionado(f)"
+              #f> {{ sistema.deSistema }} </mat-checkbox>
           </section>
         </div>
         <div class="blocks" gdArea="input-atributo">

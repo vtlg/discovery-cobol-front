@@ -34,6 +34,11 @@ export class PesquisaService {
       );
   }
 
+  pesquisarRapida(termo: string): Observable<ArtefatoView[]> {
+    var url: string = this.appService.baseServicoUrl + '/pesquisa/rapida?termo=' + termo;
+    return this.http.get<ArtefatoView[]>(url);
+  }
+
   private tratarErro(erro: HttpErrorResponse) {
     if (erro.error instanceof ErrorEvent) {
       this.logger.error(erro);

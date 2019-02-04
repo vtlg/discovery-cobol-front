@@ -1,7 +1,7 @@
 export class Atributo {
 
     nuSequencial: number;
-    coAtributo: string;
+    coTipoAtributo: string;
     coExterno: number;
     deValor: string;
 

@@ -2,13 +2,15 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { AppService } from '../shared/servicos/app.service';
 import { LoggerService } from '../shared/servicos/logger.service';
-import { ArtefatoService } from '../shared/servicos/artefato.service';
-import { TipoService } from '../shared/servicos/tipo.service';
 import { Observable, of } from 'rxjs';
 import { Tipo } from '../shared/modelos/tipo.model';
 import { Pesquisa } from '../shared/modelos/pesquisa.model';
 import { PesquisaService } from '../shared/servicos/pesquisa.service';
 import { ArtefatoView } from '../shared/modelos/artefato-view.model.';
+import { Sistema } from '../shared/modelos/sistema.model';
+import { SistemaService } from '../shared/servicos/sistema.service';
+import { TipoService } from '../shared/servicos/tipo.service';
+import { filter } from 'rxjs/operators';
 
 @Component({
     selector: 'app-pesquisa-avancada',
@@ -25,6 +27,9 @@ export class PesquisaAvancadaComponent implements OnInit {
     listaTipos$: Observable<Tipo[]>;
     listaTiposSelecionados: string[] = [];
 
+    listaSistemas$: Observable<Sistema[]>;
+    listaSistemasSelecionados: string[] = [];
+
     pesquisaAnterior: Pesquisa;
     listaResultado: ArtefatoView[];
     listaResultado$: Observable<ArtefatoView[]>;
@@ -33,15 +38,16 @@ export class PesquisaAvancadaComponent implements OnInit {
 
     height: number;
     width: number;
-    larguraContainer: number = 710;
+    larguraContainer: number = 830;
 
     isLoading: boolean = false;
     isPaginar: boolean = false;
 
     constructor(private appService: AppService,
         private loogerService: LoggerService,
-        private pesquisaService: PesquisaService,
         private tipoService: TipoService,
+        private pesquisaService: PesquisaService,
+        private sistemaService: SistemaService,
         private formBuilder: FormBuilder) {
 
         this.height = window.innerHeight;
@@ -57,12 +63,22 @@ export class PesquisaAvancadaComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.tipoService.getListaTipo('ARTEFATO').subscribe(
-            (tiposArtefato) => {
-                this.listaTipos$ = of(tiposArtefato.filter(p => p.icPesquisavel == true));
-                
+
+        this.sistemaService.getListaSistema().subscribe(
+            (sistemas) => {
+                this.listaSistemas$ = of(sistemas);
+                this.listaSistemasSelecionados = sistemas.map(o => { return o.coSistema; });
             }
         );
+
+        this.tipoService.getListaTipo('ARTEFATO')
+        .subscribe(
+            (results: Tipo[]) => {
+                this.listaTipos$ = of(results.filter( o => o.icPesquisavel));
+                this.listaTiposSelecionados = results.filter( o => o.icPesquisavel).map(o => { return o.coTipo; });
+            }
+        )
+
         this._initFormPesquisaAvancada();
     }
 
@@ -86,6 +102,19 @@ export class PesquisaAvancadaComponent implements OnInit {
         }
     }
 
+    onSistemaSelecionado(input: any) {
+        var i = this.listaSistemasSelecionados.indexOf(input.value);
+
+        this.loogerService.log("(Pesquisa Avançada) Index de " + input.value + " no array Sistemas Secionados : " + i);
+        if (i == -1) {
+            this.loogerService.log("(Pesquisa Avançada) Incluindo " + input.value + " no array Sistemas Secionados")
+            this.listaSistemasSelecionados.push(input.value);
+        } else {
+            this.loogerService.log("(Pesquisa Avançada) Excluindo " + input.value + " no array Sistemas Secionados")
+            this.listaSistemasSelecionados.splice(i, 1)
+        }
+    }
+
     onSubmit() {
         var formValue = this.formPesquisaAvancada.value;
         this.pesquisaAnterior = new Pesquisa();
@@ -93,6 +122,7 @@ export class PesquisaAvancadaComponent implements OnInit {
         this.pesquisaAnterior.expNome = formValue.expNome;
         this.pesquisaAnterior.expDescricao = formValue.expDescricao;
         this.pesquisaAnterior.listaTipoArtefato = this.listaTiposSelecionados;
+        this.pesquisaAnterior.listaSistema = this.listaSistemasSelecionados;
         this.pesquisaAnterior.icInterface = this.checkedInterface;
         this.pesquisaAnterior.icProcessoCritico = this.checkedProcessoCritico;
 
@@ -112,7 +142,10 @@ export class PesquisaAvancadaComponent implements OnInit {
                     this.isPaginar = false;
                 }
             },
-            (error) => { },
+            (error) => {
+                this.isLoading = false;
+                this.isPaginar = false;
+            },
             () => {
                 this.isLoading = false;
             }

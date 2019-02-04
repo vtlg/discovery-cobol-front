@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../../environments/environment';
-import { Subject } from 'rxjs';
+import { Subject, Observable, of } from 'rxjs';
+import { Tipo } from '../modelos/tipo.model';
+import { TipoService } from './tipo.service';
 
 @Injectable({
   providedIn: 'root'
@@ -26,6 +28,9 @@ export class AppService {
   public espacamentoNodeDiagrama: number = 40;
   public larguraLetraDiagrama: number = 13;
   public espacamentoHorizontalDiagrama: number = 30;
+
+  //PARÂMETROS E LISTAS GLOBAIS
+  listaTipo: Tipo[] = [];
 
   constructor() {
     this.isLoading.next(false);

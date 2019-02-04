@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input, ElementRef, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, ElementRef, EventEmitter, Output, ViewEncapsulation } from '@angular/core';
 import { Artefato } from 'src/app/shared/modelos/artefato.model';
 import { AppService } from 'src/app/shared/servicos/app.service';
 import { ArtefatoService } from 'src/app/shared/servicos/artefato.service';
@@ -9,12 +9,13 @@ import { TipoService } from 'src/app/shared/servicos/tipo.service';
 import { Tipo } from 'src/app/shared/modelos/tipo.model';
 import { Node } from 'src/app/shared/modelos/diagrama-tree.model';
 import { Observable, of } from 'rxjs';
-import { componentNeedsResolution } from '@angular/core/src/metadata/resource_loading';
+import { Atributo } from 'src/app/shared/modelos/atributo.model';
 
 @Component({
   selector: 'app-artefato-diagrama-tree',
   templateUrl: './artefato-diagrama-tree.component.html',
-  styleUrls: ['./artefato-diagrama-tree.component.css']
+  styleUrls: ['./artefato-diagrama-tree.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class ArtefatoDiagramaTreeComponent implements OnInit, OnDestroy {
 
@@ -33,10 +34,13 @@ export class ArtefatoDiagramaTreeComponent implements OnInit, OnDestroy {
   i: number = 0;
   duration: number;
   orientacao: string = 'DESCENDENTE';
-  listaTipo: Tipo[] = this.tipoService.getListaTipoLocal();
+  listaTipo: Tipo[] = this.appService.listaTipo;
   listaTipo$: Observable<Tipo[]>;
   relacionamentoOriginal: Relacionamento = new Relacionamento();
   @Output("artefatoSelecionadoDiagrama") artefatoSelecionado: EventEmitter<any> = new EventEmitter<any>();
+
+
+
 
   @Input()
   set artefatoGrafo(val: Artefato) {
@@ -46,6 +50,9 @@ export class ArtefatoDiagramaTreeComponent implements OnInit, OnDestroy {
     this.artefato.inicializar(val);
 
     var relacionamentoSemPaiOuSemFilho: Relacionamento = new Relacionamento();
+
+    this.ordernarRelacionamento(this.artefato);
+
     if (this.orientacao == 'DESCENDENTE') {
       relacionamentoSemPaiOuSemFilho.descendente = new Artefato;
       relacionamentoSemPaiOuSemFilho.descendente.inicializar(this.artefato);
@@ -62,24 +69,25 @@ export class ArtefatoDiagramaTreeComponent implements OnInit, OnDestroy {
     this.initDiagrama();
 
   }
+
+
   get artefatoGrafo(): Artefato { return this.artefato; }
 
   constructor(
     private appService: AppService,
     private artefatoService: ArtefatoService,
     private loggerService: LoggerService,
-    private tipoService: TipoService,
-    private el: ElementRef
+    private tipoService: TipoService
   ) {
     this.windowHeight = window.innerHeight; //altura inicial da janela
     this.windowWidth = window.innerWidth; //largura inicial da janela
 
-    this.tipoService.getListaTipo().subscribe(
-      (tipos: Tipo[]) => {
-        this.listaTipo$ = of(tipos.filter(o => o.icExibirGrafo));
-        this.listaTipo = tipos;
-      }
-    )
+     this.tipoService.getListaTipo().subscribe(
+       (tipos: Tipo[]) => {
+         this.listaTipo$ = of(tipos.filter(o => o.icExibirGrafo));
+         this.listaTipo = tipos;
+       }
+     )
 
     // Verifica alterações no Scroll da janela
     this.appService.subjectWindowScroll.subscribe(
@@ -202,7 +210,7 @@ export class ArtefatoDiagramaTreeComponent implements OnInit, OnDestroy {
     }
     output.artefato = artefato;
 
-    output.descricaoRelacionamento = " Teste "
+    //output.descricaoRelacionamento = " Teste "
 
     if (this.orientacao == 'DESCENDENTE') {
       output.children = [];
@@ -402,16 +410,34 @@ export class ArtefatoDiagramaTreeComponent implements OnInit, OnDestroy {
       .attr('class', function (d) { return d.data.artefato.coTipoArtefato })
       .attr('cursor', 'pointer')
       .on("mouseover", function (d) {
-        
-        if (d.data.descricaoRelacionamento && d.data.descricaoRelacionamento.trim() != '') {
 
-          div.transition()
-            .duration(200)
-            .style("opacity", 1.9);
-          div.html(d.data.descricaoRelacionamento)
-            .style("left", (d3.event.pageX) + "px")
-            .style("top", (d3.event.pageY + 5) + "px");
+        if (d.data && d.data.relacionamento && d.data.relacionamento.atributos) {
+          var textoTooltip : string;
+          for (let atributo of d.data.relacionamento.atributos) {
+            var tipo: Tipo = listaTipo.find(obj => obj.coTipo == atributo.coTipoAtributo );
+
+            if (tipo && tipo.icExibirGrafo) {
+              console.log(atributo)
+              if (textoTooltip === undefined) {
+                textoTooltip = tipo.deTipo + " : " + atributo.deValor + "<br/>"
+              } else {
+                textoTooltip +=   tipo.deTipo + " : " + atributo.deValor + "<br/>"
+              }
+            }
+          }
+
+          if (textoTooltip && textoTooltip.trim() != '') {
+            div.transition()
+              .duration(200)
+              .style("opacity", 1.9);
+            div.html(textoTooltip)
+              .style("left", (d3.event.pageX) + "px")
+              .style("top", (d3.event.pageY + 5) + "px");
+          }
         }
+
+
+        
       })
       .on("mouseout", function (d) {
         div.transition()
@@ -509,9 +535,9 @@ export class ArtefatoDiagramaTreeComponent implements OnInit, OnDestroy {
         var offsetYRect = d.data.name.length * 10;
 
         if (d.data.name.length > 15) {
-          offsetYRect = (d.data.name.length * 12) / 1.5;
+          offsetYRect = (d.data.name.length * larguraLetraDiagrama ) / 1.5;
         } else {
-          offsetYRect = d.data.name.length * 10;
+          offsetYRect = d.data.name.length * 11;
         }
 
         //offsetYRect = d.data.name.length * 15;
@@ -585,6 +611,8 @@ export class ArtefatoDiagramaTreeComponent implements OnInit, OnDestroy {
       (artefatoResult: Artefato) => {
         var artefato: Artefato = new Artefato();
         artefato.inicializar(artefatoResult);
+
+        this.ordernarRelacionamento(artefato);
 
         if ((artefato.ascendentes && artefato.ascendentes.length > 0) || (artefato.descendentes && artefato.descendentes.length > 0)) {
           var relacionamentoSemPaiOuSemFilho: Relacionamento = new Relacionamento();
@@ -683,5 +711,56 @@ export class ArtefatoDiagramaTreeComponent implements OnInit, OnDestroy {
         }
       }
     ); //FIM this.artefatoService.getArtefatoRelacionamento
+  }
+
+  ordernarRelacionamento(artefato: Artefato) {
+    if (artefato.ascendentes) {
+
+      try {
+        artefato.ascendentes.sort((a, b) => {
+          var aInt: number = 0;
+          var bInt: number = 0;
+          var aPosicao: Atributo = a.atributos.find(atributo => atributo.coTipoAtributo == 'POSICAO');
+          var bPosicao: Atributo = b.atributos.find(atributo => atributo.coTipoAtributo == 'POSICAO');
+
+          if (aPosicao != null) {
+            aInt = +aPosicao.deValor;
+          }
+          if (bPosicao != null) {
+            bInt = +bPosicao.deValor;
+          }
+          return aInt - bInt;
+        });
+      } catch (error) {
+        this.loggerService.error('Ordenação de elementos ascendentes')
+        this.loggerService.error('Valor de artefato : ')
+        this.loggerService.error(artefato)
+      }
+    }
+
+    if (artefato.descendentes) {
+      try {
+        artefato.descendentes.sort((a, b) => {
+          var aInt: number = 0;
+          var bInt: number = 0;
+
+          var aPosicao: Atributo = a.atributos.find(atributo => atributo.coTipoAtributo == 'POSICAO');
+          var bPosicao: Atributo = b.atributos.find(atributo => atributo.coTipoAtributo == 'POSICAO');
+
+          if (aPosicao != null) {
+            aInt = +aPosicao.deValor;
+          }
+          if (bPosicao != null) {
+            bInt = +bPosicao.deValor;
+          }
+
+          return aInt - bInt;
+        });
+      } catch (error) {
+        this.loggerService.error('Ordenação de elementos descendentes')
+        this.loggerService.error('Valor de artefato : ')
+        this.loggerService.error(artefato)
+      }
+    }
   }
 }
