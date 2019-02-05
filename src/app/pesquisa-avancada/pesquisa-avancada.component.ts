@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { AppService } from '../shared/servicos/app.service';
 import { LoggerService } from '../shared/servicos/logger.service';
 import { Observable, of } from 'rxjs';
@@ -10,7 +10,6 @@ import { ArtefatoView } from '../shared/modelos/artefato-view.model.';
 import { Sistema } from '../shared/modelos/sistema.model';
 import { SistemaService } from '../shared/servicos/sistema.service';
 import { TipoService } from '../shared/servicos/tipo.service';
-import { filter } from 'rxjs/operators';
 
 @Component({
     selector: 'app-pesquisa-avancada',
@@ -63,11 +62,10 @@ export class PesquisaAvancadaComponent implements OnInit {
     }
 
     ngOnInit() {
-
         this.sistemaService.getListaSistema().subscribe(
             (sistemas) => {
-                this.listaSistemas$ = of(sistemas);
-                this.listaSistemasSelecionados = sistemas.map(o => { return o.coSistema; });
+                this.listaSistemas$ = of(sistemas.filter( (p) =>  p.coSistema == 'SIPCS' || p.coSistema == 'SIFDL'  ));
+                this.listaSistemasSelecionados = sistemas.filter( (p) =>  p.coSistema == 'SIPCS' || p.coSistema == 'SIFDL'  ).map(o => { return o.coSistema; });
             }
         );
 

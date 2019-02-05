@@ -11,6 +11,11 @@ import { Node } from 'src/app/shared/modelos/diagrama-tree.model';
 import { Observable, of } from 'rxjs';
 import { Atributo } from 'src/app/shared/modelos/atributo.model';
 
+import { MatDialog, DialogPosition, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { ArtefatoDiagramaAjudaComponent } from '../artefato-diagrama-ajuda/artefato-diagrama-ajuda.component';
+import { ArtefatoDiagramaFiltrarComponent } from '../artefato-diagrama-filtrar/artefato-diagrama-filtrar.component';
+
+
 @Component({
   selector: 'app-artefato-diagrama-tree',
   templateUrl: './artefato-diagrama-tree.component.html',
@@ -18,6 +23,32 @@ import { Atributo } from 'src/app/shared/modelos/atributo.model';
   encapsulation: ViewEncapsulation.None
 })
 export class ArtefatoDiagramaTreeComponent implements OnInit, OnDestroy {
+
+  /*
+   * MODAL AJUDA E FILTRO
+   */
+
+  openDialogAjuda(): void {
+    const dialogRef = this.dialog.open(ArtefatoDiagramaAjudaComponent, {
+      width: '500px'
+    });
+  }
+
+  openDialogFiltrar(): void {
+    const dialogRef = this.dialog.open(ArtefatoDiagramaFiltrarComponent, {
+      width: '500px',
+      data: this.listaTipoFiltroAplicado,
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result)
+      this.listaTipoFiltroAplicado = [];
+      this.listaTipoFiltroAplicado.push(result);
+    });
+  }
+  /*
+   * INÍCIO LÓGICA DO GRAFO
+   */
 
   private artefato: Artefato;
 
@@ -34,6 +65,7 @@ export class ArtefatoDiagramaTreeComponent implements OnInit, OnDestroy {
   i: number = 0;
   duration: number;
   orientacao: string = 'DESCENDENTE';
+  listaTipoFiltroAplicado: string[] = [];
   listaTipo: Tipo[] = this.appService.listaTipo;
   listaTipo$: Observable<Tipo[]>;
   relacionamentoOriginal: Relacionamento = new Relacionamento();
@@ -77,17 +109,19 @@ export class ArtefatoDiagramaTreeComponent implements OnInit, OnDestroy {
     private appService: AppService,
     private artefatoService: ArtefatoService,
     private loggerService: LoggerService,
-    private tipoService: TipoService
+    private tipoService: TipoService,
+    public dialog: MatDialog
   ) {
     this.windowHeight = window.innerHeight; //altura inicial da janela
     this.windowWidth = window.innerWidth; //largura inicial da janela
 
-     this.tipoService.getListaTipo().subscribe(
-       (tipos: Tipo[]) => {
-         this.listaTipo$ = of(tipos.filter(o => o.icExibirGrafo));
-         this.listaTipo = tipos;
-       }
-     )
+    this.tipoService.getListaTipo().subscribe(
+      (tipos: Tipo[]) => {
+        this.listaTipo$ = of(tipos.filter(o => o.icExibirGrafo));
+        this.listaTipoFiltroAplicado = tipos.filter(o => o.icExibirGrafo).map( o => o.coTipo );
+        this.listaTipo = tipos;
+      }
+    )
 
     // Verifica alterações no Scroll da janela
     this.appService.subjectWindowScroll.subscribe(
@@ -412,16 +446,16 @@ export class ArtefatoDiagramaTreeComponent implements OnInit, OnDestroy {
       .on("mouseover", function (d) {
 
         if (d.data && d.data.relacionamento && d.data.relacionamento.atributos) {
-          var textoTooltip : string;
+          var textoTooltip: string;
           for (let atributo of d.data.relacionamento.atributos) {
-            var tipo: Tipo = listaTipo.find(obj => obj.coTipo == atributo.coTipoAtributo );
+            var tipo: Tipo = listaTipo.find(obj => obj.coTipo == atributo.coTipoAtributo);
 
             if (tipo && tipo.icExibirGrafo) {
               console.log(atributo)
               if (textoTooltip === undefined) {
                 textoTooltip = tipo.deTipo + " : " + atributo.deValor + "<br/>"
               } else {
-                textoTooltip +=   tipo.deTipo + " : " + atributo.deValor + "<br/>"
+                textoTooltip += tipo.deTipo + " : " + atributo.deValor + "<br/>"
               }
             }
           }
@@ -437,7 +471,7 @@ export class ArtefatoDiagramaTreeComponent implements OnInit, OnDestroy {
         }
 
 
-        
+
       })
       .on("mouseout", function (d) {
         div.transition()
@@ -535,7 +569,7 @@ export class ArtefatoDiagramaTreeComponent implements OnInit, OnDestroy {
         var offsetYRect = d.data.name.length * 10;
 
         if (d.data.name.length > 15) {
-          offsetYRect = (d.data.name.length * larguraLetraDiagrama ) / 1.5;
+          offsetYRect = (d.data.name.length * larguraLetraDiagrama) / 1.5;
         } else {
           offsetYRect = d.data.name.length * 11;
         }
@@ -764,3 +798,4 @@ export class ArtefatoDiagramaTreeComponent implements OnInit, OnDestroy {
     }
   }
 }
+

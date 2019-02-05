@@ -14,7 +14,6 @@ import { LoggerService } from './shared/servicos/logger.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import {MatFormFieldModule} from '@angular/material/form-field';
 
-
 import {
   MatAutocompleteModule,
   MatBadgeModule,
@@ -68,6 +67,9 @@ import { ArtefatoEditarComponent } from './artefato/artefato-editar/artefato-edi
 import { ArtefatoEditarArtefatoComponent } from './artefato/artefato-editar/artefato-editar-artefato/artefato-editar-artefato.component';
 import { ArtefatoEditarRelacionamentoComponent } from './artefato/artefato-editar/artefato-editar-relacionamento/artefato-editar-relacionamento.component';
 import { ArtefatoAtributoComponent } from './artefato/artefato-atributo/artefato-atributo.component';
+import { ArtefatoDiagramaAjudaComponent } from './artefato/artefato-visualizar/artefato-diagrama-ajuda/artefato-diagrama-ajuda.component';
+import { ArtefatoDiagramaFiltrarComponent } from './artefato/artefato-visualizar/artefato-diagrama-filtrar/artefato-diagrama-filtrar.component';
+
 
 @NgModule({
   declarations: [
@@ -85,7 +87,8 @@ import { ArtefatoAtributoComponent } from './artefato/artefato-atributo/artefato
     ArtefatoEditarArtefatoComponent,
     ArtefatoEditarRelacionamentoComponent,
     ArtefatoAtributoComponent,
-    
+    ArtefatoDiagramaAjudaComponent,
+    ArtefatoDiagramaFiltrarComponent
   ],
   imports: [
     BrowserModule,
@@ -143,6 +146,7 @@ import { ArtefatoAtributoComponent } from './artefato/artefato-atributo/artefato
     FlexLayoutModule 
     //ScrollingModule,
   ],
+  entryComponents:[ArtefatoDiagramaAjudaComponent,ArtefatoDiagramaFiltrarComponent],
   providers: [AppService,LoggerService,TipoService],
   bootstrap: [AppComponent]
 })

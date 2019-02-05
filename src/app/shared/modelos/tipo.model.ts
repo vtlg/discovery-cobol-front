@@ -1,6 +1,7 @@
 export class Tipo {
 
     coTipo: string;
+    coTabela: string;
     deTipo: string;
     icPesquisavel: boolean;
     icExibirAtributo: boolean;

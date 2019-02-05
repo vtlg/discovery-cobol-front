@@ -1,7 +1,9 @@
-<div style="height: 45px; padding: 5px;">
-    <a (click)="onInverterOrientacao(); " style="cursor: pointer;"> Mostrando relacionamentos {{ orientacao }} </a> 
+<div style="height: 45px; padding: 5px; background-color:#FFFFFF; border-bottom: 1px solid #000000; padding-bottom: 43px; position: fixed; top: 64px; width: 100%;">
+    <a class="waves-effect waves-light btn blue darken-4" style="margin-right: 5px" (click)="onInverterOrientacao();">
+        <i class="material-icons left">swap_horiz</i>{{ orientacao }}
+    </a>
+    <a class="waves-effect waves-light btn blue darken-4" mat-raised-button (click)="openDialogFiltrar()" style="margin-right: 5px" ><i class="material-icons left">location_searching</i>Filtrar</a>
+    <a class="waves-effect waves-light btn blue darken-4" mat-raised-button (click)="openDialogAjuda()" style="margin-right: 5px" ><i class="material-icons left">info</i>Ajuda</a>
 </div>
-<div id="diagrama-menu">
-</div>
-<div id="diagrama">
+<div id="diagrama" style="margin-top: 40px">
 </div>
