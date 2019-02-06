@@ -10,3 +10,37 @@
     pointer-events: none;		
     z-index: 10;	
 }
+
+g.context-menu g.menu-entry rect.invisible {
+    fill: none;
+    cursor: pointer;
+    stroke: none;
+    z-index: 10;
+  }
+  
+  g.context-menu g.menu-entry rect.unchecked {
+    fill: none;
+    stroke: black;
+    cursor: pointer;
+    z-index: 10;
+  }
+  
+  g.context-menu g.menu-entry rect {
+    fill: white;
+    stroke: black;
+    stroke-width: 2px;
+    z-index: 10;
+  }
+  
+  g.context-menu g.menu-entry rect.mouse-hover {
+    fill: rgba(250, 241, 241, 0.952);
+    cursor: pointer;
+    z-index: 10;
+  }
+  
+  g.context-menu g.menu-entry text {
+    fill: black;
+    stroke: none;
+    cursor: pointer;
+    z-index: 10;
+  }

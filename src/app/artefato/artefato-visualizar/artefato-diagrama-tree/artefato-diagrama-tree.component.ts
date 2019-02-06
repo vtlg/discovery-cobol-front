@@ -14,6 +14,7 @@ import { Atributo } from 'src/app/shared/modelos/atributo.model';
 import { MatDialog, DialogPosition, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
 import { ArtefatoDiagramaAjudaComponent } from '../artefato-diagrama-ajuda/artefato-diagrama-ajuda.component';
 import { ArtefatoDiagramaFiltrarComponent } from '../artefato-diagrama-filtrar/artefato-diagrama-filtrar.component';
+import { Route, Router } from '@angular/router';
 
 
 @Component({
@@ -110,15 +111,19 @@ export class ArtefatoDiagramaTreeComponent implements OnInit, OnDestroy {
     private artefatoService: ArtefatoService,
     private loggerService: LoggerService,
     private tipoService: TipoService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private router: Router
   ) {
+
+
+
     this.windowHeight = window.innerHeight; //altura inicial da janela
     this.windowWidth = window.innerWidth; //largura inicial da janela
 
     this.tipoService.getListaTipo().subscribe(
       (tipos: Tipo[]) => {
         this.listaTipo$ = of(tipos.filter(o => o.icExibirGrafo));
-        this.listaTipoFiltroAplicado = tipos.filter(o => o.icExibirGrafo).map( o => o.coTipo );
+        this.listaTipoFiltroAplicado = tipos.filter(o => o.icExibirGrafo).map(o => o.coTipo);
         this.listaTipo = tipos;
       }
     )
@@ -368,7 +373,7 @@ export class ArtefatoDiagramaTreeComponent implements OnInit, OnDestroy {
       .attr("transform", function (d) { return "translate(" + source.y0 + "," + source.x0 + ")"; })
       .on('click', this.click)
       .on('dblclick', this.doubleClick)
-      //.on('contextmenu', this.contextMenu)
+      .on('contextmenu', this.contextMenu)
       .on("mouseover", function (d) {
         colorNode(d.data.name)
       })
@@ -797,5 +802,101 @@ export class ArtefatoDiagramaTreeComponent implements OnInit, OnDestroy {
       }
     }
   }
+
+
+  contextMenu = (node) => {
+    //var xywh = this.svg
+    d3.event.preventDefault();
+
+
+    if (d3.event.clientY) {
+      var x = d3.event.clientX - 0 + this.scrollX;
+      var y = d3.event.clientY - 125 + this.scrollY; //era 115
+    } else {
+      var x = d3.event.x - 0 + this.scrollX;
+      var y = d3.event.y - 125 + this.scrollY; //era 115
+    }
+
+    if (this.isSidebarVisible) {
+      x = x - 300;
+    }
+
+    var height = 30;
+    var width = 120; //era 120
+    var margin = 2; // fraction of width
+    var direcaoContextMenu = 1; // 1 = baixo   -1 = cima
+
+    var items = [
+      { id: 1, acao: 'ATUALIZAR', nome: 'Atualizar', node: node },
+      { id: 2, acao: 'CENTRALIZAR', nome: 'Centralizar', node: node },
+    ];
+
+    if ((((items.length + 1) * height) + y) >= this.height) {
+      items = [
+        { id: 2, acao: 'ATUALIZAR', nome: 'Atualizar', node: node },
+        { id: 1, acao: 'CENTRALIZAR', nome: 'Centralizar', node: node },
+      ];
+      direcaoContextMenu = -1;
+    } else {
+      direcaoContextMenu = 1;
+    }
+
+    d3.select('.context-menu').remove();
+    // Draw the menu
+    d3.select("#diagrama").select('svg')
+      .append('g')
+      .attr('class', 'context-menu')
+      .selectAll('tmp')
+      .data(items).enter()
+      .append('g').attr('class', 'menu-entry')
+      .on('click', this.clickContextMenuItem)
+    d3.selectAll('.menu-entry')
+      .append('rect')
+      .attr('x', x)
+      .attr('y', function (d) { return ((d.id * height) * direcaoContextMenu) + y })
+      .attr('width', width + margin)
+      .attr('height', height + margin)
+      .on('mouseover', function () { d3.select(this).classed('mouse-hover', true) })
+      .on('mouseout', function () { d3.select(this).classed('mouse-hover', false) })
+
+    d3.selectAll('.menu-entry')
+      .append('text')
+      .text(function (d) {
+        return d.nome;
+       }
+      )
+      .attr('x', x + (margin * 4))
+      .attr('y', function (d) { return ((d.id * height) * direcaoContextMenu) + y + 4 })
+      .attr('dy', height / 2 + margin)
+      .attr('dx', margin)
+      .on('mouseover', function () { d3.select(this.previousSibling).classed('mouse-hover', true) })
+      .on('mouseout', function () { d3.select(this.previousSibling).classed('mouse-hover', false) })
+
+    d3.select('body')
+      .on('click', function () {
+        d3.select('.context-menu').remove();
+      });
+
+  }
+
+  clickContextMenuItem = (d) => {
+    if (d.acao == 'CENTRALIZAR') {
+      this.artefatoService.getArtefatoRelacionamento(d.node.data.id).subscribe(
+        (artefato: Artefato) => {
+
+          this.router.navigate(['/artefato/', artefato.coArtefato])
+          //this.artefatoSelecionado.emit(artefato.coArtefato);
+          //this.artefato = artefato;
+        },
+        (error: any) => { }
+      )
+    }
+    else if (d.acao == 'ATUALIZAR') {
+      d.node.children = null;
+      d.node._children = null;
+      this.adicionarNode(d.node)
+    }
+  }
+
 }
 

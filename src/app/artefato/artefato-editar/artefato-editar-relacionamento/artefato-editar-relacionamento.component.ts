@@ -63,7 +63,6 @@ export class ArtefatoEditarRelacionamentoComponent implements OnInit {
         if (coArtefato) {
           this.artefatoService.getArtefatoRelacionamento(coArtefato).subscribe(
             (artefato: Artefato) => {
-              console.log(artefato)
               this.artefato = new Artefato();
               this.artefato.inicializar(artefato);
 
@@ -95,9 +94,6 @@ export class ArtefatoEditarRelacionamentoComponent implements OnInit {
               }
 
               this.listaRelacionamentos$ = of(this.listaRelacionamentos);
-
-              console.log(this.listaRelacionamentos)
-
             },
             (error: any) => {
               console.log(error)
