@@ -5,7 +5,8 @@ import { Observable, throwError, interval } from 'rxjs';
 import { catchError, retry, debounce, finalize } from 'rxjs/operators';
 import { LoggerService } from './logger.service';
 import { Pesquisa } from '../modelos/pesquisa.model';
-import { ArtefatoView } from '../modelos/artefato-view.model.';
+import { Artefato } from '../modelos/artefato.model';
+
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ export class PesquisaService {
 
   constructor(private appService: AppService, private logger: LoggerService, private http: HttpClient) { }
 
-  pesquisaAvancada(pesquisa: Pesquisa, offset: number, limit?: number): Observable<ArtefatoView[]> {
+  pesquisaAvancada(pesquisa: Pesquisa, offset: number, limit?: number): Observable<Artefato[]> {
     this.logger.log("Entrando em PesquisaService.pesquisaAvancada()");
     this.logger.log("Pesquisa:" );
     this.logger.log(pesquisa);
@@ -26,7 +27,7 @@ export class PesquisaService {
     var url: string = this.appService.baseServicoUrl + '/pesquisa/avancada?limit=' + limit + '&offset=' + offset;
     this.logger.log("Url: " + url );
 
-    return this.http.post<ArtefatoView[]>(
+    return this.http.post<Artefato[]>(
       url, pesquisa)
       .pipe(
         retry(0),
@@ -34,9 +35,9 @@ export class PesquisaService {
       );
   }
 
-  pesquisarRapida(termo: string): Observable<ArtefatoView[]> {
+  pesquisarRapida(termo: string): Observable<Artefato[]> {
     var url: string = this.appService.baseServicoUrl + '/pesquisa/rapida?termo=' + termo;
-    return this.http.get<ArtefatoView[]>(url);
+    return this.http.get<Artefato[]>(url);
   }
 
   private tratarErro(erro: HttpErrorResponse) {

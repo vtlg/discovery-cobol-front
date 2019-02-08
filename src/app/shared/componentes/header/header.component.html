@@ -26,7 +26,7 @@
               <div class="collection" style="top:-25px; left:0px">
                 <a class="collection-item" [routerLink]="['/artefato/' + artefato.coArtefato ]" *ngFor="let artefato of resultados | async">
                   {{ artefato.noNomeExibicao ? artefato.noNomeExibicao : artefato.noNomeInterno }}
-                  ({{artefato.coTipoArtefato }}) </a>
+                  ({{artefato.tipoArtefato.coTipo }}) </a>
               </div>
             </div>
           </div>

@@ -69,6 +69,8 @@ import { ArtefatoEditarRelacionamentoComponent } from './artefato/artefato-edita
 import { ArtefatoAtributoComponent } from './artefato/artefato-atributo/artefato-atributo.component';
 import { ArtefatoDiagramaAjudaComponent } from './artefato/artefato-visualizar/artefato-diagrama-ajuda/artefato-diagrama-ajuda.component';
 import { ArtefatoDiagramaFiltrarComponent } from './artefato/artefato-visualizar/artefato-diagrama-filtrar/artefato-diagrama-filtrar.component';
+import { ArtefatoIncluirComponent } from './artefato/artefato-incluir/artefato-incluir.component';
+import { ArtefatoIncluirRelacionamentoComponent } from './artefato/artefato-editar/artefato-incluir-relacionamento/artefato-incluir-relacionamento.component';
 
 
 @NgModule({
@@ -88,7 +90,9 @@ import { ArtefatoDiagramaFiltrarComponent } from './artefato/artefato-visualizar
     ArtefatoEditarRelacionamentoComponent,
     ArtefatoAtributoComponent,
     ArtefatoDiagramaAjudaComponent,
-    ArtefatoDiagramaFiltrarComponent
+    ArtefatoDiagramaFiltrarComponent,
+    ArtefatoIncluirComponent,
+    ArtefatoIncluirRelacionamentoComponent
   ],
   imports: [
     BrowserModule,

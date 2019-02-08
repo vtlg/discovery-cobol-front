@@ -63,7 +63,7 @@ export class ArtefatoDiagramaFiltrarComponent implements OnInit {
 
   onAplicar() {
     this.listaTiposSelecionados = [];
-    if (this.checkCopybook) {   this.listaTiposSelecionados.push('COPYBOOK');         }
+    if (this.checkCopybook == true) {   this.listaTiposSelecionados.push('COPYBOOK');      }
     if (this.checkProgramaCobol) {   this.listaTiposSelecionados.push('PROGRAMA-COBOL');         }
     if (this.checkTabela) {   this.listaTiposSelecionados.push('TABELA');         }
     if (this.checkJcl) {   this.listaTiposSelecionados.push('JCL');         }
@@ -75,27 +75,11 @@ export class ArtefatoDiagramaFiltrarComponent implements OnInit {
     if (this.checkTabelaCampo) {   this.listaTiposSelecionados.push('TABELA-CAMPO');         }
     if (this.checkCicsTransaction) {   this.listaTiposSelecionados.push('CICS-TRANSACTION');         }
 
-    this.dialogRef.close(this.listaTiposSelecionados);
+    this.dialogRef.close(this.listaTiposSelecionados.slice());
   }
 
   onCancelar() {
     this.dialogRef.close();
   }
 
-  onCheckTipo(f: any): boolean {
-    if (this.listaTiposSelecionados.find(p => f.value)) {
-      return true;
-    }
-    return false;
-  }
-
-  onTipoSelecionado(input: any) {
-    var i = this.listaTiposSelecionados.indexOf(input.value);
-
-    if (i == -1) {
-      this.listaTiposSelecionados.push(input.value);
-    } else {
-      this.listaTiposSelecionados.splice(i, 1)
-    }
-  }
 }

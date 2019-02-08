@@ -37,7 +37,6 @@ export class ArtefatoEditarArtefatoComponent implements OnInit {
         this.width = resize.width;
       }
     )
-
   }
 
   ngOnInit() {
@@ -123,13 +122,14 @@ export class ArtefatoEditarArtefatoComponent implements OnInit {
         this.statusAtualizacao = "Atualizado com sucesso."
         this.artefato.inicializar(artefato);
         this._initFormArtefato();
+        
+
+        this.appService.subjectArtefatoEditarRefresh.next( artefato.coArtefato );
       },
       (error: any) => {
         this.statusAtualizacao = "Erro ao atualizar artefato."
        },
       () => { this.isLoading = false; }
     )
-
-
   }
 }

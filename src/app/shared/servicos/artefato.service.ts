@@ -44,7 +44,13 @@ export class ArtefatoService {
     return this.http.post<Artefato>(url, artefato);
   }
 
+  incluir(artefato: Artefato): Observable<Artefato> {
+    this.logger.log("Incluir artefato")
+    this.logger.log(artefato)
+    var url: string = this.appService.baseServicoUrl + '/artefato';
 
+    return this.http.post<Artefato>(url, artefato);
+  }
 
 
   private tratarErro(erro: HttpErrorResponse) {

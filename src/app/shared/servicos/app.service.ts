@@ -4,6 +4,12 @@ import { Subject, Observable, of } from 'rxjs';
 import { Tipo } from '../modelos/tipo.model';
 import { TipoService } from './tipo.service';
 
+export class SwitchRelacionamento {
+  exibirAscendentes: boolean; 
+  exibirDescendentes: boolean;
+}
+
+
 @Injectable({
   providedIn: 'root'
 })
@@ -22,7 +28,6 @@ export class AppService {
   subjectWindowResize: Subject<{ height: number, width: number }> = new Subject<{ height: number, width: number }>();
   subjectWindowScroll: Subject<{ x: number, y: number }> = new Subject<{ x: number, y: number }>();
 
-
   //PARÂMETROS DO DIAGRAMA DE RASTREABILIDADE
   public alturaMinimaDiagrama: number = 659;
   public espacamentoNodeDiagrama: number = 40;
@@ -31,6 +36,10 @@ export class AppService {
 
   //PARÂMETROS E LISTAS GLOBAIS
   listaTipo: Tipo[] = [];
+
+  //SUBJECT PARA ATUALIZAR INTERFACE
+  subjectArtefatoEditarRefresh: Subject<number> = new Subject<number>();
+  subjectArtefatoEditarExibirSwitch: Subject<SwitchRelacionamento> = new Subject<SwitchRelacionamento>();
 
   constructor() {
     this.isLoading.next(false);

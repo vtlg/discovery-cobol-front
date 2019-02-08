@@ -11,10 +11,10 @@ import { Node } from 'src/app/shared/modelos/diagrama-tree.model';
 import { Observable, of } from 'rxjs';
 import { Atributo } from 'src/app/shared/modelos/atributo.model';
 
-import { MatDialog, DialogPosition, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material';
+import { MatDialog } from '@angular/material';
 import { ArtefatoDiagramaAjudaComponent } from '../artefato-diagrama-ajuda/artefato-diagrama-ajuda.component';
 import { ArtefatoDiagramaFiltrarComponent } from '../artefato-diagrama-filtrar/artefato-diagrama-filtrar.component';
-import { Route, Router } from '@angular/router';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -41,10 +41,15 @@ export class ArtefatoDiagramaTreeComponent implements OnInit, OnDestroy {
       data: this.listaTipoFiltroAplicado,
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      console.log(result)
-      this.listaTipoFiltroAplicado = [];
-      this.listaTipoFiltroAplicado.push(result);
+    dialogRef.afterClosed().subscribe(
+      (result: string[]) => {
+      //this.listaTipoFiltroAplicado = [];
+      if (result) {
+        this.isFiltroAplicado = true;
+        this.listaTipoFiltroAplicado = result.slice();
+        //this.initDiagrama();
+        this.artefatoGrafo = this.artefato;
+      }
     });
   }
   /*
@@ -72,13 +77,10 @@ export class ArtefatoDiagramaTreeComponent implements OnInit, OnDestroy {
   relacionamentoOriginal: Relacionamento = new Relacionamento();
   @Output("artefatoSelecionadoDiagrama") artefatoSelecionado: EventEmitter<any> = new EventEmitter<any>();
 
-
-
-
   @Input()
   set artefatoGrafo(val: Artefato) {
-    this.loggerService.log("Recebendo artefato para criar diagrama. Orientação " + this.orientacao)
-    this.loggerService.log(val)
+    //this.loggerService.log("Recebendo artefato para criar diagrama. Orientação " + this.orientacao)
+    //this.loggerService.log(val)
     this.artefato = new Artefato();
     this.artefato.inicializar(val);
 
@@ -100,9 +102,9 @@ export class ArtefatoDiagramaTreeComponent implements OnInit, OnDestroy {
     this.node_data = this.converterRelacionamento2Node(relacionamentoSemPaiOuSemFilho, null);
     //this.node_data = this.converterArtefato2Node(this.artefato, null);
     this.initDiagrama();
-
   }
 
+  isFiltroAplicado: boolean = false;
 
   get artefatoGrafo(): Artefato { return this.artefato; }
 
@@ -114,8 +116,6 @@ export class ArtefatoDiagramaTreeComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     private router: Router
   ) {
-
-
 
     this.windowHeight = window.innerHeight; //altura inicial da janela
     this.windowWidth = window.innerWidth; //largura inicial da janela
@@ -199,17 +199,42 @@ export class ArtefatoDiagramaTreeComponent implements OnInit, OnDestroy {
 
     } else if (!quantidadeNode) {
       if (this.orientacao == 'DESCENDENTE' && this.artefato.descendentes) {
-        somaNodes = somaNodes + this.artefato.descendentes.length;
+        somaNodes = somaNodes + this.artefato.descendentes.slice().filter(  p => {
+          if (this.isFiltroAplicado) {
+            return this.listaTipoFiltroAplicado.includes(p.descendente.tipoArtefato.coTipo)
+          } else {
+            return p;
+          }
+        }).length;
       }
       if (this.orientacao == 'DESCENDENTE' && this.artefato.posteriores) {
-        somaNodes = somaNodes + this.artefato.posteriores.length;
+        somaNodes = somaNodes + this.artefato.posteriores.slice().filter(  p => {
+          if (this.isFiltroAplicado) {
+            return this.listaTipoFiltroAplicado.includes(p.posterior.tipoArtefato.coTipo)
+          } else {
+            return p;
+          }
+        }).length;
       }
 
       if (this.orientacao == 'ASCENDENTE' && this.artefato.ascendentes) {
-        somaNodes = somaNodes + this.artefato.ascendentes.length;
+        somaNodes = somaNodes + this.artefato.ascendentes.slice().filter(  p => {
+          if (this.isFiltroAplicado) {
+            return this.listaTipoFiltroAplicado.includes(p.ascendente.tipoArtefato.coTipo)
+          } else {
+            return p;
+          }
+        }).length;
       }
       if (this.orientacao == 'ASCENDENTE' && this.artefato.anteriores) {
-        somaNodes = somaNodes + this.artefato.anteriores.length;
+        somaNodes = somaNodes + this.artefato.anteriores.slice().filter(  p => {
+          if (this.isFiltroAplicado) {
+            return this.listaTipoFiltroAplicado.includes(p.anterior.tipoArtefato.coTipo)
+          } else {
+            return p;
+          }
+        }).length;
+
       }
 
       alturaTemp = somaNodes * this.appService.espacamentoNodeDiagrama;
@@ -223,12 +248,11 @@ export class ArtefatoDiagramaTreeComponent implements OnInit, OnDestroy {
   }
 
   converterRelacionamento2Node(relacionamentoEntrada: Relacionamento, node?: any): Node {
-    this.loggerService.log("Convertendo Relacionamento para Node.")
-    this.loggerService.log(relacionamentoEntrada)
+    //this.loggerService.log("Convertendo Relacionamento para Node.")
+    //this.loggerService.log(relacionamentoEntrada)
     if (!node) {
       node = null;
     }
-
 
     var artefato: Artefato = null;
 
@@ -259,7 +283,8 @@ export class ArtefatoDiagramaTreeComponent implements OnInit, OnDestroy {
             var descendente: Artefato = new Artefato();
             descendente.inicializar(relacionamento.descendente);
             var tipo = this.listaTipo.find(p => p.coTipo == descendente.tipoArtefato.coTipo)
-            if (tipo.icExibirGrafo == true) {
+            if (tipo.icExibirGrafo == true 
+              && (this.isFiltroAplicado == false ||  this.listaTipoFiltroAplicado.includes(  descendente.tipoArtefato.coTipo  )) ) {
               output.children.push(this.converterRelacionamento2Node(relacionamento, node));
             }
           }

@@ -1,0 +1,53 @@
+<div [style.width.px]="larguraContainer" [style.margin-left.px]="(width - larguraContainer) > 0 ? ( ( width - larguraContainer  ) / 2 ) : 0"
+  style="border: 1px solid rgb(209, 209, 209); border-radius: 5px; margin-top: 10px;">
+  <form [formGroup]="formArtefato" (ngSubmit)="onSubmit()">
+    <div style="display: grid; grid-column-gap: 10px; padding:10px; ">
+      <div style="display: inline-grid; grid-column-start: 1; grid-column-end: 3; grid-row-start: 1; grid-row-end: 2;">
+        <label style="color:black;">Nome do Artefato</label>
+        <input type="text" formControlName="noNomeArtefato" />
+      </div>
+      <div style="display: inline-grid; grid-column-start: 1; grid-column-end: 3; grid-row-start: 2; grid-row-end: 3;">
+        <label style="color:black;">Nome Exibicao</label>
+        <input type="text" formControlName="noNomeExibicao" />
+      </div>
+    </div>
+    <div style="display: grid; grid-column-gap: 10px; padding:10px;">
+      <div style="display: inline-grid; grid-column-start: 1; grid-column-end: 7; grid-row-start: 1; grid-row-end: 2;">
+        <label style="color:black;">Tipo de Artefato</label>
+        <input type="text" formControlName="coTipoArtefato" />
+      </div>
+      <div style="display: inline-grid; grid-column-start: 7; grid-column-end: 8; grid-row-start: 1; grid-row-end: 2;">
+        <label style="color:black;">Sistema</label>
+        <input type="text" formControlName="coSistema" />
+      </div>
+    </div>
+    <div style="display: grid; grid-column-gap: 10px; padding:10px;">
+      <div style="display: inline-grid; grid-column-start: 1; grid-column-end: 3; grid-row-start: 1; grid-row-end: 2;" class="descricao">
+        <label style="color:black;">Descrição do Usuário</label>
+        <textarea formControlName="deDescricaoUsuario"></textarea>
+      </div>
+    </div>
+  </form>
+  <div style="display: grid; grid-column-gap: 10px; padding:10px;">
+    <div style="display: inline-grid; grid-column-start: 1; grid-column-end: 3; grid-row-start: 1; grid-row-end: 2;">
+      <mat-checkbox [(ngModel)]="checkedProcessoCritico"> Processo crítico </mat-checkbox>
+    </div>
+    <div style="display: inline-grid; grid-column-start: 3; grid-column-end: 6; grid-row-start: 1; grid-row-end: 2;">
+      <mat-checkbox [(ngModel)]="checkedInclusaoManual" [disabled]="true"> Inclusão Manual </mat-checkbox>
+    </div>
+    <div style="display: inline-grid; grid-column-start: 7; grid-column-end: 8; grid-row-start: 1; grid-row-end: 2;">
+      <mat-progress-spinner mode="indeterminate" *ngIf="isLoading" [diameter]="40" [strokeWidth]="4"></mat-progress-spinner>
+    </div>
+    <div style="display: inline-grid; grid-column-start: 8; grid-column-end: 10; grid-row-start: 1; grid-row-end: 2;">
+      <button mat-raised-button color="warn" (click)="onCancelar()">Cancelar</button>
+    </div>
+    <div style="display: inline-grid; grid-column-start: 10; grid-column-end: 12; grid-row-start: 1; grid-row-end: 2;">
+      <button mat-raised-button color="primary" (click)="onSubmit()">Salvar</button>
+    </div>
+  </div>
+  <div style="display: grid; grid-column-gap: 10px; padding:10px;">
+    <div style="display: inline-grid; grid-column-start: 1; grid-column-end: 2; grid-row-start: 1; grid-row-end: 2; text-align: right;" *ngIf="statusAtualizacao">
+      <span style="font-size: 12px; color: rgb(0, 0, 255)"> {{ statusAtualizacao }} </span>
+    </div>
+  </div>
+</div>

@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ArtefatoView } from 'src/app/shared/modelos/artefato-view.model.';
 import { Observable } from 'rxjs';
+import { Artefato } from 'src/app/shared/modelos/artefato.model';
 
 @Component({
   selector: 'app-pesquisa-avancada-lista',
@@ -9,7 +9,7 @@ import { Observable } from 'rxjs';
 })
 export class PesquisaAvancadaListaComponent implements OnInit {
 
-  @Input() listaResultado: Observable<ArtefatoView[]>
+  @Input() listaResultado: Observable<Artefato[]>
 
   constructor() { }
 

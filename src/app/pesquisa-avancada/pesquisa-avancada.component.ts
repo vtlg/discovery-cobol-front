@@ -6,10 +6,10 @@ import { Observable, of } from 'rxjs';
 import { Tipo } from '../shared/modelos/tipo.model';
 import { Pesquisa } from '../shared/modelos/pesquisa.model';
 import { PesquisaService } from '../shared/servicos/pesquisa.service';
-import { ArtefatoView } from '../shared/modelos/artefato-view.model.';
 import { Sistema } from '../shared/modelos/sistema.model';
 import { SistemaService } from '../shared/servicos/sistema.service';
 import { TipoService } from '../shared/servicos/tipo.service';
+import { Artefato } from '../shared/modelos/artefato.model';
 
 @Component({
     selector: 'app-pesquisa-avancada',
@@ -30,8 +30,8 @@ export class PesquisaAvancadaComponent implements OnInit {
     listaSistemasSelecionados: string[] = [];
 
     pesquisaAnterior: Pesquisa;
-    listaResultado: ArtefatoView[];
-    listaResultado$: Observable<ArtefatoView[]>;
+    listaResultado: Artefato[];
+    listaResultado$: Observable<Artefato[]>;
 
     offset: number = 0;
 
@@ -129,7 +129,7 @@ export class PesquisaAvancadaComponent implements OnInit {
         this.listaResultado = [];
         this.listaResultado$ = of(this.listaResultado);
         this.pesquisaService.pesquisaAvancada(this.pesquisaAnterior, this.offset).subscribe(
-            (results: ArtefatoView[]) => {
+            (results: Artefato[]) => {
                 this.listaResultado = results;
                 this.listaResultado$ = of(this.listaResultado);
                 this.offset += this.appService.limitResultadoQuery;
@@ -153,7 +153,7 @@ export class PesquisaAvancadaComponent implements OnInit {
     onPaginar() {
         this.isLoading = true;
         this.pesquisaService.pesquisaAvancada(this.pesquisaAnterior, this.offset).subscribe(
-            (results: ArtefatoView[]) => {
+            (results: Artefato[]) => {
                 this.listaResultado = this.listaResultado.concat(results);
                 this.listaResultado$ = of(this.listaResultado);
                 this.offset += this.appService.limitResultadoQuery;

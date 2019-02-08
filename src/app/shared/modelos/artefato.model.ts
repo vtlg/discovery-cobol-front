@@ -22,6 +22,11 @@ export class Artefato {
 
 	tipoArtefato: Tipo;
 
+	countRelacionamento: number;
+	countRelacionamentoInterface: number;
+	countRelacionamentoNormal: number;
+	countRelacionamentoControlM: number;
+
 	descendentes: Relacionamento[];
 	ascendentes: Relacionamento[];
 	anteriores: Relacionamento[];

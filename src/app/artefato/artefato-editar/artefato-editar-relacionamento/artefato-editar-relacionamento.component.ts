@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AppService } from 'src/app/shared/servicos/app.service';
+import { AppService, SwitchRelacionamento } from 'src/app/shared/servicos/app.service';
 import { ActivatedRoute, Params } from '@angular/router';
 import { LoggerService } from 'src/app/shared/servicos/logger.service';
 import { ArtefatoService } from 'src/app/shared/servicos/artefato.service';
@@ -35,6 +35,11 @@ export class ArtefatoEditarRelacionamentoComponent implements OnInit {
   artefato: Artefato;
   statusAtualizacao: string;
 
+  coArtefato: number;
+
+  exibirAscendentes: boolean = true;
+  exibirDescendentes: boolean = true;
+
   tiposRelacionamento: { coTipo: string, deTipo: string }[] =
     [{ coTipo: 'INTERFACE', deTipo: 'Interface (Relacionamento entre sistemas diferentes)' }, { coTipo: 'CONTROL-M', deTipo: 'Control-M (Relacionamento originado da malha de execução do COntrol-M)' }, { coTipo: 'NORMAL', deTipo: 'Normal' }, { coTipo: 'DESATIVADO', deTipo: 'Desativado (O relacionamento não será exibido no grafo)' },]
 
@@ -61,49 +66,78 @@ export class ArtefatoEditarRelacionamentoComponent implements OnInit {
       (params: Params) => {
         var coArtefato: number = params['coArtefato'];
         if (coArtefato) {
-          this.artefatoService.getArtefatoRelacionamento(coArtefato).subscribe(
-            (artefato: Artefato) => {
-              this.artefato = new Artefato();
-              this.artefato.inicializar(artefato);
-
-              if (this.artefato.descendentes) {
-                this.artefato.descendentes.forEach(r => {
-                  var card: RelacionamentoCard = new RelacionamentoCard();
-                  card.coRelacionamento = r.coRelacionamento;
-                  card.ascendente = r.ascendente;
-                  card.descendente = r.descendente;
-                  card.coTipoRelacionamentoAnterior = r.tipoRelacionamento.coTipo;
-                  card.coTipoRelacionamentoAtual = r.tipoRelacionamento.coTipo;
-                  card.icInclusaoMalha = r.icInclusaoMalha;
-                  card.icInclusaoManual = r.icInclusaoManual;
-                  this.listaRelacionamentos.push(card);
-                });
-              }
-              if (this.artefato.ascendentes) {
-                this.artefato.ascendentes.forEach(r => {
-                  var card: RelacionamentoCard = new RelacionamentoCard();
-                  card.coRelacionamento = r.coRelacionamento;
-                  card.ascendente = r.ascendente;
-                  card.descendente = r.descendente;
-                  card.coTipoRelacionamentoAnterior = r.tipoRelacionamento.coTipo;
-                  card.coTipoRelacionamentoAtual = r.tipoRelacionamento.coTipo;
-                  card.icInclusaoMalha = r.icInclusaoMalha;
-                  card.icInclusaoManual = r.icInclusaoManual;
-                  this.listaRelacionamentos.push(card);
-                });
-              }
-
-              this.listaRelacionamentos$ = of(this.listaRelacionamentos);
-            },
-            (error: any) => {
-              console.log(error)
-            },
-            () => {
-            }
-          )
+          this.coArtefato = coArtefato;
+          this._getListaRelacionamentos(coArtefato);
         }
       }
     );
+
+
+    this.appService.subjectArtefatoEditarRefresh.subscribe(
+      ( coArtefato: number) => {
+
+        if (coArtefato) {
+          this.coArtefato = coArtefato;
+          this._getListaRelacionamentos(coArtefato);
+        }
+
+      }
+    )
+
+    this.appService.subjectArtefatoEditarExibirSwitch.subscribe(
+      ( result: SwitchRelacionamento) => {
+        this.exibirAscendentes = result.exibirAscendentes;
+        this.exibirDescendentes = result.exibirDescendentes;
+
+        this._getListaRelacionamentos(this.coArtefato);
+      }
+    )
+  }
+
+  _getListaRelacionamentos(coArtefato: number) {
+    this.artefatoService.getArtefatoRelacionamento(coArtefato).subscribe(
+      (artefato: Artefato) => {
+        this.listaRelacionamentos = [];
+        this.artefato = new Artefato();
+        this.artefato.inicializar(artefato);
+
+        if (this.artefato.descendentes && this.exibirDescendentes) {
+          this.artefato.descendentes.forEach(r => {
+            var card: RelacionamentoCard = new RelacionamentoCard();
+            card.coRelacionamento = r.coRelacionamento;
+            card.ascendente = r.ascendente;
+            card.descendente = r.descendente;
+            card.coTipoRelacionamentoAnterior = r.tipoRelacionamento.coTipo;
+            card.coTipoRelacionamentoAtual = r.tipoRelacionamento.coTipo;
+            card.icInclusaoMalha = r.icInclusaoMalha;
+            card.icInclusaoManual = r.icInclusaoManual;
+            this.listaRelacionamentos.push(card);
+          });
+        }
+        if (this.artefato.ascendentes && this.exibirAscendentes) {
+          this.artefato.ascendentes.forEach(r => {
+            var card: RelacionamentoCard = new RelacionamentoCard();
+            card.coRelacionamento = r.coRelacionamento;
+            card.ascendente = r.ascendente;
+            card.descendente = r.descendente;
+            card.coTipoRelacionamentoAnterior = r.tipoRelacionamento.coTipo;
+            card.coTipoRelacionamentoAtual = r.tipoRelacionamento.coTipo;
+            card.icInclusaoMalha = r.icInclusaoMalha;
+            card.icInclusaoManual = r.icInclusaoManual;
+            this.listaRelacionamentos.push(card);
+          });
+        }
+
+        console.log(this.listaRelacionamentos)
+
+        this.listaRelacionamentos$ = of(this.listaRelacionamentos);
+      },
+      (error: any) => {
+        console.log(error)
+      },
+      () => {
+      }
+    )
   }
 
 
