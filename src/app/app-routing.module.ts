@@ -5,6 +5,7 @@ import { ArtefatoVisualizarComponent } from './artefato/artefato-visualizar/arte
 import { PesquisaAvancadaComponent } from './pesquisa-avancada/pesquisa-avancada.component';
 import { ArtefatoEditarComponent } from './artefato/artefato-editar/artefato-editar.component';
 import { ArtefatoIncluirComponent } from './artefato/artefato-incluir/artefato-incluir.component';
+import { InterfaceComponent } from './interface/interface.component';
 
 const routes: Routes = [
   { path: '', redirectTo: '/', pathMatch: 'full' },
@@ -12,6 +13,7 @@ const routes: Routes = [
   { path: 'artefato/:coArtefato/editar', component: ArtefatoEditarComponent  },
   { path: 'artefato/:coArtefato', component: ArtefatoVisualizarComponent  },
   { path: 'artefato', component: ArtefatoComponent },
+  { path: 'interface', component: InterfaceComponent },
   { path: 'pesquisar', component: PesquisaAvancadaComponent },
 ];
 

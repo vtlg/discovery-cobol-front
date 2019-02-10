@@ -46,7 +46,6 @@ export class ArtefatoEditarRelacionamentoComponent implements OnInit {
   listaRelacionamentos: RelacionamentoCard[] = [];
   listaRelacionamentos$: Observable<RelacionamentoCard[]>;
 
-
   constructor(private appService: AppService, private loggerService: LoggerService, private artefatoService: ArtefatoService,
     private route: ActivatedRoute, private relacionamentoService: RelacionamentoService) {
 

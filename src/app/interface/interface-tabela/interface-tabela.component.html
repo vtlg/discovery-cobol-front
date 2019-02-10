@@ -1,0 +1,61 @@
+<div [style.width.px]="larguraContainer"
+  [style.margin-left.px]="(width - larguraContainer) > 0 ? ( ( width - larguraContainer  ) / 2 ) : 0"
+  style="margin-top: 20px;margin-bottom: 20px; border: 1px solid #0081bd; padding-top: 20px; padding-bottom: 20px; padding-left: 5px; padding-right: 5px; border-radius: 5px">
+  <div>
+    <div style="display: grid; grid-column-gap: 10px; padding:10px; ">
+      <div style="display: inline-grid; grid-column-start: 1; grid-column-end: 2; grid-row-start: 1; grid-row-end: 2;">
+        <div class="form-group">
+          <label style="color: black; font-size: 13px; font-weight: 800" >Sistema Origem</label>
+          <input type="text" [(ngModel)]="inputFiltroSistemaOrigem" (keyup)="onFiltrar(f)" #f style="line-height: 2.5em"
+            class="form-control" />
+        </div>
+      </div>
+      <div style="display: inline-grid; grid-column-start: 2; grid-column-end:3; grid-row-start: 1; grid-row-end: 2;">
+        <div class="form-group">
+          <label style="color: black; font-size: 13px; font-weight: 800">Rotina</label>
+          <input type="text" [(ngModel)]="inputFiltroRotina" (keyup)="onFiltrar(f)" #f style="line-height: 2.5em"
+            class="form-control" />
+        </div>
+      </div>
+      <div style="display: inline-grid; grid-column-start: 3; grid-column-end: 4; grid-row-start: 1; grid-row-end: 2;">
+        <div class="form-group">
+          <label style="color: black; font-size: 13px; font-weight: 800">Sistema Destino</label>
+          <input type="text" [(ngModel)]="inputFiltroSistemaDestino" (keyup)="onFiltrar(f)" #f
+            style="line-height: 2.5em" class="form-control" />
+        </div>
+      </div>
+    </div>
+  </div>
+  <table class="highlight striped">
+    <thead>
+      <tr>
+        <th>Nº</th>
+        <th>Sistema Origem</th>
+        <th>Rotina Ascendente</th>
+        <th>Rotina da Interface</th>
+        <th>Sistema Destino</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let interface of listaInterfaceSistema$ | async; let i = index">
+        <td>
+          <p class="detalhe">{{ i +1 }}</p>
+        </td>
+        <td>
+          <p class="detalhe">{{ interface.coSistema }}</p>
+        </td>
+        <td>
+          <p class="detalhe">{{ interface.noNomeExibicaoPai }}</p>
+          <p class="detalhe legenda">({{ interface.coTipoArtefatoPai }})</p>
+        </td>
+        <td>
+          <p class="detalhe">{{ interface.noNomeExibicao }}</p>
+          <p class="detalhe legenda">({{ interface.coTipoArtefato }})</p>
+        <td>
+          <p class="detalhe">{{ interface.coSistemaDestino ? interface.coSistemaDestino : interface.coSistemaPai  }}
+          </p>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

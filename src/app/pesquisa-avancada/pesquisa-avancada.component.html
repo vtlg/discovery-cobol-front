@@ -46,6 +46,8 @@
     </div>
   </div>
   <app-pesquisa-avancada-lista [listaResultado]="listaResultado$"></app-pesquisa-avancada-lista>
-  <mat-progress-spinner mode="indeterminate" *ngIf="isLoading" [diameter]="40" [strokeWidth]="4"></mat-progress-spinner>
-  <button mat-button *ngIf="isPaginar" (click)="onPaginar()"> Carregar mais resultados </button>
+  <div style="margin-top: 20px;margin-bottom: 50px; text-align: center;">
+    <mat-progress-spinner mode="indeterminate" *ngIf="isLoading" [diameter]="40" [strokeWidth]="4"></mat-progress-spinner>
+    <a lass="waves-effect waves-light  btn-flat grey lighten-4" mat-button *ngIf="isPaginar && !isLoading" (click)="onPaginar()" c>Carregar mais resultados</a>
+</div>
 </div>

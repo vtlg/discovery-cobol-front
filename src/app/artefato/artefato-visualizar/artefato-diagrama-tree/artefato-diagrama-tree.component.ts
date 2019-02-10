@@ -674,6 +674,7 @@ export class ArtefatoDiagramaTreeComponent implements OnInit, OnDestroy {
     this.artefatoService.getArtefatoRelacionamento(d.data.artefato.coArtefato).subscribe(
       (artefatoResult: Artefato) => {
         var artefato: Artefato = new Artefato();
+        console.log(artefatoResult)
         artefato.inicializar(artefatoResult);
 
         this.ordernarRelacionamento(artefato);

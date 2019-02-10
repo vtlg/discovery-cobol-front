@@ -16,6 +16,7 @@ export class SwitchRelacionamento {
 export class AppService {
 
   limitResultadoQuery: number = 30;
+  limitResultadoPesquisaRapida: number = 10;
 
   baseServicoUrl: string = environment.api;
   isLog: boolean = environment.log;

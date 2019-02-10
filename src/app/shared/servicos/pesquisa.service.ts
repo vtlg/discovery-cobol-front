@@ -36,7 +36,9 @@ export class PesquisaService {
   }
 
   pesquisarRapida(termo: string): Observable<Artefato[]> {
-    var url: string = this.appService.baseServicoUrl + '/pesquisa/rapida?termo=' + termo;
+    var limit = this.appService.limitResultadoPesquisaRapida;
+
+    var url: string = this.appService.baseServicoUrl + '/pesquisa/rapida?termo=' + termo + '&limit=' + limit;
     return this.http.get<Artefato[]>(url);
   }
 

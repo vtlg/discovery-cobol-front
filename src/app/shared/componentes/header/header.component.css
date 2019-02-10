@@ -1,8 +1,4 @@
-input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):focus:not([readonly]), input[type=password]:not(.browser-default):focus:not([readonly]), input[type=email]:not(.browser-default):focus:not([readonly]), input[type=url]:not(.browser-default):focus:not([readonly]), input[type=time]:not(.browser-default):focus:not([readonly]), input[type=date]:not(.browser-default):focus:not([readonly]), input[type=datetime]:not(.browser-default):focus:not([readonly]), input[type=datetime-local]:not(.browser-default):focus:not([readonly]), input[type=tel]:not(.browser-default):focus:not([readonly]), input[type=number]:not(.browser-default):focus:not([readonly]), input[type=search]:not(.browser-default):focus:not([readonly]), textarea.materialize-textarea:focus:not([readonly])
-{
-    border: none;
-    box-shadow: none;
-}
+
 
 .campo {
     display: inline-block;
@@ -41,15 +37,12 @@ input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):
 .campo.pesquisa-rapida input[type=search]:not(.browser-default):focus:not([readonly]),
 .campo.pesquisa-rapida textarea:not(.browser-default):focus:not([readonly]) {
     border: 1px solid blue;
-
 }
 
 .collection {
     z-index: 1;
     border-top: 1px solid transparent;
-    border-bottom: 1px solid blue;
-    border-left: 1px solid blue;
-    border-right: 1px solid blue;
+
 }
 
 .collection .collection-item {
