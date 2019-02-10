@@ -23,3 +23,7 @@ input:not([type]), input[type=text]:not(.browser-default), input[type=password]:
     border-bottom: rgb(211, 211, 211);
     box-shadow: 0 2px 0 0 rgb(211, 211, 211);
 }
+
+.mat-ripple-element {
+    color: blue !important;
+}

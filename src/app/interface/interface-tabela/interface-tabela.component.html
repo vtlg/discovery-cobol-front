@@ -5,7 +5,7 @@
     <div style="display: grid; grid-column-gap: 10px; padding:10px; ">
       <div style="display: inline-grid; grid-column-start: 1; grid-column-end: 2; grid-row-start: 1; grid-row-end: 2;">
         <div class="form-group">
-          <label style="color: black; font-size: 13px; font-weight: 800" >Sistema Origem</label>
+          <label style="color: black; font-size: 13px; font-weight: 800">Sistema Origem</label>
           <input type="text" [(ngModel)]="inputFiltroSistemaOrigem" (keyup)="onFiltrar(f)" #f style="line-height: 2.5em"
             class="form-control" />
         </div>
@@ -45,12 +45,14 @@
           <p class="detalhe">{{ interface.coSistema }}</p>
         </td>
         <td>
-          <p class="detalhe">{{ interface.noNomeExibicaoPai }}</p>
-          <p class="detalhe legenda">({{ interface.coTipoArtefatoPai }})</p>
+          <a class="detalhe" style="line-height: 1em" [routerLink]="['/artefato',interface.coArtefatoPai]"> {{ interface.noNomeExibicaoPai }}</a> <br/>
+          <a class="detalhe legenda" style="line-height: 1em"
+            [routerLink]="['/artefato',interface.coArtefatoPai]">({{ interface.coTipoArtefatoPai }})</a>
         </td>
         <td>
-          <p class="detalhe">{{ interface.noNomeExibicao }}</p>
-          <p class="detalhe legenda">({{ interface.coTipoArtefato }})</p>
+          <a class="detalhe" [routerLink]="['/artefato',interface.coArtefato]"> {{ interface.noNomeExibicao }}</a><br/>
+          <a class="detalhe legenda"
+            [routerLink]="['/artefato',interface.coArtefato]">({{ interface.coTipoArtefato }})</a>
         <td>
           <p class="detalhe">{{ interface.coSistemaDestino ? interface.coSistemaDestino : interface.coSistemaPai  }}
           </p>

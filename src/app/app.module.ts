@@ -50,6 +50,7 @@ import {
   MatToolbarModule,
   MatTooltipModule,
   MatTreeModule,
+  MAT_RIPPLE_GLOBAL_OPTIONS,
 } from '@angular/material';
 
 import { ArtefatoComponent } from './artefato/artefato.component';
@@ -74,6 +75,7 @@ import { ArtefatoIncluirRelacionamentoComponent } from './artefato/artefato-edit
 import { InterfaceComponent } from './interface/interface.component';
 import { InterfaceDiagramaSankeyComponent } from './interface/interface-diagrama-sankey/interface-diagrama-sankey.component';
 import { InterfaceTabelaComponent } from './interface/interface-tabela/interface-tabela.component';
+import { AppGlobalOptionsService } from './shared/servicos/app-global-options.service';
 
 
 @NgModule({
@@ -157,7 +159,12 @@ import { InterfaceTabelaComponent } from './interface/interface-tabela/interface
     //ScrollingModule,
   ],
   entryComponents:[ArtefatoDiagramaAjudaComponent,ArtefatoDiagramaFiltrarComponent],
-  providers: [AppService,LoggerService,TipoService],
+  providers: [
+    AppService,
+    LoggerService,
+    TipoService,
+    {provide: MAT_RIPPLE_GLOBAL_OPTIONS, useExisting: AppGlobalOptionsService}
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { 

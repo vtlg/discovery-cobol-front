@@ -1,18 +1,27 @@
-p.detalhe {
+.detalhe {
     font-size: 13px;
     color: #000000;
     margin: 0px;
 }
 
-p.detalhe.legenda {
+.detalhe.legenda {
     font-size: 10px;
     color: rgb(105, 105, 105);
 }
 
-table.highlight>tbody>tr:hover, table.highlight>tbody>tr:hover>td, table.highlight>tbody>tr:hover>td>p {
+a.detalhe {
+    cursor: pointer;
+}
+
+a.detalhe.legenda {
+    font-size: 10px;
+    color: rgb(105, 105, 105);
+    cursor: pointer;
+}
+
+table.highlight>tbody>tr:hover, table.highlight>tbody>tr:hover>td, table.highlight>tbody>tr:hover>td>p, table.highlight>tbody>tr:hover>td>a {
     background-color: #818181; 
     color: white;
-    
 }
 
 input:not([type]):focus:not([readonly]), input[type=text]:not(.browser-default):focus:not([readonly]), input[type=password]:not(.browser-default):focus:not([readonly]), input[type=email]:not(.browser-default):focus:not([readonly]), input[type=url]:not(.browser-default):focus:not([readonly]), input[type=time]:not(.browser-default):focus:not([readonly]), input[type=date]:not(.browser-default):focus:not([readonly]), input[type=datetime]:not(.browser-default):focus:not([readonly]), input[type=datetime-local]:not(.browser-default):focus:not([readonly]), input[type=tel]:not(.browser-default):focus:not([readonly]), input[type=number]:not(.browser-default):focus:not([readonly]), input[type=search]:not(.browser-default):focus:not([readonly]), textarea.materialize-textarea:focus:not([readonly])

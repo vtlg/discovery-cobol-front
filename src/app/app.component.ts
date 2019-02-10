@@ -3,6 +3,7 @@ import { AppService } from './shared/servicos/app.service';
 import { TipoService } from './shared/servicos/tipo.service';
 import { of } from 'rxjs';
 import { Tipo } from './shared/modelos/tipo.model';
+import { AppGlobalOptionsService } from './shared/servicos/app-global-options.service';
 
 @Component({
   selector: 'app-root',
@@ -14,12 +15,13 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {  }
 
-  constructor(private appService: AppService, private tipoService: TipoService, private elRef: ElementRef) {
+  constructor(private appService: AppService, private tipoService: TipoService, private elRef: ElementRef, private appGlobalOptions: AppGlobalOptionsService) {
     this.tipoService.getListaTipo().subscribe(
       (tipos: Tipo[]) => {
         this.appService.listaTipo = tipos;
       }
     )
+    this.appGlobalOptions.disabled = true;
   }
 
   @HostListener('mouseover', ['$event'])

@@ -10,6 +10,7 @@ import { Sistema } from '../shared/modelos/sistema.model';
 import { SistemaService } from '../shared/servicos/sistema.service';
 import { TipoService } from '../shared/servicos/tipo.service';
 import { Artefato } from '../shared/modelos/artefato.model';
+import { AppGlobalOptionsService } from '../shared/servicos/app-global-options.service';
 
 @Component({
     selector: 'app-pesquisa-avancada',
@@ -58,7 +59,6 @@ export class PesquisaAvancadaComponent implements OnInit {
                 this.width = resize.width;
             }
         )
-
     }
 
     ngOnInit() {
