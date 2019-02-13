@@ -19,7 +19,6 @@ export class InterfaceDiagramaSankeyComponent implements OnInit {
 
     this.relacionamentoService.getInterfaceDiagramaSankey('SIPCS').subscribe(
       (data: InterfaceSistemaDiagramaSankey) => {
-        console.log(data)
         //data.nodes = data.nodes.sort ( (a,b) => a.node-b.node ).slice();
         this.data = data;
         this.initDiagrama();

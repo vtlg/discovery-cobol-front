@@ -126,13 +126,10 @@ export class ArtefatoEditarRelacionamentoComponent implements OnInit {
             this.listaRelacionamentos.push(card);
           });
         }
-
-        console.log(this.listaRelacionamentos)
-
         this.listaRelacionamentos$ = of(this.listaRelacionamentos);
       },
       (error: any) => {
-        console.log(error)
+        this.loggerService.error(error)
       },
       () => {
       }

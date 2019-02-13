@@ -39,9 +39,6 @@ export class ArtefatoEditarComponent implements OnInit {
   ngOnInit(){}
 
   onSwitch(checkbox: string) {
-    console.log(checkbox)
-
-
     if (checkbox == 'ASCENDENTE') {
       this.ascendenteCheck = !this.ascendenteCheck;
     }

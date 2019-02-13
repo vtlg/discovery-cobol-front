@@ -51,7 +51,7 @@ export class ArtefatoEditarArtefatoComponent implements OnInit {
               this._initFormArtefato();
             },
             (error: any) => {
-              console.log(error)
+              this.loggerService.error(error)
             },
             () => {
             }

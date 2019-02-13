@@ -31,7 +31,7 @@ export class ArtefatoAtributoComponent implements OnInit {
               this.artefato.inicializar(artefato);
             },
             (error: any) => {
-              console.log(error)
+              this.loggerService.error(error)
             },
             () => {
             }

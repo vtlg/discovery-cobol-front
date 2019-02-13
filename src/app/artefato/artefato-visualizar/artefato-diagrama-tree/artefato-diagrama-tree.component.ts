@@ -477,11 +477,11 @@ export class ArtefatoDiagramaTreeComponent implements OnInit, OnDestroy {
 
         if (d.data && d.data.relacionamento && d.data.relacionamento.atributos) {
           var textoTooltip: string;
+          
           for (let atributo of d.data.relacionamento.atributos) {
             var tipo: Tipo = listaTipo.find(obj => obj.coTipo == atributo.coTipoAtributo);
-
             if (tipo && tipo.icExibirGrafo) {
-              console.log(atributo)
+              
               if (textoTooltip === undefined) {
                 textoTooltip = tipo.deTipo + " : " + atributo.deValor + "<br/>"
               } else {
@@ -674,7 +674,6 @@ export class ArtefatoDiagramaTreeComponent implements OnInit, OnDestroy {
     this.artefatoService.getArtefatoRelacionamento(d.data.artefato.coArtefato).subscribe(
       (artefatoResult: Artefato) => {
         var artefato: Artefato = new Artefato();
-        console.log(artefatoResult)
         artefato.inicializar(artefatoResult);
 
         this.ordernarRelacionamento(artefato);
