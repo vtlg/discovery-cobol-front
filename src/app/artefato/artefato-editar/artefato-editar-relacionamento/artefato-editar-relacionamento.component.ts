@@ -41,7 +41,7 @@ export class ArtefatoEditarRelacionamentoComponent implements OnInit {
   exibirDescendentes: boolean = true;
 
   tiposRelacionamento: { coTipo: string, deTipo: string }[] =
-    [{ coTipo: 'INTERFACE', deTipo: 'Interface (Relacionamento entre sistemas diferentes)' }, { coTipo: 'CONTROL-M', deTipo: 'Control-M (Relacionamento originado da malha de execução do COntrol-M)' }, { coTipo: 'NORMAL', deTipo: 'Normal' }, { coTipo: 'DESATIVADO', deTipo: 'Desativado (O relacionamento não será exibido no grafo)' },]
+    [{ coTipo: 'INTERFACE', deTipo: 'Interface (Relacionamento entre sistemas diferentes)' }, { coTipo: 'CONTROL-M', deTipo: 'Control-M (Relacionamento originado da malha de execução do Control-M)' }, { coTipo: 'NORMAL', deTipo: 'Normal' }, { coTipo: 'DESATIVADO', deTipo: 'Desativado (O relacionamento não será exibido no grafo)' },]
 
   listaRelacionamentos: RelacionamentoCard[] = [];
   listaRelacionamentos$: Observable<RelacionamentoCard[]>;

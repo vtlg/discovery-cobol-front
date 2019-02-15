@@ -158,7 +158,7 @@ import { AppGlobalOptionsService } from './shared/servicos/app-global-options.se
     FlexLayoutModule 
     //ScrollingModule,
   ],
-  entryComponents:[ArtefatoDiagramaAjudaComponent,ArtefatoDiagramaFiltrarComponent],
+  entryComponents:[ArtefatoDiagramaAjudaComponent,ArtefatoDiagramaFiltrarComponent, ArtefatoIncluirRelacionamentoComponent],
   providers: [
     AppService,
     LoggerService,

@@ -3,6 +3,8 @@ import { AppService, SwitchRelacionamento } from 'src/app/shared/servicos/app.se
 import { LoggerService } from 'src/app/shared/servicos/logger.service';
 import { ArtefatoService } from 'src/app/shared/servicos/artefato.service';
 import { ActivatedRoute } from '@angular/router';
+import { MatDialog } from '@angular/material';
+import { ArtefatoIncluirRelacionamentoComponent } from './artefato-incluir-relacionamento/artefato-incluir-relacionamento.component';
 
 
 @Component({
@@ -23,6 +25,7 @@ export class ArtefatoEditarComponent implements OnInit {
 
 
   constructor(private appService: AppService, private loggerService: LoggerService, private artefatoService: ArtefatoService,
+    public dialog: MatDialog,
     private route: ActivatedRoute) {
 
     this.height = window.innerHeight;
@@ -54,6 +57,19 @@ export class ArtefatoEditarComponent implements OnInit {
 
     this.appService.subjectArtefatoEditarExibirSwitch.next(send);
 
+  }
+
+  openDialogIncluirRelacionamento(): void {
+    const dialogRef = this.dialog.open(ArtefatoIncluirRelacionamentoComponent, {
+      width: '500px',
+      data: null,
+    });
+
+    dialogRef.afterClosed().subscribe(
+      (result: string[]) => {
+      if (result) {
+      }
+    });
   }
 
 }
