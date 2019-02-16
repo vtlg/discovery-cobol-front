@@ -11,6 +11,7 @@
 }
 
 /* Styles for the active tab label */
+
 .mat-tab-label.mat-tab-label-active {
     color: #FFFFFF;
     background-color: #004cff;
@@ -19,19 +20,17 @@
 }
 
 /* Styles for the ink bar */
+
 .mat-ink-bar {
     background-color: #FFFFFF;
 }
-
 
 .mat-tab-body-wrapper {
     color: #FFFFFF;
     background-color: transparent;
     margin-left: 0px;
     padding: 5px;
-  }
-
-
+}
 
 .detalhe {
     color: #FFFFFF;
@@ -45,11 +44,12 @@
     padding-top: 5px;
     padding-bottom: 5px;
 }
-div.blocks.detalhe.header > h5 {
+
+div.blocks.detalhe.header>h5 {
     font-size: 18px;
 }
 
-div.blocks.detalhe.menubar > a {
+div.blocks.detalhe.menubar>a {
     cursor: pointer;
     /* margin-top:12.8833px; */
     margin-top: 20%;
@@ -58,7 +58,6 @@ div.blocks.detalhe.menubar > a {
 .detalhe.menubar {
     background-color: #0039ba;
     padding-right: 10px;
-
 }
 
 .detalhe.info {
@@ -69,7 +68,7 @@ div.blocks.detalhe.menubar > a {
     font-size: 12px;
 }
 
-.detalhe.info > p {
+.detalhe.info>p {
     line-height: 16px;
     margin: 0px;
 }
@@ -78,7 +77,3 @@ div.blocks.detalhe.menubar > a {
     /* background-color: #0081bd; */
     background-color: #0696D4;
 }
-
-
-
-

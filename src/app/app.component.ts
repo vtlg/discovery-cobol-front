@@ -4,6 +4,8 @@ import { TipoService } from './shared/servicos/tipo.service';
 import { of } from 'rxjs';
 import { Tipo } from './shared/modelos/tipo.model';
 import { AppGlobalOptionsService } from './shared/servicos/app-global-options.service';
+import { SistemaService } from './shared/servicos/sistema.service';
+import { Sistema } from './shared/modelos/sistema.model';
 
 @Component({
   selector: 'app-root',
@@ -15,12 +17,21 @@ export class AppComponent implements OnInit {
 
   ngOnInit() {  }
 
-  constructor(private appService: AppService, private tipoService: TipoService, private elRef: ElementRef, private appGlobalOptions: AppGlobalOptionsService) {
+  constructor(private appService: AppService, private tipoService: TipoService,private sistemaService: SistemaService, private elRef: ElementRef, private appGlobalOptions: AppGlobalOptionsService) {
     this.tipoService.getListaTipo().subscribe(
       (tipos: Tipo[]) => {
         this.appService.listaTipo = tipos;
+        this.appService.subjectListaTipoReady.next(true);
       }
     )
+
+    this.sistemaService.getListaSistema().subscribe(
+      (sistemas: Sistema[]) => {
+        this.appService.listaSistema = sistemas;
+        this.appService.subjectListaSistemaReady.next(true);
+      }
+    )
+
     this.appGlobalOptions.disabled = true;
   }
 

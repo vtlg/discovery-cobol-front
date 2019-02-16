@@ -68,18 +68,14 @@ export class ArtefatoEditarArtefatoComponent implements OnInit {
 
     var disableCoSistema: boolean = false;
 
-    if (this.artefato.coSistema != 'DESCONHECIDO') {
-      disableCoSistema = true;
-    }
-
     this.formArtefato = new FormGroup(
       {
         'noNomeArtefato': new FormControl({ value: this.artefato.noNomeArtefato, disabled: true }),
         'noNomeExibicao': new FormControl({ value: this.artefato.noNomeExibicao, disabled: false }),
         'noNomeInterno': new FormControl({ value: this.artefato.noNomeInterno, disabled: true }),
-        'coTipoArtefato': new FormControl({ value: this.artefato.tipoArtefato.coTipo, disabled: true }),
+        'coTipoArtefato': new FormControl({ value: this.artefato.tipoArtefato.coTipo, disabled: false }),
         'coAmbiente': new FormControl({ value: this.artefato.coAmbiente, disabled: false }),
-        'coSistema': new FormControl({ value: this.artefato.coSistema, disabled: disableCoSistema }),
+        'coSistema': new FormControl({ value: this.artefato.coSistema, disabled: false }),
         'deDescricaoArtefato': new FormControl({ value: this.artefato.deDescricaoArtefato, disabled: true }),
         'deDescricaoUsuario': new FormControl({ value: this.artefato.deDescricaoUsuario, disabled: false }),
         'icInclusaoManual': new FormControl({ value: this.artefato.icInclusaoManual, disabled: false }),

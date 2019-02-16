@@ -6,6 +6,8 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Artefato } from 'src/app/shared/modelos/artefato.model';
 import { FormGroup, FormControl } from '@angular/forms';
 import { Tipo } from 'src/app/shared/modelos/tipo.model';
+import { Observable, of } from 'rxjs';
+import { Sistema } from 'src/app/shared/modelos/sistema.model';
 
 
 @Component({
@@ -21,6 +23,12 @@ export class ArtefatoIncluirComponent implements OnInit {
   width: number;
   larguraContainer: number = 710;
   isLoading: boolean = false;
+
+  tipos: Tipo[] = [];
+  tipos$: Observable<Tipo[]>;
+
+  sistemas: Sistema[] = [];
+  sistemas$: Observable<Sistema[]>;
 
   checkedProcessoCritico: boolean = false;
   checkedInclusaoManual: boolean = true;
@@ -42,6 +50,25 @@ export class ArtefatoIncluirComponent implements OnInit {
 
   ngOnInit() {
     this._initFormArtefato();
+
+    this.appService.subjectListaTipoReady.subscribe(
+      (valor: boolean) => {
+        if (valor) {
+          this.tipos = this.appService.listaTipo.slice().filter(tipo => tipo.coTabela == 'ARTEFATO' && tipo.icExibirGrafo == true);
+          this.tipos$ = of(this.appService.listaTipo.slice().filter(tipo => tipo.coTabela == 'ARTEFATO' && tipo.icExibirGrafo == true));
+        }
+      }
+    )
+
+    this.appService.subjectListaSistemaReady.subscribe(
+      (valor: boolean) => {
+        if (valor) {
+          this.sistemas = this.appService.listaSistema.slice();
+          this.sistemas$ = of(this.appService.listaSistema.slice());
+        }
+      }
+    )
+
   }
 
   private _initFormArtefato() {

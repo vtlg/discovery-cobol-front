@@ -1,14 +1,14 @@
-.tooltip {	
-    position: absolute;			
+.tooltip {
+    position: absolute;
     text-align: left;
-    padding: 8px;				
-    font: 12px sans-serif;		
-    background: black;	
+    padding: 8px;
+    font: 12px sans-serif;
+    background: black;
     color: white;
-    border: 0px;		
-    border-radius: 8px;			
-    pointer-events: none;		
-    z-index: 10;	
+    border: 0px;
+    border-radius: 8px;
+    pointer-events: none;
+    z-index: 10;
 }
 
 g.context-menu g.menu-entry rect.invisible {
@@ -16,31 +16,31 @@ g.context-menu g.menu-entry rect.invisible {
     cursor: pointer;
     stroke: none;
     z-index: 10;
-  }
-  
-  g.context-menu g.menu-entry rect.unchecked {
+}
+
+g.context-menu g.menu-entry rect.unchecked {
     fill: none;
     stroke: black;
     cursor: pointer;
     z-index: 10;
-  }
-  
-  g.context-menu g.menu-entry rect {
+}
+
+g.context-menu g.menu-entry rect {
     fill: white;
     stroke: black;
     stroke-width: 2px;
     z-index: 10;
-  }
-  
-  g.context-menu g.menu-entry rect.mouse-hover {
+}
+
+g.context-menu g.menu-entry rect.mouse-hover {
     fill: rgba(250, 241, 241, 0.952);
     cursor: pointer;
     z-index: 10;
-  }
-  
-  g.context-menu g.menu-entry text {
+}
+
+g.context-menu g.menu-entry text {
     fill: black;
     stroke: none;
     cursor: pointer;
     z-index: 10;
-  }
+}

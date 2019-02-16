@@ -3,6 +3,7 @@ import { environment } from '../../../environments/environment';
 import { Subject, Observable, of } from 'rxjs';
 import { Tipo } from '../modelos/tipo.model';
 import { TipoService } from './tipo.service';
+import { Sistema } from '../modelos/sistema.model';
 
 export class SwitchRelacionamento {
   exibirAscendentes: boolean; 
@@ -37,6 +38,11 @@ export class AppService {
 
   //PARÂMETROS E LISTAS GLOBAIS
   listaTipo: Tipo[] = [];
+  subjectListaTipoReady: Subject<boolean> = new Subject<boolean>();
+
+    //PARÂMETROS E LISTAS GLOBAIS
+    listaSistema: Sistema[] = [];
+    subjectListaSistemaReady: Subject<boolean> = new Subject<boolean>();
 
   //SUBJECT PARA ATUALIZAR INTERFACE
   subjectArtefatoEditarRefresh: Subject<number> = new Subject<number>();
