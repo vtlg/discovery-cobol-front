@@ -1,8 +1,4 @@
-export class InterfaceSistemaDiagramaSankey {
-
-    nodes: Node[];
-    links: Link[];
-
+export class InterfaceSistema {
 	coArtefato: number;
 	noNomeArtefato: string;
 	noNomeExibicao: string;
@@ -23,20 +19,4 @@ export class InterfaceSistemaDiagramaSankey {
 	caminhoCoArtefato: string;
 	coTipoRelacionamentoInicial: string;
 
-}
-
-export class Node {
-    node: number;
-    name: string;
-}
-
-
-export class Link {
-    source: number;
-    target: number;
-    value: number;
-}
-
-export class InterfaceSistemaTabela {
-    
 }

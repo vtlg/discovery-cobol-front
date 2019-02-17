@@ -1,10 +1,10 @@
-import { Component, OnInit, ElementRef } from '@angular/core';
+import { Component, OnInit, } from '@angular/core';
 import { AppService } from 'src/app/shared/servicos/app.service';
 import { LoggerService } from 'src/app/shared/servicos/logger.service';
 import { ArtefatoService } from 'src/app/shared/servicos/artefato.service';
-import { Router, ActivatedRoute, Params } from '@angular/router';
+import { Router,  } from '@angular/router';
 import { Artefato } from 'src/app/shared/modelos/artefato.model';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Tipo } from 'src/app/shared/modelos/tipo.model';
 import { Observable, of } from 'rxjs';
 import { Sistema } from 'src/app/shared/modelos/sistema.model';
@@ -23,7 +23,7 @@ export class ArtefatoIncluirComponent implements OnInit {
   width: number;
   larguraContainer: number = 710;
   isLoading: boolean = false;
-
+ 
   tipos: Tipo[] = [];
   tipos$: Observable<Tipo[]>;
 
@@ -46,6 +46,17 @@ export class ArtefatoIncluirComponent implements OnInit {
         this.width = resize.width;
       }
     )
+
+    if (this.appService.listaTipo && this.appService.listaTipo.length > 0) {
+      this.tipos = this.appService.listaTipo.slice().filter(tipo => tipo.coTabela == 'ARTEFATO' && tipo.icExibirGrafo == true);
+      this.tipos$ = of(this.appService.listaTipo.slice().filter(tipo => tipo.coTabela == 'ARTEFATO' && tipo.icExibirGrafo == true));
+    }
+
+    if (this.appService.listaSistema && this.appService.listaSistema.length > 0) {
+      this.sistemas = this.appService.listaSistema.slice();
+      this.sistemas$ = of(this.appService.listaSistema.slice());
+    }
+
   }
 
   ngOnInit() {
@@ -80,16 +91,24 @@ export class ArtefatoIncluirComponent implements OnInit {
 
     this.formArtefato = new FormGroup(
       {
-        'noNomeArtefato': new FormControl({ value: null, disabled: false }),
-        'noNomeExibicao': new FormControl({ value: null, disabled: false }),
-        'coTipoArtefato': new FormControl({ value: null, disabled: false }),
-        'coSistema': new FormControl({ value: null, disabled: false }),
-        'deDescricaoUsuario': new FormControl({ value: null, disabled: false }),
-        'icInclusaoManual': new FormControl({ value: null, disabled: false }),
-        'icProcessoCritico': new FormControl({ value: null, disabled: false }),
+        'noNomeArtefato': new FormControl( null, [Validators.required, Validators.minLength(5)] ),
+        'noNomeExibicao': new FormControl( null, [Validators.required, Validators.minLength(5)] ),
+        'coTipoArtefato': new FormControl( null, [Validators.required] ),
+        'coSistema': new FormControl( null, [Validators.required] ),
+        'deDescricaoUsuario': new FormControl( null ),
+        'icInclusaoManual': new FormControl( true ),
+        'icProcessoCritico': new FormControl( false ),
       }
     )
   }
+
+  get noNomeArtefato() { return this.formArtefato.get('noNomeArtefato'); }
+  get noNomeExibicao() { return this.formArtefato.get('noNomeExibicao'); }
+  get coTipoArtefato() { return this.formArtefato.get('coTipoArtefato'); }
+  get coSistema() { return this.formArtefato.get('coSistema'); }
+  get deDescricaoUsuario() { return this.formArtefato.get('deDescricaoUsuario'); }
+  get icInclusaoManual() { return this.formArtefato.get('icInclusaoManual'); }
+  get icProcessoCritico() { return this.formArtefato.get('icProcessoCritico'); }
 
 
   onCancelar() {
@@ -98,6 +117,11 @@ export class ArtefatoIncluirComponent implements OnInit {
   }
 
   onSubmit() {
+    if (!this.formArtefato.valid) {
+      console.log(this.noNomeArtefato)
+      return null;
+    }
+
     var formValue = this.formArtefato.value;
 
     var artefatoIncluir: Artefato = new Artefato();

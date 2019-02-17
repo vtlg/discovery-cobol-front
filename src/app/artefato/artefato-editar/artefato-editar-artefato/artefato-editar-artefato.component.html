@@ -1,67 +1,106 @@
-<div *ngIf="artefato" [style.width.px]="larguraContainer" [style.margin-left.px]="(width - larguraContainer) > 0 ? ( ( width - larguraContainer  ) / 2 ) : 0"
-    style="border: 1px solid rgb(209, 209, 209); border-radius: 5px; margin-top: 10px;">
-    <form [formGroup]="formArtefato" (ngSubmit)="onSubmit()">
-      <div style="display: grid; grid-column-gap: 10px; padding:10px; ">
-        <div style="display: inline-grid; grid-column-start: 1; grid-column-end: 2; grid-row-start: 1; grid-row-end: 2;">
-          <label>Nome do Artefato</label>
-          <input type="text" formControlName="noNomeArtefato" />
-        </div>
-        <div style="display: inline-grid; grid-column-start: 2; grid-column-end: 3; grid-row-start: 1; grid-row-end: 2;">
-          <label>Nome Interno</label>
-          <input type="text" formControlName="noNomeInterno" />
-        </div>
-        <div style="display: inline-grid; grid-column-start: 1; grid-column-end: 3; grid-row-start: 2; grid-row-end: 3;">
-          <label style="color:black;">Nome Exibicao</label>
-          <input type="text" formControlName="noNomeExibicao" />
+<div *ngIf="artefato" [style.width.px]="larguraContainer"
+  [style.margin-left.px]="(width - larguraContainer) > 0 ? ( ( width - larguraContainer  ) / 2 ) : 0"
+  style="border: 1px solid rgb(209, 209, 209); border-radius: 5px; margin-top: 10px;">
+  <form [formGroup]="formArtefato" (ngSubmit)="onSubmit()">
+    <div style="display: grid; grid-column-gap: 10px; padding:10px; ">
+      <div style="display: inline-grid; grid-column-start: 1; grid-column-end: 2; grid-row-start: 1; grid-row-end: 2;">
+        <label>Nome do Artefato</label>
+        <input type="text" formControlName="noNomeArtefato" />
+      </div>
+      <div style="display: inline-grid; grid-column-start: 2; grid-column-end: 3; grid-row-start: 1; grid-row-end: 2;">
+        <label>Nome Interno</label>
+        <input type="text" formControlName="noNomeInterno" />
+      </div>
+      <div style="display: inline-grid; grid-column-start: 1; grid-column-end: 3; grid-row-start: 2; grid-row-end: 3;">
+        <label style="color:black;">Nome Exibicao</label>
+        <input type="text" formControlName="noNomeExibicao" />
+        <div *ngIf="noNomeExibicao.invalid && (noNomeExibicao.dirty || noNomeExibicao.touched)">
+          <div class="erro texto" *ngIf="noNomeExibicao.errors.required"> O campo 'Nome de Exibição' é obrigatório</div>
+          <div class="erro texto" *ngIf="noNomeExibicao.errors.required"> O 'Nome de Exibição' deve ter no mínimo 5
+            caracteres</div>
         </div>
       </div>
-      <div style="display: grid; grid-column-gap: 10px; padding:10px;">
-        <div style="display: inline-grid; grid-column-start: 1; grid-column-end: 7; grid-row-start: 1; grid-row-end: 2;">
-          <label>Tipo de Artefato</label>
-          <input type="text" formControlName="coTipoArtefato" />
-        </div>
-        <div style="display: inline-grid; grid-column-start: 7; grid-column-end: 8; grid-row-start: 1; grid-row-end: 2;">
-          <label style="color:black;">Sistema</label>
-          <input type="text" formControlName="coSistema" />
-        </div>
-      </div>
-      <div style="display: grid; grid-column-gap: 10px; padding:10px;">
-        <div style="display: inline-grid; grid-column-start: 1; grid-column-end: 2; grid-row-start: 1; grid-row-end: 2;" class="descricao">
-          <label style="color:black;">Descrição do Usuário</label>
-          <textarea formControlName="deDescricaoUsuario"></textarea>
-        </div>
-        <div style="display: inline-grid; grid-column-start: 2; grid-column-end: 3; grid-row-start: 1; grid-row-end: 2;" class="descricao">
-          <label>Descrição do Artefato</label>
-          <textarea formControlName="deDescricaoArtefato"></textarea>
-        </div>
-      </div>
-    </form>
+    </div>
     <div style="display: grid; grid-column-gap: 10px; padding:10px;">
-      <div style="display: inline-grid; grid-column-start: 1; grid-column-end: 3; grid-row-start: 1; grid-row-end: 2;">
-        <mat-checkbox [(ngModel)]="checkedProcessoCritico"> Processo crítico </mat-checkbox>
-      </div>
-      <div style="display: inline-grid; grid-column-start: 3; grid-column-end: 6; grid-row-start: 1; grid-row-end: 2;">
-        <mat-checkbox [(ngModel)]="checkedInclusaoManual" [disabled]="true"> Inclusão Manual </mat-checkbox>
+      <div style="display: inline-grid; grid-column-start: 1; grid-column-end: 7; grid-row-start: 1; grid-row-end: 2;">
+        <label>Tipo de Artefato</label>
+        <mat-form-field>
+          <mat-select placeholder="Tipo do artefato" formControlName="coTipoArtefato">
+            <mat-option *ngFor="let tipo of tipos$ | async" [value]="tipo.coTipo">
+              {{tipo.deTipo}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <div *ngIf="coTipoArtefato.invalid && (coTipoArtefato.dirty || coTipoArtefato.touched)">
+          <div class="erro texto" *ngIf="coTipoArtefato.errors.required"> O campo 'Tipo de Artefato' é obrigatório</div>
+        </div>
+        <div *ngIf="coSistema.invalid && (coSistema.dirty || coSistema.touched)">
+          &nbsp;
+        </div>
       </div>
       <div style="display: inline-grid; grid-column-start: 7; grid-column-end: 8; grid-row-start: 1; grid-row-end: 2;">
-        <mat-progress-spinner mode="indeterminate" *ngIf="isLoading" [diameter]="40" [strokeWidth]="4"></mat-progress-spinner>
-      </div>
-      <div style="display: inline-grid; grid-column-start: 8; grid-column-end: 10; grid-row-start: 1; grid-row-end: 2;">
-        <button mat-raised-button color="warn" (click)="onCancelar()">Cancelar</button>
-      </div>
-      <div style="display: inline-grid; grid-column-start: 10; grid-column-end: 12; grid-row-start: 1; grid-row-end: 2;">
-        <button mat-raised-button color="primary" (click)="onSubmit()">Salvar</button>
+        <label style="color:black;">Sistema</label>
+        <mat-form-field>
+          <mat-select placeholder="Sistema" formControlName="coSistema">
+            <mat-option *ngFor="let sistema of sistemas$ | async" [value]="sistema.coSistema">
+              {{sistema.deSistema}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <div *ngIf="coSistema.invalid && (coSistema.dirty || coSistema.touched)">
+          <div class="erro texto" *ngIf="coSistema.errors.required"> O campo 'Sistema' é obrigatório</div>
+        </div>
+        <div *ngIf="coTipoArtefato.invalid && (coTipoArtefato.dirty || coTipoArtefato.touched)">
+          &nbsp;
+        </div>
       </div>
     </div>
-    <div style="display: grid; grid-column-gap: 10px; padding:10px;" >
-      <div style="display: inline-grid; grid-column-start: 1; grid-column-end: 2; grid-row-start: 1; grid-row-end: 2; text-align: right;" *ngIf="statusAtualizacao">
-        <span style="font-size: 12px; color: rgb(0, 0, 255)"> {{ statusAtualizacao }} </span>
+    <div style="display: grid; grid-column-gap: 10px; padding:10px;">
+      <div style="display: inline-grid; grid-column-start: 1; grid-column-end: 2; grid-row-start: 1; grid-row-end: 2;"
+        class="descricao">
+        <label style="color:black;">Descrição do Usuário</label>
+        <textarea formControlName="deDescricaoUsuario"></textarea>
       </div>
-      <div style="display: inline-grid; grid-column-start: 1; grid-column-end: 2; grid-row-start: 2; grid-row-end: 3; text-align: right;">
-        <span style="font-size: 12px; color: rgb(161, 161, 161)">Início da vigência {{ artefato.tsInicioVigencia }}</span>
+      <div style="display: inline-grid; grid-column-start: 2; grid-column-end: 3; grid-row-start: 1; grid-row-end: 2;"
+        class="descricao">
+        <label>Descrição do Artefato</label>
+        <textarea formControlName="deDescricaoArtefato"></textarea>
       </div>
-      <div style="display: inline-grid; grid-column-start: 1; grid-column-end: 2; grid-row-start: 3; grid-row-end: 4; text-align: right;">
-        <span style="font-size: 12px; color: rgb(161, 161, 161)">Última Modificação {{ artefato.tsUltimaModificacao }}</span>
-      </div>
+    </div>
+  </form>
+  <div style="display: grid; grid-column-gap: 10px; padding:10px;">
+    <div style="display: inline-grid; grid-column-start: 1; grid-column-end: 3; grid-row-start: 1; grid-row-end: 2;">
+      <mat-checkbox [(ngModel)]="checkedProcessoCritico"> Processo crítico </mat-checkbox>
+    </div>
+    <div style="display: inline-grid; grid-column-start: 3; grid-column-end: 6; grid-row-start: 1; grid-row-end: 2;">
+      <mat-checkbox [(ngModel)]="checkedInclusaoManual" [disabled]="true"> Inclusão Manual </mat-checkbox>
+    </div>
+    <div style="display: inline-grid; grid-column-start: 7; grid-column-end: 8; grid-row-start: 1; grid-row-end: 2;">
+      <mat-progress-spinner mode="indeterminate" *ngIf="isLoading" [diameter]="40" [strokeWidth]="4">
+      </mat-progress-spinner>
+    </div>
+    <div style="display: inline-grid; grid-column-start: 8; grid-column-end: 10; grid-row-start: 1; grid-row-end: 2;">
+      <button mat-raised-button color="warn" (click)="onCancelar()">Cancelar</button>
+    </div>
+    <div style="display: inline-grid; grid-column-start: 10; grid-column-end: 12; grid-row-start: 1; grid-row-end: 2;">
+      <button mat-raised-button color="primary" (click)="onSubmit()">Salvar</button>
     </div>
   </div>
+  <div style="display: grid; grid-column-gap: 10px; padding:10px;">
+    <div
+      style="display: inline-grid; grid-column-start: 1; grid-column-end: 2; grid-row-start: 1; grid-row-end: 2; text-align: right;"
+      *ngIf="statusAtualizacao || mensagemErro">
+      <span style="font-size: 12px; color: rgb(0, 0, 255)" *ngIf="statusAtualizacao"> {{ statusAtualizacao }} </span>
+      <span class="erro texto" *ngIf="mensagemErro"> {{ mensagemErro }} </span>
+    </div>
+    <div
+      style="display: inline-grid; grid-column-start: 1; grid-column-end: 2; grid-row-start: 2; grid-row-end: 3; text-align: right;">
+      <span style="font-size: 12px; color: rgb(161, 161, 161)">Início da vigência {{ artefato.tsInicioVigencia }}</span>
+    </div>
+    <div
+      style="display: inline-grid; grid-column-start: 1; grid-column-end: 2; grid-row-start: 3; grid-row-end: 4; text-align: right;">
+      <span style="font-size: 12px; color: rgb(161, 161, 161)">Última Modificação
+        {{ artefato.tsUltimaModificacao }}</span>
+    </div>
+  </div>
+</div>

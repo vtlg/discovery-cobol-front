@@ -4,6 +4,7 @@ import { Subject, Observable, of } from 'rxjs';
 import { Tipo } from '../modelos/tipo.model';
 import { TipoService } from './tipo.service';
 import { Sistema } from '../modelos/sistema.model';
+import { HttpErrorResponse } from '@angular/common/http';
 
 export class SwitchRelacionamento {
   exibirAscendentes: boolean; 
@@ -51,4 +52,5 @@ export class AppService {
   constructor() {
     this.isLoading.next(false);
    }
+
 }

@@ -1,15 +1,25 @@
 <div [style.width.px]="larguraContainer"
   [style.margin-left.px]="(width - larguraContainer) > 0 ? ( ( width - larguraContainer  ) / 2 ) : 0"
-  style="border: 1px solid rgb(209, 209, 209); border-radius: 5px; margin-top: 10px;">
-  <form [formGroup]="formArtefato" (ngSubmit)="onSubmit()">
+  style="border: 1px solid rgb(209, 209, 209); border-radius: 5px; margin-top: 10px; padding: 15px">
+  <form [formGroup]="formArtefato">
     <div style="display: grid; grid-column-gap: 10px; padding:10px; ">
       <div style="display: inline-grid; grid-column-start: 1; grid-column-end: 3; grid-row-start: 1; grid-row-end: 2;">
         <label style="color:black;">Nome do Artefato</label>
         <input type="text" formControlName="noNomeArtefato" />
+        <div *ngIf="noNomeArtefato.invalid && (noNomeArtefato.dirty || noNomeArtefato.touched)">
+          <div class="erro texto" *ngIf="noNomeArtefato.errors.required"> O campo 'Nome do Artefato' é obrigatório</div>
+          <div class="erro texto" *ngIf="noNomeArtefato.errors.required"> O 'Nome do Artefato' deve ter no mínimo 5
+            caracteres</div>
+        </div>
       </div>
       <div style="display: inline-grid; grid-column-start: 1; grid-column-end: 3; grid-row-start: 2; grid-row-end: 3;">
         <label style="color:black;">Nome Exibicao</label>
         <input type="text" formControlName="noNomeExibicao" />
+        <div *ngIf="noNomeExibicao.invalid && (noNomeExibicao.dirty || noNomeExibicao.touched)">
+          <div class="erro texto" *ngIf="noNomeExibicao.errors.required"> O campo 'Nome de Exibição' é obrigatório</div>
+          <div class="erro texto" *ngIf="noNomeExibicao.errors.required"> O 'Nome de Exibição' deve ter no mínimo 5
+            caracteres</div>
+        </div>
       </div>
     </div>
     <div style="display: grid; grid-column-gap: 10px; padding:10px;">
@@ -23,6 +33,12 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
+        <div *ngIf="coTipoArtefato.invalid && (coTipoArtefato.dirty || coTipoArtefato.touched)">
+          <div class="erro texto" *ngIf="coTipoArtefato.errors.required"> O campo 'Tipo de Artefato' é obrigatório</div>
+        </div>
+        <div *ngIf="coSistema.invalid && (coSistema.dirty || coSistema.touched)">
+          &nbsp;
+        </div>
       </div>
       <div style="display: inline-grid; grid-column-start: 7; grid-column-end: 8; grid-row-start: 1; grid-row-end: 2;">
         <label style="color:black;">Sistema</label>
@@ -34,6 +50,12 @@
             </mat-option>
           </mat-select>
         </mat-form-field>
+        <div *ngIf="coSistema.invalid && (coSistema.dirty || coSistema.touched)">
+          <div class="erro texto" *ngIf="coSistema.errors.required"> O campo 'Sistema' é obrigatório</div>
+        </div>
+        <div *ngIf="coTipoArtefato.invalid && (coTipoArtefato.dirty || coTipoArtefato.touched)">
+          &nbsp;
+        </div>
       </div>
     </div>
     <div style="display: grid; grid-column-gap: 10px; padding:10px;">
@@ -56,16 +78,16 @@
       </mat-progress-spinner>
     </div>
     <div style="display: inline-grid; grid-column-start: 8; grid-column-end: 10; grid-row-start: 1; grid-row-end: 2;">
-      <button mat-raised-button color="warn" (click)="onCancelar()">Cancelar</button>
+      <button mat-raised-button color="warn" (click)="onCancelar()">Limpar</button>
     </div>
     <div style="display: inline-grid; grid-column-start: 10; grid-column-end: 12; grid-row-start: 1; grid-row-end: 2;">
-      <button mat-raised-button color="primary" (click)="onSubmit()">Salvar</button>
+      <button *ngIf="formArtefato.valid" mat-raised-button color="primary" (click)="onSubmit()">Salvar</button>
+      <button *ngIf="!formArtefato.valid" mat-raised-button color="primary" disabled>Salvar</button>
     </div>
   </div>
   <div style="display: grid; grid-column-gap: 10px; padding:10px;">
     <div
-      style="display: inline-grid; grid-column-start: 1; grid-column-end: 2; grid-row-start: 1; grid-row-end: 2; text-align: right;"
-      *ngIf="statusAtualizacao">
+      style="display: inline-grid; grid-column-start: 1; grid-column-end: 2; grid-row-start: 1; grid-row-end: 2; text-align: right;">
       <span style="font-size: 12px; color: rgb(0, 0, 255)"> {{ statusAtualizacao }} </span>
     </div>
   </div>

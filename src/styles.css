@@ -6,9 +6,16 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .mat-form-field-label-wrapper{ display: none;}
 .mat-form-field-subscript-wrapper {display: none;}
 
+/*
 .cdk-overlay-pane {
     float: right; 
     width: 305px; 
     top: 54.4px;
     position: relative;
+}
+*/
+
+div.erro.texto, span.erro.texto, p.erro.texto {
+    color:rgb(235, 30, 71) !important;
+    font-size: 12px;
 }

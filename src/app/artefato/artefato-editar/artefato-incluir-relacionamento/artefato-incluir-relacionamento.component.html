@@ -1,3 +1,70 @@
-<p>
-  artefato-incluir-relacionamento works!
-</p>
+<div style="display: grid; grid-column-gap: 10px; padding:10px; margin-bottom: 20px;">
+  <div style="display: inline-grid; grid-column-start: 1; grid-column-end: 2; grid-row-start: 1; grid-row-end: 2; ">
+    <div style="display: grid; grid-column-gap: 10px; padding:10px; margin-bottom: 20px;">
+      <div style="display: inline-grid; grid-column-start: 1; grid-column-end: 3; grid-row-start: 1; grid-row-end: 2; ">
+        <label style="color:black;">Orientação do relacionamento</label>
+        <mat-form-field>
+          <mat-select style="padding: 0 0" [(ngModel)]="tipoOrientacaoSelecionado">
+            <mat-option *ngFor="let orientacao of tiposOrientacao" [value]="orientacao.coOrientacao">
+              {{orientacao.deOrientacao}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div style="display: inline-grid; grid-column-start: 1; grid-column-end: 3; grid-row-start: 2; grid-row-end: 3; ">
+        <label style="color:black;">Tipo de Relacionamento</label>
+        <mat-form-field>
+          <mat-select style="padding: 0 0" [(ngModel)]="coTipoRelacionamentoSelecionado">
+            <mat-option *ngFor="let tipo of tiposRelacionamento" [value]="tipo.coTipo">
+              {{tipo.deTipo}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div style="display: inline-grid; grid-column-start: 1; grid-column-end: 2; grid-row-start: 3; grid-row-end: 4; ">
+        <label style="color:black;">Sistema</label>
+        <mat-form-field>
+          <mat-select placeholder="Sistema" style="padding: 0 0" [(ngModel)]="coSistemaSelecionado">
+            <mat-option *ngFor="let sistema of sistemas$ | async" [value]="sistema.coSistema">
+              {{sistema.deSistema}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div style="display: inline-grid; grid-column-start: 2; grid-column-end: 3; grid-row-start: 3; grid-row-end: 4; ">
+        <label style="color:black;">Tipo de Artefato</label>
+        <mat-form-field>
+          <mat-select placeholder="Tipo do artefato" style="padding: 0 0" [(ngModel)]="coTipoArtefatoSelecionado">
+            <mat-option *ngFor="let tipo of tipos$ | async" [value]="tipo.coTipo">
+              {{tipo.deTipo}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div style="display: inline-grid; grid-column-start: 1; grid-column-end: 3; grid-row-start: 4; grid-row-end: 5;">
+        <label style="color:black;">Nome do Artefato</label>
+        <form>
+          <mat-form-field style="width: 100%">
+            <input style="height: 18px;" type="text" placeholder="Digite o nome do artefato" aria-label="Number"
+              matInput [formControl]="myControl" [matAutocomplete]="auto">
+            <mat-autocomplete #auto="matAutocomplete">
+              <mat-option *ngFor="let artefato of artefatos$ | async" [value]="artefato.noNomeExibicao"
+                (click)="onSelecionarArtefato(artefato.coArtefato)">
+                {{artefato.noNomeExibicao}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+        </form>
+      </div>
+      <div style="display: inline-grid; grid-column-start: 1; grid-column-end: 2; grid-row-start: 5; grid-row-end: 6;">
+        <button mat-raised-button color="warn" (click)="onCancelar()">Cancelar</button>
+      </div>
+      <div style="display: inline-grid; grid-column-start: 2; grid-column-end: 3; grid-row-start: 5; grid-row-end: 6;">
+        <button mat-raised-button color="primary" (click)="onSubmit()">Incluir Relacionamento</button>
+      </div>
+      <div style="display: inline-grid; grid-column-start: 1; grid-column-end: 3; grid-row-start: 6; grid-row-end: 7;">
+        <p *ngIf="mensagemErro && mensagemErro.length > 0" class="erro texto">{{  mensagemErro }}</p>
+      </div>
+    </div>
+  </div>
+</div>

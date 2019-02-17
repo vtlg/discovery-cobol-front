@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AppService } from 'src/app/shared/servicos/app.service';
 import { RelacionamentoService } from 'src/app/shared/servicos/relacionamento.service';
-import { InterfaceSistemaTabela } from 'src/app/shared/modelos/interface-sistema.model';
+import { InterfaceSistema } from 'src/app/shared/modelos/interface-sistema.model';
 import { Observable, of } from 'rxjs';
 
 @Component({
@@ -15,13 +15,15 @@ export class InterfaceTabelaComponent implements OnInit {
   width: number;
   larguraContainer: number = 900;
 
-
   inputFiltroSistemaOrigem: string = '';
   inputFiltroSistemaDestino: string = '';
   inputFiltroRotina: string = '';
 
-  listaInterfaceSistema$: Observable<InterfaceSistemaTabela[]>;
-  listaInterfaceSistemaCompleta: InterfaceSistemaTabela[] = [];
+  listaInterfaceSistema$: Observable<InterfaceSistema[]>;
+  listaInterfaceSistemaCompleta: InterfaceSistema[] = [];
+
+  listaSistemas: string [];
+  listaSistemas$: Observable<string> [];
 
   constructor(private appService: AppService, private relacionamentoService: RelacionamentoService) {
 
@@ -37,10 +39,14 @@ export class InterfaceTabelaComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.relacionamentoService.getInterfaceTabela('SIPCS').subscribe(
-      (data: InterfaceSistemaTabela[]) => {
+    this.relacionamentoService.getInterfaceTabela().subscribe(
+      (data: InterfaceSistema[]) => {
         this.listaInterfaceSistemaCompleta = data;
         this.listaInterfaceSistema$ = of(data);
+
+
+        this.listaSistemas = this.listaInterfaceSistemaCompleta.map( p => {  return p.coSistema;  }  );
+
       }
     )
   }

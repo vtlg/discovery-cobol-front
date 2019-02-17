@@ -73,9 +73,9 @@ import { ArtefatoDiagramaFiltrarComponent } from './artefato/artefato-visualizar
 import { ArtefatoIncluirComponent } from './artefato/artefato-incluir/artefato-incluir.component';
 import { ArtefatoIncluirRelacionamentoComponent } from './artefato/artefato-editar/artefato-incluir-relacionamento/artefato-incluir-relacionamento.component';
 import { InterfaceComponent } from './interface/interface.component';
-import { InterfaceDiagramaSankeyComponent } from './interface/interface-diagrama-sankey/interface-diagrama-sankey.component';
 import { InterfaceTabelaComponent } from './interface/interface-tabela/interface-tabela.component';
 import { AppGlobalOptionsService } from './shared/servicos/app-global-options.service';
+import { HandlersService } from './shared/servicos/handlers.service';
 
 
 @NgModule({
@@ -99,7 +99,6 @@ import { AppGlobalOptionsService } from './shared/servicos/app-global-options.se
     ArtefatoIncluirComponent,
     ArtefatoIncluirRelacionamentoComponent,
     InterfaceComponent,
-    InterfaceDiagramaSankeyComponent,
     InterfaceTabelaComponent
   ],
   imports: [
@@ -163,6 +162,7 @@ import { AppGlobalOptionsService } from './shared/servicos/app-global-options.se
     AppService,
     LoggerService,
     TipoService,
+    HandlersService,
     {provide: MAT_RIPPLE_GLOBAL_OPTIONS, useExisting: AppGlobalOptionsService}
   ],
   bootstrap: [AppComponent]

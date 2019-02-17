@@ -1,38 +1,36 @@
 import { Injectable } from '@angular/core';
 import { AppService } from './app.service';
-import { HttpClient, HttpResponse, HttpErrorResponse } from '@angular/common/http';
-import { Observable, throwError, interval } from 'rxjs';
-import { catchError, retry, debounce, finalize } from 'rxjs/operators';
+import { HttpClient,  } from '@angular/common/http';
+import { Observable,  } from 'rxjs';
+import { catchError, retry,  } from 'rxjs/operators';
 import { Artefato } from '../modelos/artefato.model';
 import { LoggerService } from './logger.service';
+import { HandlersService } from './handlers.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ArtefatoService {
 
-  constructor(private appService: AppService, private logger: LoggerService, private http: HttpClient) { }
+  constructor(private handlers: HandlersService, private appService: AppService, private logger: LoggerService, private http: HttpClient) { }
   lastCoArtefato: number = null;
 
   getArtefato(coArtefato: number): Observable<Artefato> {
     var url: string = this.appService.baseServicoUrl + '/artefato/' + coArtefato;
 
-    return this.http.get<Artefato>(
-      url)
-      .pipe(
+    return this.http.get<Artefato>(url).pipe(
         retry(0),
-        catchError(e => this.tratarErro(e))
+        catchError(e => this.handlers.tratarErro(e))
       );
   }
 
   getArtefatoRelacionamento(coArtefato: number): Observable<Artefato> {
     var url: string = this.appService.baseServicoUrl + '/artefato/' + coArtefato + '/relacionamento';
 
-    return this.http.get<Artefato>(url)
-      .pipe(
-        retry(0),
-        catchError(e => this.tratarErro(e))
-      );
+    return this.http.get<Artefato>(url).pipe(
+      retry(0),
+      catchError(e => this.handlers.tratarErro(e))
+    );
   }
 
 
@@ -41,7 +39,10 @@ export class ArtefatoService {
     this.logger.log(artefato)
     var url: string = this.appService.baseServicoUrl + '/artefato/' + artefato.coArtefato;
 
-    return this.http.post<Artefato>(url, artefato);
+    return this.http.post<Artefato>(url, artefato).pipe(
+      retry(0),
+      catchError(e => this.handlers.tratarErro(e))
+    );
   }
 
   incluir(artefato: Artefato): Observable<Artefato> {
@@ -49,17 +50,10 @@ export class ArtefatoService {
     this.logger.log(artefato)
     var url: string = this.appService.baseServicoUrl + '/artefato';
 
-    return this.http.post<Artefato>(url, artefato);
+    return this.http.post<Artefato>(url, artefato).pipe(
+      retry(0),
+      catchError(e => this.handlers.tratarErro(e))
+    );
   }
 
-
-  private tratarErro(erro: HttpErrorResponse) {
-    if (erro.error instanceof ErrorEvent) {
-      this.logger.error(erro);
-    } else {
-      this.logger.error(erro);
-    }
-
-    return throwError('Teste Erro');
-  }
 }

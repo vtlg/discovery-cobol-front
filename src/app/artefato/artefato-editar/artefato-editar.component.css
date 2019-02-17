@@ -5,27 +5,3 @@
 .switch label input[type=checkbox]:checked+.lever {
     background-color: #bbdefb !important;
 }
-
-/*
- .switch label input[type=checkbox]:checked + .lever {
-    background-color: #FF5252 !important;
-}
- .switch label input[type=checkbox]:checked + .lever:after {
-    background-color: #FF5252 !important;
-}
- .switch label .lever {
-    background-color: #FF5252 !important;
-}
- .switch label .lever:after {
-    background-color: #FF5252 !important;
-}
- input[type=checkbox]:checked:not(:disabled) ~ .lever:active::after, input[type=checkbox]:checked:not(:disabled).tabbed:focus ~ .lever::after {
-    background-color: #FF5252 !important;
-}
- input[type=checkbox]:not(:disabled) ~ .lever:active:after, input[type=checkbox]:not(:disabled).tabbed:focus ~ .lever::after {
-    background-color: #FF5252 !important;
-}
- .switch label input[type=checkbox][disabled] + .lever:after, .switch label input[type=checkbox][disabled]:checked + .lever:after {
-    background-color: #FF5252 !important;
-}
-*/

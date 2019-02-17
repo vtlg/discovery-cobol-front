@@ -42,6 +42,7 @@ export class PesquisaAvancadaComponent implements OnInit {
 
     isLoading: boolean = false;
     isPaginar: boolean = false;
+    mensagemErro: string = null;
 
     constructor(private appService: AppService,
         private loogerService: LoggerService,
@@ -114,6 +115,8 @@ export class PesquisaAvancadaComponent implements OnInit {
     }
 
     onSubmit() {
+        this.mensagemErro = null;
+
         var formValue = this.formPesquisaAvancada.value;
         this.pesquisaAnterior = new Pesquisa();
 
@@ -143,6 +146,7 @@ export class PesquisaAvancadaComponent implements OnInit {
             (error) => {
                 this.isLoading = false;
                 this.isPaginar = false;
+                this.mensagemErro = error;
             },
             () => {
                 this.isLoading = false;
@@ -151,6 +155,8 @@ export class PesquisaAvancadaComponent implements OnInit {
     }
 
     onPaginar() {
+        this.mensagemErro = null;
+        
         this.isLoading = true;
         this.pesquisaService.pesquisaAvancada(this.pesquisaAnterior, this.offset).subscribe(
             (results: Artefato[]) => {

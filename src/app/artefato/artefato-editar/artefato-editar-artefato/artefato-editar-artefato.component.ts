@@ -4,7 +4,10 @@ import { LoggerService } from 'src/app/shared/servicos/logger.service';
 import { ArtefatoService } from 'src/app/shared/servicos/artefato.service';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Artefato } from 'src/app/shared/modelos/artefato.model';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { Sistema } from 'src/app/shared/modelos/sistema.model';
+import { Observable, of } from 'rxjs';
+import { Tipo } from 'src/app/shared/modelos/tipo.model';
 
 @Component({
   selector: 'app-artefato-editar-artefato',
@@ -21,9 +24,16 @@ export class ArtefatoEditarArtefatoComponent implements OnInit {
   larguraContainer: number = 710;
   isLoading: boolean = false;
 
+  tipos: Tipo[] = [];
+  tipos$: Observable<Tipo[]>;
+
+  sistemas: Sistema[] = [];
+  sistemas$: Observable<Sistema[]>;
+
   checkedProcessoCritico: boolean = false;
   checkedInclusaoManual: boolean = false;
   statusAtualizacao: string;
+  mensagemErro: string;
 
   constructor(private appService: AppService, private loggerService: LoggerService, private artefatoService: ArtefatoService,
     private route: ActivatedRoute) {
@@ -37,6 +47,17 @@ export class ArtefatoEditarArtefatoComponent implements OnInit {
         this.width = resize.width;
       }
     )
+
+      if (this.appService.listaTipo && this.appService.listaTipo.length > 0) {
+        this.tipos = this.appService.listaTipo.slice().filter(tipo => tipo.coTabela == 'ARTEFATO' && tipo.icExibirGrafo == true);
+        this.tipos$ = of(this.appService.listaTipo.slice().filter(tipo => tipo.coTabela == 'ARTEFATO' && tipo.icExibirGrafo == true));
+      }
+
+      if (this.appService.listaSistema && this.appService.listaSistema.length > 0) {
+        this.sistemas = this.appService.listaSistema.slice();
+        this.sistemas$ = of(this.appService.listaSistema.slice());
+      }
+
   }
 
   ngOnInit() {
@@ -59,6 +80,24 @@ export class ArtefatoEditarArtefatoComponent implements OnInit {
         }
       }
     );
+    this.appService.subjectListaTipoReady.subscribe(
+      (valor: boolean) => {
+        if (valor) {
+          this.tipos = this.appService.listaTipo.slice().filter(tipo => tipo.coTabela == 'ARTEFATO' && tipo.icExibirGrafo == true);
+          this.tipos$ = of(this.appService.listaTipo.slice().filter(tipo => tipo.coTabela == 'ARTEFATO' && tipo.icExibirGrafo == true));
+        }
+      }
+    );
+
+    this.appService.subjectListaSistemaReady.subscribe(
+      (valor: boolean) => {
+        if (valor) {
+          this.sistemas = this.appService.listaSistema.slice();
+          this.sistemas$ = of(this.appService.listaSistema.slice());
+        }
+      }
+    );
+
   }
 
   private _initFormArtefato() {
@@ -71,10 +110,9 @@ export class ArtefatoEditarArtefatoComponent implements OnInit {
     this.formArtefato = new FormGroup(
       {
         'noNomeArtefato': new FormControl({ value: this.artefato.noNomeArtefato, disabled: true }),
-        'noNomeExibicao': new FormControl({ value: this.artefato.noNomeExibicao, disabled: false }),
+        'noNomeExibicao': new FormControl({ value: this.artefato.noNomeExibicao, disabled: false,  }),
         'noNomeInterno': new FormControl({ value: this.artefato.noNomeInterno, disabled: true }),
         'coTipoArtefato': new FormControl({ value: this.artefato.tipoArtefato.coTipo, disabled: false }),
-        'coAmbiente': new FormControl({ value: this.artefato.coAmbiente, disabled: false }),
         'coSistema': new FormControl({ value: this.artefato.coSistema, disabled: false }),
         'deDescricaoArtefato': new FormControl({ value: this.artefato.deDescricaoArtefato, disabled: true }),
         'deDescricaoUsuario': new FormControl({ value: this.artefato.deDescricaoUsuario, disabled: false }),
@@ -82,7 +120,22 @@ export class ArtefatoEditarArtefatoComponent implements OnInit {
         'icProcessoCritico': new FormControl({ value: this.artefato.icProcessoCritico, disabled: false }),
       }
     )
+
+      this.noNomeExibicao.setValidators([ Validators.required, Validators.minLength(5)]);
+      this.coTipoArtefato.setValidators([ Validators.required]);
+      this.coSistema.setValidators([ Validators.required]);
+
   }
+
+  get noNomeArtefato() { return this.formArtefato.get('noNomeArtefato'); }
+  get noNomeInterno() { return this.formArtefato.get('noNomeInterno'); }
+  get noNomeExibicao() { return this.formArtefato.get('noNomeExibicao'); }
+  get coTipoArtefato() { return this.formArtefato.get('coTipoArtefato'); }
+  get coSistema() { return this.formArtefato.get('coSistema'); }
+  get deDescricaoUsuario() { return this.formArtefato.get('deDescricaoUsuario'); }
+  get deDescricaoArtefato() { return this.formArtefato.get('deDescricaoArtefato'); }
+  get icInclusaoManual() { return this.formArtefato.get('icInclusaoManual'); }
+  get icProcessoCritico() { return this.formArtefato.get('icProcessoCritico'); }
 
   onCancelar() {
     this._initFormArtefato();
@@ -90,6 +143,9 @@ export class ArtefatoEditarArtefatoComponent implements OnInit {
   }
 
   onSubmit() {
+    this.mensagemErro = null;
+    this.statusAtualizacao = null;
+
     var formValue = this.formArtefato.value;
 
     var artefatoAtualizar: Artefato = new Artefato();
@@ -118,12 +174,10 @@ export class ArtefatoEditarArtefatoComponent implements OnInit {
         this.statusAtualizacao = "Atualizado com sucesso."
         this.artefato.inicializar(artefato);
         this._initFormArtefato();
-        
-
         this.appService.subjectArtefatoEditarRefresh.next( artefato.coArtefato );
       },
       (error: any) => {
-        this.statusAtualizacao = "Erro ao atualizar artefato."
+        this.mensagemErro = error
        },
       () => { this.isLoading = false; }
     )

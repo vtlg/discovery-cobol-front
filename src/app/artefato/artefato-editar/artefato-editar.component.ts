@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AppService, SwitchRelacionamento } from 'src/app/shared/servicos/app.service';
 import { LoggerService } from 'src/app/shared/servicos/logger.service';
 import { ArtefatoService } from 'src/app/shared/servicos/artefato.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Params } from '@angular/router';
 import { MatDialog } from '@angular/material';
 import { ArtefatoIncluirRelacionamentoComponent } from './artefato-incluir-relacionamento/artefato-incluir-relacionamento.component';
 
@@ -19,7 +19,7 @@ export class ArtefatoEditarComponent implements OnInit {
   larguraContainer: number = 710;
   isLoading: boolean = false;
 
-
+  coArtefato: number = 0;
   ascendenteCheck: boolean = true;
   descendenteCheck: boolean = true;
 
@@ -39,7 +39,17 @@ export class ArtefatoEditarComponent implements OnInit {
     )
   }
 
-  ngOnInit(){}
+  ngOnInit() {
+
+    this.route.params.subscribe(
+      (params: Params) => {
+        var coArtefato: number = params['coArtefato'];
+        if (coArtefato) {
+          this.coArtefato = coArtefato;
+        }
+      }
+    );
+  }
 
   onSwitch(checkbox: string) {
     if (checkbox == 'ASCENDENTE') {
@@ -61,15 +71,15 @@ export class ArtefatoEditarComponent implements OnInit {
 
   openDialogIncluirRelacionamento(): void {
     const dialogRef = this.dialog.open(ArtefatoIncluirRelacionamentoComponent, {
-      width: '500px',
-      data: null,
+      width: '600px',
+      data: this.coArtefato,
     });
 
     dialogRef.afterClosed().subscribe(
       (result: string[]) => {
-      if (result) {
-      }
-    });
+        if (result) {
+        }
+      });
   }
 
 }

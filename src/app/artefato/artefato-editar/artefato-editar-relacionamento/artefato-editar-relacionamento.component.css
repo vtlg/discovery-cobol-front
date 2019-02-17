@@ -29,6 +29,7 @@ input[type=number]:not(.browser-default),
 input[type=search]:not(.browser-default),
 textarea.materialize-textarea {
     border-bottom: rgb(211, 211, 211);
-    box-shadow: 0 2px 0 0 rgb(211, 211,
-211);
+    box-shadow: 0 2px 0 0 rgb(211, 211, 211);
+
 }
+
