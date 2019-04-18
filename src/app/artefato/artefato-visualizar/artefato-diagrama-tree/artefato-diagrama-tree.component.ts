@@ -271,6 +271,9 @@ export class ArtefatoDiagramaTreeComponent implements OnInit, OnDestroy {
     } else {
       output.name = artefato.noNomeInterno;
     }
+
+    output.name = artefato.noNomeArtefato;
+
     output.artefato = artefato;
 
     //output.descricaoRelacionamento = " Teste "

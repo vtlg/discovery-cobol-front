@@ -39,7 +39,7 @@ export class InterfaceTabelaComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.relacionamentoService.getInterfaceTabela().subscribe(
+    this.relacionamentoService.getInterfaceTabela('SIPCS').subscribe(
       (data: InterfaceSistema[]) => {
         this.listaInterfaceSistemaCompleta = data;
         this.listaInterfaceSistema$ = of(data);

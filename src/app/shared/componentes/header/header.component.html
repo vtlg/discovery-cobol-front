@@ -5,9 +5,11 @@
         <li routerLinkActive="active" [routerLinkActiveOptions]="{exact:true}">
           <a [routerLink]="['/']">Início</a>
         </li>
+
         <li routerLinkActive="active">
           <a [routerLink]="['/interface']">Interfaces</a>
         </li>
+        
         <li routerLinkActive="active">
           <a [routerLink]="['/pesquisar']">Pesquisa Avançada</a>
         </li>
@@ -19,7 +21,7 @@
         </li> -->
       </ul>
       <div class="right hide-on-med-and-down">
-        <form [formGroup]="formPesquisaRapida" (ngSubmit)="onSubmit()">
+        <form [formGroup]="formPesquisaRapida">
           <div class="campo pesquisa-rapida editavel tipo">
             <input id="FORM-PESQUISA-RAPIDA-INPUT" autocomplete="off" placeholder="Pesquisa rápida" type="search"
               formControlName="termPesquisaRapida" />
